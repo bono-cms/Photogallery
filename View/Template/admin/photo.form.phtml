@@ -7,7 +7,7 @@ use Krystal\Form\Widget\DropdownWidget;
 
 <?php if (count($albums) != 0): ?>
 
-<form>
+<form data-group="photo">
 
 	<ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="#image" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Image'); ?></a></li>
@@ -98,23 +98,21 @@ use Krystal\Form\Widget\DropdownWidget;
 				</div>
 			</div>
 		</div>
-		
 	</div>
-	
+
 	<?php if (!$photo->getId()): ?>
 
-	<button data-button="add" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
-	<button data-button="add-upload" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Upload new'); ?></button>
+	<button data-button="add" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo:Edit@indexAction', null); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo:Add@addAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
+	<button data-button="add-create" data-url="<?php echo $this->url('Photogallery:Admin:Photo:Add@addAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Upload new'); ?></button>
 
 	<?php else: ?>
 
-	<button data-button="save" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
-	<button data-button="save-upload" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Upload new'); ?></button>
+	<button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Photo:Edit@updateAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+	<button data-button="save-create" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo:Add@indexAction'); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo:Edit@updateAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Upload new'); ?></button>
 
 	<?php endif; ?>
 
-	<button data-button="cancel" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
-
+	<button data-button="cancel" data-url="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
 </form>
 
 <?php else: ?>

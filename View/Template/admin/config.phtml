@@ -5,7 +5,7 @@ use Krystal\Form\HtmlHelper;
 
 ?>
 
-<form>
+<form data-group="config">
 	<ul class="nav nav-tabs" role="tablist">
 	 <li role="presentation" class="active"><a href="#common" role="tab" data-toggle="tab"><i class="fa fa-home fa-fw"></i> <?php $this->show('Common'); ?></a></li>
 	 <li role="presentation"><a href="#dimensions" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Dimensions'); ?></a></li>
@@ -134,7 +134,7 @@ use Krystal\Form\HtmlHelper;
 		</div>
 	</div>
 	
-	<button data-button="save" type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
-	<button data-button="cancel" class="btn btn-default"><i class="glyphicon glyphicon-floppy-open"></i> <?php $this->show('Cancel'); ?></button>
+	<button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Config@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+	<button data-button="cancel" data-url="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-open"></i> <?php $this->show('Cancel'); ?></button>
 	
 </form>
