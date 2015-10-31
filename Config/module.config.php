@@ -4,7 +4,7 @@
   array (
     'name' => 'Photogallery',
     'url' => '/admin/module/photogallery',
-    'icon' => '/module/Photogallery/Assets/camera.png',
+    'icon' => '/module/Photogallery/Assets/photogallery.png',
     'order' => 1,
     'description' => 'Photogallery module allows you to easily manage photo-galleries on your site',
   ),
