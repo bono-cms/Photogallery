@@ -13,51 +13,51 @@ namespace Photogallery\Controller\Admin\Album;
 
 final class Edit extends AbstractAlbum
 {
-	/**
-	 * Shows edit form
-	 * 
-	 * @param string $id Album id
-	 * @return string
-	 */
-	public function indexAction($id)
-	{
-		$album = $this->getAlbumManager()->fetchById($id);
+    /**
+     * Shows edit form
+     * 
+     * @param string $id Album id
+     * @return string
+     */
+    public function indexAction($id)
+    {
+        $album = $this->getAlbumManager()->fetchById($id);
 
-		if ($album !== false) {
-			$this->loadSharedPlugins();
+        if ($album !== false) {
+            $this->loadSharedPlugins();
 
-			return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
-				'title' => 'Edit the album',
-				'album' => $album,
-			)));
+            return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+                'title' => 'Edit the album',
+                'album' => $album,
+            )));
 
-		} else {
+        } else {
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 
-	/**
-	 * Updates an album
-	 * 
-	 * @return string
-	 */
-	public function updateAction()
-	{
-		$formValidator = $this->getValidator($this->request->getPost('album'));
+    /**
+     * Updates an album
+     * 
+     * @return string
+     */
+    public function updateAction()
+    {
+        $formValidator = $this->getValidator($this->request->getPost('album'));
 
-		if ($formValidator->isValid()) {
+        if ($formValidator->isValid()) {
 
-			$albumManager = $this->getAlbumManager();
-			$albumManager->update($this->request->getAll());
+            $albumManager = $this->getAlbumManager();
+            $albumManager->update($this->request->getAll());
 
-			$this->flashBag->set('success', 'The album has been updated successfully');
+            $this->flashBag->set('success', 'The album has been updated successfully');
 
-			return '1';
+            return '1';
 
-		} else {
+        } else {
 
-			return $formValidator->getErrors();
-		}
-	}
+            return $formValidator->getErrors();
+        }
+    }
 }

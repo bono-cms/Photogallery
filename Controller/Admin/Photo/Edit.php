@@ -13,49 +13,49 @@ namespace Photogallery\Controller\Admin\Photo;
 
 final class Edit extends AbstractPhoto
 {
-	/**
-	 * Shows edit form
-	 * 
-	 * @param string $id
-	 * @return string
-	 */
-	public function indexAction($id)
-	{
-		$photo = $this->getPhotoManager()->fetchById($id);
+    /**
+     * Shows edit form
+     * 
+     * @param string $id
+     * @return string
+     */
+    public function indexAction($id)
+    {
+        $photo = $this->getPhotoManager()->fetchById($id);
 
-		if ($photo !== false) {
+        if ($photo !== false) {
 
-			$this->view->getPluginBag()->load('zoom');
-			$this->loadSharedPlugins();
+            $this->view->getPluginBag()->load('zoom');
+            $this->loadSharedPlugins();
 
-			return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
-				'title' => 'Edit the photo',
-				'photo' => $photo,
-			)));
+            return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+                'title' => 'Edit the photo',
+                'photo' => $photo,
+            )));
 
-		} else {
+        } else {
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 
-	/**
-	 * Updates a photo
-	 * 
-	 * @return string
-	 */
-	public function updateAction()
-	{
-		$formValidator = $this->getValidator($this->request->getPost('photo'), $this->request->getFiles(), true);
+    /**
+     * Updates a photo
+     * 
+     * @return string
+     */
+    public function updateAction()
+    {
+        $formValidator = $this->getValidator($this->request->getPost('photo'), $this->request->getFiles(), true);
 
-		if ($formValidator->isValid()) {
+        if ($formValidator->isValid()) {
 
-			$this->flashBag->set('success', 'The photo has been updated successfully');
-			return $this->getPhotoManager()->update($this->request->getAll()) ? '1' : '0';
+            $this->flashBag->set('success', 'The photo has been updated successfully');
+            return $this->getPhotoManager()->update($this->request->getAll()) ? '1' : '0';
 
-		} else {
+        } else {
 
-			return $formValidator->getErrors();
-		}
-	}
+            return $formValidator->getErrors();
+        }
+    }
 }

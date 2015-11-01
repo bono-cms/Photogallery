@@ -16,18 +16,18 @@ use Krystal\Validate\Pattern;
 
 final class Config extends AbstractConfigController
 {
-	/**
-	 * {@inheritDoc}
-	 */
-	protected function getValidationRules()
-	{
-		return array(
-			'max_img_height' => new Pattern\ImageHeight(),
-			'max_img_width' => new Pattern\ImageWidth(),
-			'photos_per_page' => new Pattern\PerPageCount(),
-			'quality' => new Pattern\ImageQuality(),
-			'thumb_height' => new Pattern\ThumbHeight(),
-			'thumb_width' => new Pattern\ThumbWidth()
-		);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    protected function getValidationRules()
+    {
+        return array(
+            'max_img_height' => new Pattern\ImageHeight(),
+            'max_img_width' => new Pattern\ImageWidth(),
+            'photos_per_page' => new Pattern\PerPageCount(),
+            'quality' => new Pattern\ImageQuality(),
+            'thumb_height' => new Pattern\ThumbHeight(),
+            'thumb_width' => new Pattern\ThumbWidth()
+        );
+    }
 }

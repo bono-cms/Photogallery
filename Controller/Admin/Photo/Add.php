@@ -15,49 +15,49 @@ use Krystal\Stdlib\VirtualEntity;
 
 final class Add extends AbstractPhoto
 {
-	/**
-	 * Shows adding form
-	 * 
-	 * @return string
-	 */
-	public function indexAction()
-	{
-		$this->view->getPluginBag()
-				   ->load('preview');
+    /**
+     * Shows adding form
+     * 
+     * @return string
+     */
+    public function indexAction()
+    {
+        $this->view->getPluginBag()
+                   ->load('preview');
 
-		$this->loadSharedPlugins();
+        $this->loadSharedPlugins();
 
-		$photo = new VirtualEntity();
-		$photo->setPublished(true)
-			  ->setOrder(0);
+        $photo = new VirtualEntity();
+        $photo->setPublished(true)
+              ->setOrder(0);
 
-		return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
-			'title' => 'Add a photo',
-			'photo' => $photo
-		)));
-	}
+        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+            'title' => 'Add a photo',
+            'photo' => $photo
+        )));
+    }
 
-	/**
-	 * Adds a photo
-	 * 
-	 * @return string The response
-	 */
-	public function addAction()
-	{
-		$formValidator = $this->getValidator($this->request->getPost('photo'), $this->request->getFiles());
+    /**
+     * Adds a photo
+     * 
+     * @return string The response
+     */
+    public function addAction()
+    {
+        $formValidator = $this->getValidator($this->request->getPost('photo'), $this->request->getFiles());
 
-		if ($formValidator->isValid()) {
+        if ($formValidator->isValid()) {
 
-			$photoManager = $this->getPhotoManager();
-			$photoManager->add($this->request->getAll());
+            $photoManager = $this->getPhotoManager();
+            $photoManager->add($this->request->getAll());
 
-			$this->flashBag->set('success', 'A photo has been added successfully');
+            $this->flashBag->set('success', 'A photo has been added successfully');
 
-			return $photoManager->getLastId();
+            return $photoManager->getLastId();
 
-		} else {
+        } else {
 
-			return $formValidator->getErrors();
-		}
-	}
+            return $formValidator->getErrors();
+        }
+    }
 }

@@ -19,52 +19,52 @@ use Photogallery\Service\AlbumManager;
  */
 final class TaskManager implements TaskManagerInterface
 {
-	/**
-	 * Any compliant photo mapper
-	 * 
-	 * @var \Photogallery\Storage\PhotoMapperInterface
-	 */
-	private $photoMapper;
+    /**
+     * Any compliant photo mapper
+     * 
+     * @var \Photogallery\Storage\PhotoMapperInterface
+     */
+    private $photoMapper;
 
-	/**
-	 * Album manager to grab stuff
-	 * 
-	 * @var \Photogallery\Service\AlbumManager
-	 */
-	private $albumManager;
-	
-	/**
-	 * State initialization
-	 * 
-	 * @param \Photogallery\Storage\PhotoMapperInterface $photoMapper
-	 * @param \Photogallery\Service\AlbumManager $albumManager
-	 * @return void
-	 */
-	public function __construct(PhotoMapperInterface $photoMapper, AlbumManager $albumManager)
-	{
-		$this->photoMapper = $photoMapper;
-		$this->albumManager = $albumManager;
-	}
+    /**
+     * Album manager to grab stuff
+     * 
+     * @var \Photogallery\Service\AlbumManager
+     */
+    private $albumManager;
+    
+    /**
+     * State initialization
+     * 
+     * @param \Photogallery\Storage\PhotoMapperInterface $photoMapper
+     * @param \Photogallery\Service\AlbumManager $albumManager
+     * @return void
+     */
+    public function __construct(PhotoMapperInterface $photoMapper, AlbumManager $albumManager)
+    {
+        $this->photoMapper = $photoMapper;
+        $this->albumManager = $albumManager;
+    }
 
-	/**
-	 * Gets photos count by their album id
-	 * 
-	 * @param string $albumId
-	 * @return integer
-	 */
-	public function getCountByAlbumId($albumId)
-	{
-		return $this->photoMapper->countAllByAlbumId($albumId);
-	}
+    /**
+     * Gets photos count by their album id
+     * 
+     * @param string $albumId
+     * @return integer
+     */
+    public function getCountByAlbumId($albumId)
+    {
+        return $this->photoMapper->countAllByAlbumId($albumId);
+    }
 
-	/**
-	 * Fetches album bag by its id
-	 * 
-	 * @param string $albumId
-	 * @return array
-	 */
-	public function fetchByAlbumId($albumId)
-	{
-		return $this->albumManager->fetchById($albumId);
-	}
+    /**
+     * Fetches album bag by its id
+     * 
+     * @param string $albumId
+     * @return array
+     */
+    public function fetchByAlbumId($albumId)
+    {
+        return $this->albumManager->fetchById($albumId);
+    }
 }

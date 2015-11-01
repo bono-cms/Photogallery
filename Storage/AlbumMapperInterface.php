@@ -13,74 +13,74 @@ namespace Photogallery\Storage;
 
 interface AlbumMapperInterface
 {
-	/**
-	 * Fetches album name by its associated id
-	 * 
-	 * @param string $id
-	 * @return string
-	 */
-	public function fetchNameById($id);
+    /**
+     * Fetches album name by its associated id
+     * 
+     * @param string $id
+     * @return string
+     */
+    public function fetchNameById($id);
 
-	/**
-	 * Fetches all albums
-	 * 
-	 * @return array
-	 */
-	public function fetchAll();
+    /**
+     * Fetches all albums
+     * 
+     * @return array
+     */
+    public function fetchAll();
 
-	/**
-	 * Inserts a record
-	 * 
-	 * @param array $data
-	 * @return boolean
-	 */
-	public function insert(array $data);
+    /**
+     * Inserts a record
+     * 
+     * @param array $data
+     * @return boolean
+     */
+    public function insert(array $data);
 
-	/**
-	 * Updates a record
-	 * 
-	 * @param array $data
-	 * @return boolean
-	 */
-	public function update(array $data);
+    /**
+     * Updates a record
+     * 
+     * @param array $data
+     * @return boolean
+     */
+    public function update(array $data);
 
-	/**
-	 * Deletes an album by its associated id
-	 * 
-	 * @param string $id
-	 * @return boolean
-	 */
-	public function deleteById($id);
+    /**
+     * Deletes an album by its associated id
+     * 
+     * @param string $id
+     * @return boolean
+     */
+    public function deleteById($id);
 
-	/**
-	 * Fetches breadcrumb data
-	 * 
-	 * @return array
-	 */
-	public function fetchBcData();
+    /**
+     * Fetches breadcrumb data
+     * 
+     * @return array
+     */
+    public function fetchBcData();
 
-	/**
-	 * Fetches child albums by parent id
-	 * 
-	 * @param string $parentId
-	 * @return array
-	 */
-	public function fetchChildrenByParentId($parentId);
+    /**
+     * Fetches child albums by parent id
+     * 
+     * @param string $parentId
+     * @return array
+     */
+    public function fetchChildrenByParentId($parentId);
 
-	/**
-	 * Fetches a record by its id
-	 * 
-	 * @param string $id
-	 * @return array
-	 */
-	public function fetchById($id);
+    /**
+     * Fetches a record by its id
+     * 
+     * @param string $id
+     * @return array
+     */
+    public function fetchById($id);
 
-	/**
-	 * Fetch all records filtered by pagination
-	 * 
-	 * @param integer $page Current page
-	 * @param integer $itemsPerPage Items Per page count
-	 * @return array
-	 */
-	public function fetchAllByPage($page, $itemsPerPage);
+    /**
+     * Fetch all records filtered by pagination
+     * 
+     * @param integer $page Current page
+     * @param integer $itemsPerPage Items Per page count
+     * @return array
+     */
+    public function fetchAllByPage($page, $itemsPerPage);
 }

@@ -15,46 +15,46 @@ use Krystal\Stdlib\VirtualEntity;
 
 final class Add extends AbstractAlbum
 {
-	/**
-	 * Shows adding form
-	 * 
-	 * @return string
-	 */
-	public function indexAction()
-	{
-		$this->loadSharedPlugins();
-		$this->view->getPluginBag()->load('preview');
+    /**
+     * Shows adding form
+     * 
+     * @return string
+     */
+    public function indexAction()
+    {
+        $this->loadSharedPlugins();
+        $this->view->getPluginBag()->load('preview');
 
-		$album = new VirtualEntity();
-		$album->setSeo(true);
+        $album = new VirtualEntity();
+        $album->setSeo(true);
 
-		return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
-			'title' => 'Add an album',
-			'album' => $album
-		)));
-	}
+        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+            'title' => 'Add an album',
+            'album' => $album
+        )));
+    }
 
-	/**
-	 * Add an album
-	 * 
-	 * @return string
-	 */
-	public function addAction()
-	{
-		$formValidator = $this->getValidator($this->request->getPost('album'));
+    /**
+     * Add an album
+     * 
+     * @return string
+     */
+    public function addAction()
+    {
+        $formValidator = $this->getValidator($this->request->getPost('album'));
 
-		if ($formValidator->isValid()) {
+        if ($formValidator->isValid()) {
 
-			$albumManager = $this->getAlbumManager();
-			$albumManager->add($this->request->getAll());
+            $albumManager = $this->getAlbumManager();
+            $albumManager->add($this->request->getAll());
 
-			$this->flashBag->set('success', 'An album has been created successfully');
+            $this->flashBag->set('success', 'An album has been created successfully');
 
-			return $albumManager->getLastId();
+            return $albumManager->getLastId();
 
-		} else {
+        } else {
 
-			return $formValidator->getErrors();
-		}
-	}
+            return $formValidator->getErrors();
+        }
+    }
 }

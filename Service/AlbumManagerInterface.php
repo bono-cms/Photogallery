@@ -18,81 +18,81 @@ use Krystal\Stdlib\VirtualEntity;
  */
 interface AlbumManagerInterface
 {
-	/**
-	 * Returns breadcrumbs
-	 * 
-	 * @param \Photogallery\Service\AlbumEntity $album
-	 * @return array
-	 */
-	public function getBreadcrumbs(AlbumEntity $album);
+    /**
+     * Returns breadcrumbs
+     * 
+     * @param \Photogallery\Service\AlbumEntity $album
+     * @return array
+     */
+    public function getBreadcrumbs(AlbumEntity $album);
 
-	/**
-	 * Fetches children by parent id
-	 * 
-	 * @param string $parentId
-	 * @return array
-	 */
-	public function fetchChildrenByParentId($parentId);
+    /**
+     * Fetches children by parent id
+     * 
+     * @param string $parentId
+     * @return array
+     */
+    public function fetchChildrenByParentId($parentId);
 
-	/**
-	 * Fetches all albums
-	 * 
-	 * @return array
-	 */
-	public function fetchAll();
+    /**
+     * Fetches all albums
+     * 
+     * @return array
+     */
+    public function fetchAll();
 
-	/**
-	 * Returns last album's id
-	 * 
-	 * @return integer
-	 */
-	public function getLastId();
+    /**
+     * Returns last album's id
+     * 
+     * @return integer
+     */
+    public function getLastId();
 
-	/**
-	 * Returns prepared paginator's instance
-	 * 
-	 * @return \Krystal\Paginate\Paginator
-	 */
-	public function getPaginator();
+    /**
+     * Returns prepared paginator's instance
+     * 
+     * @return \Krystal\Paginate\Paginator
+     */
+    public function getPaginator();
 
-	/**
-	 * Fetches all albums filtered by pagination
-	 * 
-	 * @param integer $page Current page
-	 * @param integer $itemsPerPage Items per page count
-	 * @return array
-	 */
-	public function fetchAllByPage($page, $itemsPerPage);
+    /**
+     * Fetches all albums filtered by pagination
+     * 
+     * @param integer $page Current page
+     * @param integer $itemsPerPage Items per page count
+     * @return array
+     */
+    public function fetchAllByPage($page, $itemsPerPage);
 
-	/**
-	 * Adds an album
-	 * 
-	 * @param array $form Form data
-	 * @return boolean
-	 */
-	public function add(array $form);
+    /**
+     * Adds an album
+     * 
+     * @param array $form Form data
+     * @return boolean
+     */
+    public function add(array $form);
 
-	/**
-	 * Updates an album
-	 * 
-	 * @param array $form Form data
-	 * @return boolean
-	 */
-	public function update(array $form);
+    /**
+     * Updates an album
+     * 
+     * @param array $form Form data
+     * @return boolean
+     */
+    public function update(array $form);
 
-	/**
-	 * Deletes a whole album by its id including all its photos
-	 * 
-	 * @param string $id Album id
-	 * @return boolean
-	 */
-	public function deleteById($id);
+    /**
+     * Deletes a whole album by its id including all its photos
+     * 
+     * @param string $id Album id
+     * @return boolean
+     */
+    public function deleteById($id);
 
-	/**
-	 * Fetches an album bag by its id
-	 * 
-	 * @param string $id
-	 * @return array
-	 */
-	public function fetchById($id);
+    /**
+     * Fetches an album bag by its id
+     * 
+     * @param string $id
+     * @return array
+     */
+    public function fetchById($id);
 }
