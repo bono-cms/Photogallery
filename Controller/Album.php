@@ -38,7 +38,6 @@ final class Album extends AbstractController
         $page = $albumManager->fetchById($albumId);
 
         if ($page !== false) {
-
             // Append breadcrumbs to view now
             $this->view->getBreadcrumbBag()->add($albumManager->getBreadcrumbs($page));
             $this->loadSitePlugins();
@@ -62,7 +61,6 @@ final class Album extends AbstractController
             return $this->view->render('album', $vars);
 
         } else {
-
             return false;
         }
     }

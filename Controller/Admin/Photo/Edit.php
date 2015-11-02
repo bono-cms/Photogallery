@@ -24,17 +24,17 @@ final class Edit extends AbstractPhoto
         $photo = $this->getPhotoManager()->fetchById($id);
 
         if ($photo !== false) {
-
             $this->view->getPluginBag()->load('zoom');
             $this->loadSharedPlugins();
+            $this->loadBreadcrumbs('Edit the photo');
 
-            return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+            return $this->view->render($this->getTemplatePath(), array(
+                'albums' => $this->getALbumsTree(),
                 'title' => 'Edit the photo',
-                'photo' => $photo,
-            )));
+                'photo' => $photo
+            ));
 
         } else {
-
             return false;
         }
     }
@@ -54,7 +54,6 @@ final class Edit extends AbstractPhoto
             return $this->getPhotoManager()->update($this->request->getAll()) ? '1' : '0';
 
         } else {
-
             return $formValidator->getErrors();
         }
     }

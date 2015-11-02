@@ -23,15 +23,17 @@ final class Add extends AbstractAlbum
     public function indexAction()
     {
         $this->loadSharedPlugins();
+        $this->loadBreadcrumbs('Add an album');
         $this->view->getPluginBag()->load('preview');
 
         $album = new VirtualEntity();
         $album->setSeo(true);
 
-        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+        return $this->view->render($this->getTemplatePath(), array(
+            'albums' => $this->getAlbumsTree(),
             'title' => 'Add an album',
             'album' => $album
-        )));
+        ));
     }
 
     /**
@@ -44,16 +46,13 @@ final class Add extends AbstractAlbum
         $formValidator = $this->getValidator($this->request->getPost('album'));
 
         if ($formValidator->isValid()) {
-
             $albumManager = $this->getAlbumManager();
             $albumManager->add($this->request->getAll());
 
             $this->flashBag->set('success', 'An album has been created successfully');
-
             return $albumManager->getLastId();
 
         } else {
-
             return $formValidator->getErrors();
         }
     }

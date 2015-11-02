@@ -26,6 +26,7 @@ final class Browser extends AbstractController
     public function indexAction($page = 1)
     {
         $this->loadSharePlugins();
+        $this->view->getBreadcrumbBag()->addOne('Photogallery');
 
         $paginator = $this->getPhotoManager()->getPaginator();
         $paginator->setUrl('/admin/module/photogallery/browse/(:var)');
@@ -48,8 +49,8 @@ final class Browser extends AbstractController
         $album = $this->getAlbumManager()->fetchById($albumId);
 
         if ($album !== false) {
-
             $this->loadSharePlugins();
+            $this->view->getBreadcrumbBag()->addOne('Photogallery');
 
             $paginator = $this->getPhotoManager()->getPaginator();
             $paginator->setUrl('/admin/module/photogallery/browse/album/'.$albumId.'/page/(:var)');
@@ -96,14 +97,12 @@ final class Browser extends AbstractController
     public function deleteAlbumAction()
     {
         if ($this->request->hasPost('id')) {
-
             $id = $this->request->getPost('id');
 
             // Grab a service
             $albumManager = $this->moduleManager->getModule('Photogallery')->getService('albumManager');
 
             if ($albumManager->deleteById($id)) {
-
                 $this->flashBag->set('success', 'Selected album has been removed successfully');
                 return '1';
             }
@@ -121,7 +120,6 @@ final class Browser extends AbstractController
             $id = $this->request->getPost('id');
 
             if ($this->getPhotoManager()->deleteById($id)){
-
                 $this->flashBag->set('success', 'Selected photo has been removed successfully');
                 return '1';
             }
@@ -156,7 +154,7 @@ final class Browser extends AbstractController
     private function loadSharePlugins()
     {
         $this->view->getPluginBag()
-                   ->appendScript($this->getWithAssetPath('/admin/browser.js'))
+                   ->appendScript('@Photogallery/admin/browser.js')
                    ->load('zoom');
     }
 
@@ -169,19 +167,10 @@ final class Browser extends AbstractController
     private function getWithSharedVars(array $overrides)
     {
         $treeBuilder = new TreeBuilder($this->getAlbumManager()->fetchAll());
-        $title = 'Photogallery';
-
-        $this->view->getBreadcrumbBag()->add(array(
-            array(
-                'link' => '#',
-                'name' => $title
-            )
-        ));
-
         $vars = array(
             'taskManager' => $this->getModuleService('taskManager'),
             'albums' => $treeBuilder->render(new PhpArray('title')),
-            'title' => $title
+            'title' => 'Photogallery'
         );
 
         return array_replace_recursive($vars, $overrides);

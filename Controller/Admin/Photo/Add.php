@@ -26,21 +26,23 @@ final class Add extends AbstractPhoto
                    ->load('preview');
 
         $this->loadSharedPlugins();
+        $this->loadBreadcrumbs('Add a photo');
 
         $photo = new VirtualEntity();
         $photo->setPublished(true)
               ->setOrder(0);
 
-        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+        return $this->view->render($this->getTemplatePath(), array(
+            'albums' => $this->getALbumsTree(),
             'title' => 'Add a photo',
             'photo' => $photo
-        )));
+        ));
     }
 
     /**
      * Adds a photo
      * 
-     * @return string The response
+     * @return string
      */
     public function addAction()
     {
@@ -52,11 +54,9 @@ final class Add extends AbstractPhoto
             $photoManager->add($this->request->getAll());
 
             $this->flashBag->set('success', 'A photo has been added successfully');
-
             return $photoManager->getLastId();
 
         } else {
-
             return $formValidator->getErrors();
         }
     }

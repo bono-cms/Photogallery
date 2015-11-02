@@ -47,33 +47,26 @@ abstract class AbstractPhoto extends AbstractController
     }
 
     /**
-     * Returns shared variables used by Add and Edit controllers
+     * Returns albums tree
      * 
-     * @param array $overrides
      * @return array
      */
-    final protected function getWithSharedVars(array $overrides)
+    final protected function getALbumsTree()
     {
-        $photogallery = $this->moduleManager->getModule('Photogallery');
-        $treeBuilder = new TreeBuilder($photogallery->getService('albumManager')->fetchAll());
+        $treeBuilder = new TreeBuilder($this->getModuleService('albumManager')->fetchAll());
+        return $treeBuilder->render(new PhpArray('name'));
+    }
 
-        $this->view->getBreadcrumbBag()->add(array(
-            array(
-                'link' => 'Photogallery:Admin:Browser@indexAction',
-                'name' => 'Photogallery'
-            ),
-            
-            array(
-                'link' => '#',
-                'name' => $overrides['title']
-            )
-        ));
-        
-        $vars = array(
-            'albums' => $treeBuilder->render(new PhpArray('name'))
-        );
-
-        return array_replace_recursive($vars, $overrides);
+    /**
+     * Loads breadcrumbs
+     * 
+     * @param string $title
+     * @return void
+     */
+    final protected function loadBreadcrumbs($title)
+    {
+        $this->view->getBreadcrumbBag()->addOne('Photogallery', 'Photogallery:Admin:Browser@indexAction')
+                                       ->addOne($title);
     }
 
     /**
@@ -94,7 +87,7 @@ abstract class AbstractPhoto extends AbstractController
     final protected function loadSharedPlugins()
     {
         $this->view->getPluginBag()
-                   ->appendScript($this->getWithAssetPath('/admin/photo.form.js'));
+                   ->appendScript('@Photogallery/admin/photo.form.js');
     }
 
     /**

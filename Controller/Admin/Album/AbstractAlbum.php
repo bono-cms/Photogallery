@@ -37,32 +37,26 @@ abstract class AbstractAlbum extends AbstractController
     }
 
     /**
-     * Returns shared variables for Edit and Add controllers
+     * Returns albums tree
      * 
-     * @param array $overrides
      * @return array
      */
-    final protected function getWithSharedVars(array $overrides)
+    final protected function getAlbumsTree()
     {
         $treeBuilder = new TreeBuilder($this->getAlbumManager()->fetchAll());
+        return $treeBuilder->render(new PhpArray('title'));
+    }
 
-        $this->view->getBreadcrumbBag()->add(array(
-            array(
-                'link' => 'Photogallery:Admin:Browser@indexAction',
-                'name' => 'Photogallery'
-            ),
-            
-            array(
-                'link' => '#',
-                'name' => $overrides['title']
-            )
-        ));
-        
-        $vars = array(
-            'albums' => $treeBuilder->render(new PhpArray('title')) 
-        );
-
-        return array_replace_recursive($vars, $overrides);
+    /**
+     * Loads breadcrumbs
+     * 
+     * @param string $title
+     * @return void
+     */
+    final protected function loadBreadcrumbs($title)
+    {
+        $this->view->getBreadcrumbBag()->addOne('Photogallery', 'Photogallery:Admin:Browser@indexAction')
+                                       ->addOne($title);
     }
 
     /**
@@ -93,7 +87,7 @@ abstract class AbstractAlbum extends AbstractController
     final protected function loadSharedPlugins()
     {
         $this->loadMenuWidget();
-        $this->view->getPluginBag()->appendScript($this->getWithAssetPath('/admin/album.form.js'))
+        $this->view->getPluginBag()->appendScript('@Photogallery/admin/album.form.js')
                                    ->load($this->getWysiwygPluginName());
     }
 }

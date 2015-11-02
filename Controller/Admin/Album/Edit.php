@@ -16,7 +16,7 @@ final class Edit extends AbstractAlbum
     /**
      * Shows edit form
      * 
-     * @param string $id Album id
+     * @param string $id
      * @return string
      */
     public function indexAction($id)
@@ -25,14 +25,15 @@ final class Edit extends AbstractAlbum
 
         if ($album !== false) {
             $this->loadSharedPlugins();
+            $this->loadBreadcrumbs('Edit the album');
 
-            return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
+            return $this->view->render($this->getTemplatePath(), array(
+                'albums' => $this->getAlbumsTree(),
                 'title' => 'Edit the album',
-                'album' => $album,
-            )));
+                'album' => $album
+            ));
 
         } else {
-
             return false;
         }
     }
@@ -52,11 +53,9 @@ final class Edit extends AbstractAlbum
             $albumManager->update($this->request->getAll());
 
             $this->flashBag->set('success', 'The album has been updated successfully');
-
             return '1';
 
         } else {
-
             return $formValidator->getErrors();
         }
     }
