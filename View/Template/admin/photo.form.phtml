@@ -1,7 +1,6 @@
 <?php
 
-use Krystal\Form\Widget\CheckBoxWidget;
-use Krystal\Form\Widget\DropdownWidget;
+use Krystal\Form\Element;
 
 ?>
 
@@ -20,24 +19,23 @@ use Krystal\Form\Widget\DropdownWidget;
 		<div role="tabpanel" class="tab-pane fade in active" id="image" role="tabpanel">
 			<div class="well clearfix">
 				
-				<input type="hidden" name="photo[id]" value="<?php echo $photo->getId(); ?>" />
-				<input type="hidden" name="photo[photo]" value="<?php echo $photo->getPhoto(); ?>" />
-				
+                <?php echo Element::hidden('photo[id]', $photo->getId()); ?>
+                <?php echo Element::hidden('photo[photo]', $photo->getPhoto()); ?>
+                
 				<div class="form-group clearfix">
 					<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
-							<input type="text" name="photo[name]" class="form-control" value="<?php echo $photo->getName(); ?>" placeholder="<?php $this->show('Name of the photo to be added'); ?>" />
+                            <?php echo Element::text('photo[name]', $photo->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Name of the photo to be added'))); ?>
 							<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 						</div>
 					</div>
 				</div>
 				
-				
 				<div class="form-group clearfix">
 					<label class="col-lg-2 control-label"><?php $this->show('Album'); ?></label>
 					<div class="col-lg-10">
-						<?php echo DropdownWidget::render(array('name' => 'photo[album_id]', 'class' => 'form-control'), $albums, $photo->getAlbumId(), false); ?>
+                        <?php echo Element::select('photo[album_id]', $albums, $photo->getAlbumId(), array('class' => 'form-control')); ?>
 					</div>
 				</div>
 				
@@ -58,7 +56,7 @@ use Krystal\Form\Widget\DropdownWidget;
 						<br />
 						<br />
 						
-						<input type="file" name="file" accept="image/x-png, image/gif, image/jpeg" />
+                        <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg'); ?>
 					</div>
 					
 					<br />
@@ -73,7 +71,7 @@ use Krystal\Form\Widget\DropdownWidget;
 				<div class="form-group clearfix">
 					<label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
 					<div class="col-lg-10">
-						<?php echo CheckBoxWidget::render(array('name' => 'photo[published]', 'class' => 'form-control'), $photo->getPublished()); ?>
+						<?php echo Element::checkbox('photo[published]', $photo->getPublished(), array('class' => 'form-control')); ?>
 					</div>
 				</div>
 				
@@ -81,7 +79,7 @@ use Krystal\Form\Widget\DropdownWidget;
 					<label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
-							<input type="number" name="photo[order]" class="form-control" value="<?php echo $photo->getOrder(); ?>" placeholder="<?php $this->show('Order of this photo in selected album'); ?>" />
+                            <?php echo Element::number('photo[order]', $photo->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate('Order of this photo in selected album'))); ?>
 							<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 						</div>
 					</div>
@@ -91,7 +89,7 @@ use Krystal\Form\Widget\DropdownWidget;
 					<label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
-							<textarea name="photo[description]" class="form-control" placeholder="<?php $this->show('Description. Can be used as a hint when mouse overs'); ?>"><?php echo $photo->getDescription(); ?></textarea>
+                            <?php echo Element::textarea('photo[description]', $photo->getDescription(), array('class' => 'form-control', 'placeholder' => $this->translate('Description. Can be used as a hint when mouse overs'))); ?>
 							<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 						</div>
 					</div>
