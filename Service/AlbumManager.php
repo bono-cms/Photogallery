@@ -23,6 +23,7 @@ use Krystal\Image\Tool\ImageManagerInterface;
 use Krystal\Security\Filter;
 use Krystal\Tree\AdjacencyList\TreeBuilder;
 use Krystal\Tree\AdjacencyList\BreadcrumbBuilder;
+use Krystal\Tree\AdjacencyList\Render\PhpArray;
 
 final class AlbumManager extends AbstractManager implements AlbumManagerInterface, MenuAwareManager
 {
@@ -95,6 +96,17 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
         $this->webPageManager = $webPageManager;
         $this->historyManager = $historyManager;
         $this->setMenuWidget($menuWidget);
+    }
+
+    /**
+     * Returns albums tree
+     * 
+     * @return array
+     */
+    public function getAlbumsTree()
+    {
+        $treeBuilder = new TreeBuilder($this->fetchAll());
+        return $treeBuilder->render(new PhpArray('title'));
     }
 
     /**

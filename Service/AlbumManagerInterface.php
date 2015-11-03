@@ -19,6 +19,13 @@ use Krystal\Stdlib\VirtualEntity;
 interface AlbumManagerInterface
 {
     /**
+     * Returns albums tree
+     * 
+     * @return array
+     */
+    public function getAlbumsTree();
+
+    /**
      * Returns breadcrumbs
      * 
      * @param \Photogallery\Service\AlbumEntity $album
