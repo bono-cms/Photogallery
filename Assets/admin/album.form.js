@@ -1,5 +1,5 @@
 $(function(){
-	$.wysiwyg.init(['description']);
+	$.wysiwyg.init(['album[description]']);
 
 	if (jQuery().preview){
 		$("[name='file']").preview(function(data) {
