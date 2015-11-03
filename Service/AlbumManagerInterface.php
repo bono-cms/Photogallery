@@ -19,6 +19,14 @@ use Krystal\Stdlib\VirtualEntity;
 interface AlbumManagerInterface
 {
     /**
+     * Returns a tree pre-pending prompt message
+     * 
+     * @param string $text
+     * @return array
+     */
+    public function getPromtWithAlbumsTree($text);
+
+    /**
      * Returns albums tree
      * 
      * @return array

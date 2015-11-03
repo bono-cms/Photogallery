@@ -99,6 +99,20 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
     }
 
     /**
+     * Returns a tree pre-pending prompt message
+     * 
+     * @param string $text
+     * @return array
+     */
+    public function getPromtWithAlbumsTree($text)
+    {
+        $tree = $this->getAlbumsTree();
+        ArrayUtils::assocPrepend($tree, null, $text);
+
+        return $tree;
+    }
+
+    /**
      * Returns albums tree
      * 
      * @return array
