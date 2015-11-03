@@ -29,7 +29,7 @@ final class Edit extends AbstractPhoto
             $this->loadBreadcrumbs('Edit the photo');
 
             return $this->view->render($this->getTemplatePath(), array(
-                'albums' => $this->getALbumsTree(),
+                'albums' => $this->getModuleService('albumManager')->getAlbumsTree(),
                 'title' => 'Edit the photo',
                 'photo' => $photo
             ));

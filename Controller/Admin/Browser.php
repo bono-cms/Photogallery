@@ -12,8 +12,6 @@
 namespace Photogallery\Controller\Admin;
 
 use Cms\Controller\Admin\AbstractController;
-use Krystal\Tree\AdjacencyList\TreeBuilder;
-use Krystal\Tree\AdjacencyList\Render\PhpArray;
 
 final class Browser extends AbstractController
 {
@@ -166,10 +164,9 @@ final class Browser extends AbstractController
      */
     private function getWithSharedVars(array $overrides)
     {
-        $treeBuilder = new TreeBuilder($this->getAlbumManager()->fetchAll());
         $vars = array(
             'taskManager' => $this->getModuleService('taskManager'),
-            'albums' => $treeBuilder->render(new PhpArray('title')),
+            'albums' => $this->getAlbumManager()->getAlbumsTree(),
             'title' => 'Photogallery'
         );
 

@@ -12,8 +12,6 @@
 namespace Photogallery\Controller\Admin\Album;
 
 use Cms\Controller\Admin\AbstractController;
-use Krystal\Tree\AdjacencyList\TreeBuilder;
-use Krystal\Tree\AdjacencyList\Render\PhpArray;
 use Krystal\Validate\Pattern;
 
 abstract class AbstractAlbum extends AbstractController
@@ -34,17 +32,6 @@ abstract class AbstractAlbum extends AbstractController
                 )
             )
         ));
-    }
-
-    /**
-     * Returns albums tree
-     * 
-     * @return array
-     */
-    final protected function getAlbumsTree()
-    {
-        $treeBuilder = new TreeBuilder($this->getAlbumManager()->fetchAll());
-        return $treeBuilder->render(new PhpArray('title'));
     }
 
     /**

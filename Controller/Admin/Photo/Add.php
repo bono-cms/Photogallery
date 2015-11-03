@@ -33,7 +33,7 @@ final class Add extends AbstractPhoto
               ->setOrder(0);
 
         return $this->view->render($this->getTemplatePath(), array(
-            'albums' => $this->getALbumsTree(),
+            'albums' => $this->getModuleService('albumManager')->getAlbumsTree(),
             'title' => 'Add a photo',
             'photo' => $photo
         ));
