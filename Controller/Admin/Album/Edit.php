@@ -28,7 +28,7 @@ final class Edit extends AbstractAlbum
             $this->loadBreadcrumbs('Edit the album');
 
             return $this->view->render($this->getTemplatePath(), array(
-                'albums' => $this->getModuleService('albumManager')->getAlbumsTree(),
+                'albums' => $this->getAlbumsTree(),
                 'title' => 'Edit the album',
                 'album' => $album
             ));

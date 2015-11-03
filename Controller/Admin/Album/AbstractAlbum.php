@@ -35,6 +35,17 @@ abstract class AbstractAlbum extends AbstractController
     }
 
     /**
+     * Returns album tree with an empty prompt
+     * 
+     * @return array
+     */
+    final protected function getAlbumsTree()
+    {
+        $text = sprintf('— %s —', $this->translator->translate('None'));
+        return $this->getAlbumManager()->getPromtWithAlbumsTree($text);
+    }
+
+    /**
      * Loads breadcrumbs
      * 
      * @param string $title

@@ -30,7 +30,7 @@ final class Add extends AbstractAlbum
         $album->setSeo(true);
 
         return $this->view->render($this->getTemplatePath(), array(
-            'albums' => $this->getModuleService('albumManager')->getAlbumsTree(),
+            'albums' => $this->getAlbumsTree(),
             'title' => 'Add an album',
             'album' => $album
         ));
