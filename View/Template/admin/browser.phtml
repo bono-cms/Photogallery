@@ -11,6 +11,11 @@ use Krystal\Form\Element;
 		<i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?> <span class="caret"></span>
 	  </button>
 	  <ul class="dropdown-menu pull-bottom">
+         <?php if (isset($albumId)): ?>
+		 <li><a href="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>"><i class="glyphicon glyphicon-home"></i> <?php $this->show('Go home'); ?></a></li>
+		 <li class="divider"></li>
+         <?php endif; ?>
+         
 		 <li><a href="<?php echo $this->url('Photogallery:Admin:Photo@addAction'); ?>"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Add a photo'); ?></a></li>
 		 <li><a href="<?php echo $this->url('Photogallery:Admin:Album@addAction'); ?>"><i class="glyphicon glyphicon-folder-open"></i> <?php $this->show('Add album'); ?></a></li>
 		 <li><a href="<?php echo $this->url('Photogallery:Admin:Config@indexAction'); ?>"><i class="glyphicon glyphicon-tasks"></i> <?php $this->show('Configuration'); ?></a></li>

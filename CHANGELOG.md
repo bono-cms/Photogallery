@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Added additional "Go home" item to reset album filter
  * Improved internal structure
 
 1.2
