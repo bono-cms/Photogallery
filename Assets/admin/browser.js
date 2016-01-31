@@ -11,10 +11,10 @@ $(function(){
 	$.delete({
 		categories : {
 			photo : {
-				url : "/admin/module/photogallery/photo/delete.ajax"
+				url : "/admin/module/photogallery/photo/delete"
 			},
 			category : {
-				url : "/admin/module/photogallery/album/delete.ajax"
+				url : "/admin/module/photogallery/album/delete"
 			}
 		}
 	});

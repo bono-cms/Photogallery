@@ -16,171 +16,62 @@ use Cms\Controller\Admin\AbstractController;
 final class Browser extends AbstractController
 {
     /**
-     * Shows a table
+     * Renders a grid
      * 
      * @param integer $page
      * @return string
      */
     public function indexAction($page = 1)
     {
-        $this->loadSharePlugins();
-        $this->view->getBreadcrumbBag()->addOne('Photogallery');
+        $photos = $this->getPhotoManager()->fetchAllByPage($page, $this->getSharedPerPageCount());
+        $url = '/admin/module/photogallery/browse/(:var)';
 
-        $paginator = $this->getPhotoManager()->getPaginator();
-        $paginator->setUrl('/admin/module/photogallery/browse/(:var)');
-
-        return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
-            'paginator' => $paginator,
-            'photos' => $this->getPhotoManager()->fetchAllByPage($page, $this->getSharedPerPageCount()),
-        )));
+        return $this->createGrid($photos, $url, null);
     }
 
     /**
      * Filters photos by album id
      * 
-     * @param string $albumId
+     * @param string $id
      * @param integer $page
      * @return string
      */
-    public function albumAction($albumId, $page = 1)
+    public function albumAction($id, $page = 1)
     {
-        $album = $this->getAlbumManager()->fetchById($albumId);
+        $photos = $this->getPhotoManager()->fetchAllByAlbumIdAndPage($id, $page, $this->getSharedPerPageCount());
+        $url = '/admin/module/photogallery/browse/album/'.$id.'/page/(:var)';
 
-        if ($album !== false) {
-            $this->loadSharePlugins();
-            $this->view->getBreadcrumbBag()->addOne('Photogallery');
-
-            $paginator = $this->getPhotoManager()->getPaginator();
-            $paginator->setUrl('/admin/module/photogallery/browse/album/'.$albumId.'/page/(:var)');
-
-            return $this->view->render($this->getTemplatePath(), $this->getWithSharedVars(array(
-                'albumId' => $albumId,
-                'paginator' => $paginator,
-                'photos' => $this->getPhotoManager()->fetchAllByAlbumIdAndPage($albumId, $page, $this->getSharedPerPageCount()),
-            )));
-
-        } else {
-            return false;
-        }
+        return $this->createGrid($photos, $url, $id);
     }
 
     /**
-     * Save changes
+     * Creates a grid
      * 
-     * @return string The response
-     */
-    public function saveAction()
-    {
-        if ($this->request->hasPost('published', 'order')) {
-
-            $published = $this->request->getPost('published');
-            $orders = $this->request->getPost('order');
-
-            // Grab a service
-            $photoManager = $this->getPhotoManager();
-
-            if ($photoManager->updatePublished($published) && $photoManager->updateOrders($orders)){
-
-                $this->flashBag->set('success', 'Settings have been updated successfully');
-                return '1';
-            }
-        }
-    }
-
-    /**
-     * Deletes an album with its content by its associated id
-     * 
+     * @param array $photos
+     * @param string $url
      * @return string
      */
-    public function deleteAlbumAction()
+    private function createGrid(array $photos, $url, $albumId)
     {
-        if ($this->request->hasPost('id')) {
-            $id = $this->request->getPost('id');
+        $paginator = $this->getPhotoManager()->getPaginator();
+        $paginator->setUrl($url);
 
-            // Grab a service
-            $albumManager = $this->moduleManager->getModule('Photogallery')->getService('albumManager');
-
-            if ($albumManager->deleteById($id)) {
-                $this->flashBag->set('success', 'Selected album has been removed successfully');
-                return '1';
-            }
-        }
-    }
-
-    /**
-     * Deletes a photo by its associated id
-     * 
-     * @return string
-     */
-    public function deleteAction()
-    {
-        if ($this->request->hasPost('id')) {
-            $id = $this->request->getPost('id');
-
-            if ($this->getPhotoManager()->deleteById($id)){
-                $this->flashBag->set('success', 'Selected photo has been removed successfully');
-                return '1';
-            }
-        }
-    }
-
-    /**
-     * Delete selected photos
-     * 
-     * @return string
-     */
-    public function deleteSelectedAction()
-    {
-        if ($this->request->hasPost('toDelete')) {
-
-            $ids = array_keys($this->request->getPost('toDelete'));
-            $this->getPhotoManager()->deleteByIds($ids);
-
-            $this->flashBag->set('success', 'Selected photos have been removed successfully');
-        } else {
-            $this->flashBag->set('warning', 'You should select at least one photo to remove');
-        }
-
-        return '1';
-    }
-
-    /**
-     * Loads shared plugins
-     * 
-     * @return void
-     */
-    private function loadSharePlugins()
-    {
+        // Load view plugins
         $this->view->getPluginBag()
                    ->appendScript('@Photogallery/admin/browser.js')
                    ->load('zoom');
-    }
 
-    /**
-     * Returns shared variables
-     * 
-     * @param array $overrides
-     * @return array
-     */
-    private function getWithSharedVars(array $overrides)
-    {
-        $vars = array(
+        // Append breadcrumbs
+        $this->view->getBreadcrumbBag()
+                   ->addOne('Photogallery');
+
+        return $this->view->render('browser', array(
+            'albumId' => $albumId,
             'taskManager' => $this->getModuleService('taskManager'),
             'albums' => $this->getAlbumManager()->getAlbumsTree(),
-            'title' => 'Photogallery'
-        );
-
-        return array_replace_recursive($vars, $overrides);
-    }
-
-    /**
-     * Returns template path
-     * 
-     * @return string
-     */
-    private function getTemplatePath()
-    {
-        return 'browser';
+            'paginator' => $paginator,
+            'photos' => $photos
+        ));
     }
 
     /**

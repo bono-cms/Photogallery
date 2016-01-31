@@ -16,25 +16,20 @@ return array(
     ),
     
     '/admin/module/photogallery/album/add' => array(
-        'controller' => 'Admin:Album:Add@indexAction'
-    ),
-
-    '/admin/module/photogallery/album/add.ajax' => array(
-        'controller' => 'Admin:Album:Add@addAction',
-        'disallow' => array('guest')
+        'controller' => 'Admin:Album@addAction'
     ),
 
     '/admin/module/photogallery/album/edit/(:var)' => array(
-        'controller' => 'Admin:Album:Edit@indexAction'
+        'controller' => 'Admin:Album@editAction'
     ),
     
-    '/admin/module/photogallery/album/edit.ajax' => array(
-        'controller' => 'Admin:Album:Edit@updateAction',
+    '/admin/module/photogallery/album/save' => array(
+        'controller' => 'Admin:Album@saveAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/photogallery/album/delete.ajax' => array(
-        'controller' => 'Admin:Browser@deleteAlbumAction',
+    '/admin/module/photogallery/album/delete' => array(
+        'controller' => 'Admin:Album@deleteAction',
         'disallow' => array('guest')
     ),
     
@@ -54,36 +49,26 @@ return array(
         'controller' => 'Admin:Browser@indexAction'
     ),
     
-    '/admin/module/photogallery/save.ajax' => array(
-        'controller' => 'Admin:Browser@saveAction',
-        'disallow' => array('guest')
-    ),
-    
-    '/admin/module/photogallery/delete-selected.ajax' => array(
-        'controller' => 'Admin:Browser@deleteSelectedAction',
+    '/admin/module/photogallery/tweak' => array(
+        'controller' => 'Admin:Photo@tweakAction',
         'disallow' => array('guest')
     ),
     
     '/admin/module/photogallery/photo/add' => array(
-        'controller' => 'Admin:Photo:Add@indexAction'
-    ),
-    
-    '/admin/module/photogallery/photo/add.ajax' => array(
-        'controller' => 'Admin:Photo:Add@addAction',
-        'disallow' => array('guest')
+        'controller' => 'Admin:Photo@addAction'
     ),
     
     '/admin/module/photogallery/photo/edit/(:var)' => array(
-        'controller' => 'Admin:Photo:Edit@indexAction'
+        'controller' => 'Admin:Photo@editAction'
     ),
     
-    '/admin/module/photogallery/photo/edit.ajax' => array(
-        'controller' => 'Admin:Photo:Edit@updateAction',
+    '/admin/module/photogallery/photo/save' => array(
+        'controller' => 'Admin:Photo@saveAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/photogallery/photo/delete.ajax'  => array(
-        'controller' => 'Admin:Browser@deleteAction',
+    '/admin/module/photogallery/photo/delete'  => array(
+        'controller' => 'Admin:Photo@deleteAction',
         'disallow' => array('guest')
     ),
     

@@ -100,13 +100,13 @@ use Krystal\Form\Element;
 
 	<?php if (!$photo->getId()): ?>
 
-	<button data-button="add" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo:Edit@indexAction', null); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo:Add@addAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
-	<button data-button="add-create" data-url="<?php echo $this->url('Photogallery:Admin:Photo:Add@addAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Upload new'); ?></button>
+	<button data-button="add" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo@editAction', null); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
+	<button data-button="add-create" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Upload new'); ?></button>
 
 	<?php else: ?>
 
-	<button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Photo:Edit@updateAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
-	<button data-button="save-create" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo:Add@indexAction'); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo:Edit@updateAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Upload new'); ?></button>
+	<button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+	<button data-button="save-create" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo@addAction'); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Upload new'); ?></button>
 
 	<?php endif; ?>
 
