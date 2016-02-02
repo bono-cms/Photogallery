@@ -115,28 +115,7 @@ final class Photo extends AbstractController
      */
     public function deleteAction()
     {
-        // Batch removal
-        if ($this->request->hasPost('toDelete')) {
-
-            $ids = array_keys($this->request->getPost('toDelete'));
-            $this->getPhotoManager()->deleteByIds($ids);
-
-            $this->flashBag->set('success', 'Selected photos have been removed successfully');
-        } else {
-            $this->flashBag->set('warning', 'You should select at least one photo to remove');
-        }
-
-        // Single removal
-        if ($this->request->hasPost('id')) {
-            $id = $this->request->getPost('id');
-
-            if ($this->getPhotoManager()->deleteById($id)) {
-                $this->flashBag->set('success', 'Selected photo has been removed successfully');
-                return '1';
-            }
-        }
-
-        return '1';
+        return $this->invokeRemoval('photoManager');
     }
 
     /**
@@ -148,7 +127,7 @@ final class Photo extends AbstractController
     {
         $input = $this->request->getPost('photo');
 
-        $formValidator = $this->validatorFactory->build(array(
+        return $this->invokeSave('photoManager', $input['id'], $this->request->getAll(), array(
             'input' => array(
                 'source' => $input,
                 'definition' => array(
@@ -164,23 +143,5 @@ final class Photo extends AbstractController
                 )
             )
         ));
-
-        if ($formValidator->isValid()) {
-            $photoManager = $this->getPhotoManager();
-
-            if ($input['id']) {
-                $this->flashBag->set('success', 'The photo has been updated successfully');
-                return $this->getPhotoManager()->update($this->request->getAll()) ? '1' : '0';
-
-            } else {
-                $photoManager->add($this->request->getAll());
-
-                $this->flashBag->set('success', 'A photo has been added successfully');
-                return $photoManager->getLastId();
-            }
-
-        } else {
-            return $formValidator->getErrors();
-        }
     }
 }

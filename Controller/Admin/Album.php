@@ -102,16 +102,7 @@ final class Album extends AbstractController
      */
     public function deleteAction()
     {
-        if ($this->request->hasPost('id')) {
-            $id = $this->request->getPost('id');
-            // Grab a service
-            $albumManager = $this->getAlbumManager();
-
-            if ($albumManager->deleteById($id)) {
-                $this->flashBag->set('success', 'Selected album has been removed successfully');
-                return '1';
-            }
-        }
+        return $this->invokeRemoval('albumManager');
     }
 
     /**
@@ -123,7 +114,7 @@ final class Album extends AbstractController
     {
         $input = $this->request->getPost('album');
 
-        $formValidator = $this->validatorFactory->build(array(
+        return $this->invokeSave('albumManager', $input['id'], $this->request->getAll(), array(
             'input' => array(
                 'source' => $input,
                 'definition' => array(
@@ -131,23 +122,5 @@ final class Album extends AbstractController
                 )
             )
         ));
-
-        if ($formValidator->isValid()) {
-            $albumManager = $this->getAlbumManager();
-
-            if ($input['id']) {
-                $albumManager->update($this->request->getAll());
-                $this->flashBag->set('success', 'The album has been updated successfully');
-                return '1';
-
-            } else {
-                $albumManager->add($this->request->getAll());
-
-                $this->flashBag->set('success', 'An album has been created successfully');
-                return $albumManager->getLastId();
-            }
-        } else {
-            return $formValidator->getErrors();
-        }
     }
 }

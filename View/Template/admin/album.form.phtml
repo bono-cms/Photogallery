@@ -38,7 +38,7 @@ use Krystal\Form\Element;
 				<div class="form-group clearfix">
 					<label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
 					<div class="col-lg-10">
-                        <?php echo Element::textarea('album[description]', $album->getDescription(), array('class' => 'form-control')); ?>
+                        <?php echo Element::textarea('album[description]', $album->getDescription(), array('class' => 'form-control', 'data-wysiwyg' => 'true')); ?>
 					</div>
 				</div>
 				
