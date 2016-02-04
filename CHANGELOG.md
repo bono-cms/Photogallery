@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Switched to two columns view
  * Changed module icon
  * Added additional "Go home" item to reset album filter
  * Improved internal structure
