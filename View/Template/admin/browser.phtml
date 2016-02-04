@@ -116,7 +116,7 @@ use Krystal\Form\Element;
             <?php if (!empty($albums)): ?>
             <tbody>
                 <?php foreach ($albums as $id => $title): ?>
-                <tr>
+                <tr <?php HtmlHelper::addClassOnDemand(isset($albumId) && $albumId == $id, 'info'); ?>>
                     <td class="text-center text-muted"><?php echo $id; ?></td>
                     <td class="text-center">
                         <a href="<?php echo $this->url('Photogallery:Admin:Browser@albumAction', $id); ?>">
