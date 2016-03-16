@@ -294,8 +294,8 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
                 }
             }
 
+            return true;
         } else {
-
             return false;
         }
     }
