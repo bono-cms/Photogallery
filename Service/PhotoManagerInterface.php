@@ -92,17 +92,8 @@ interface PhotoManagerInterface
      * @param integer $page Current page number
      * @param integer $itemsPerPage Items per page count
      * @param string $albumId Optional album id filter
+     * @param boolean $published Whether to filter by published attribute
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage, $albumId = null);
-
-    /**
-     * Fetches only published photos
-     * 
-     * @param string $albumId
-     * @param integer $page Current page number
-     * @param integer $itemsPerPage Per page count
-     * @return array
-     */
-    public function fetchAllPublishedByAlbumIdAndPage($albumId, $page, $itemsPerPage);
+    public function fetchAllByPage($page, $itemsPerPage, $albumId = null, $published = false);
 }

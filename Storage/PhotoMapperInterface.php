@@ -119,16 +119,6 @@ interface PhotoMapperInterface
     public function updateOrderById($id, $order);
 
     /**
-     * Fetches only published records associated with given album id
-     * 
-     * @param string $albumId
-     * @param integer $page
-     * @param integer $itemsPerPage
-     * @return array
-     */
-    public function fetchAllPublishedByAlbumIdAndPage($albumId, $page, $itemsPerPage);
-
-    /**
      * Fetches all published photos associated with provided album id
      * 
      * @param string $albumId
@@ -142,9 +132,10 @@ interface PhotoMapperInterface
      * @param integer $page
      * @param integer $itemsPerPage
      * @param string $albumId Optional album id filter
+     * @param boolean $published Whether to filter by published attribute
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage, $albumId = null);
+    public function fetchAllByPage($page, $itemsPerPage, $albumId = null, $published = false);
 
     /**
      * Fetches all records filtered by album id

@@ -227,24 +227,12 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      * @param integer $page
      * @param integer $itemsPerPage
      * @param string $albumId Optional album id filter
+     * @param boolean $published Whether to filter by published attribute
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage, $albumId = null)
+    public function fetchAllByPage($page, $itemsPerPage, $albumId = null, $published = false)
     {
-        return $this->getResults($page, $itemsPerPage, false, $albumId);
-    }
-
-    /**
-     * Fetches only published records associated with given album id
-     * 
-     * @param string $albumId
-     * @param integer $page
-     * @param integer $itemsPerPage
-     * @return array
-     */
-    public function fetchAllPublishedByAlbumIdAndPage($albumId, $page, $itemsPerPage)
-    {
-        return $this->getResults($page, $itemsPerPage, true, $albumId);
+        return $this->getResults($page, $itemsPerPage, $published, $albumId);
     }
 
     /**
