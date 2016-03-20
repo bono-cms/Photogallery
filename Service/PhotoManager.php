@@ -284,24 +284,12 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
      * 
      * @param integer $page Current page number
      * @param integer $itemsPerPage Items per page count
+     * @param string $albumId Optional album id filter
      * @return array
      */
-    public function fetchAllByPage($page, $itemsPerPage)
+    public function fetchAllByPage($page, $itemsPerPage, $albumId = null)
     {
-        return $this->prepareResults($this->photoMapper->fetchAllByPage($page, $itemsPerPage));
-    }
-
-    /**
-     * Fetches all photos associated with album id
-     * 
-     * @param string $albumId
-     * @param integer $page Current page number
-     * @param integer $itemsPerPage Per page count
-     * @return array
-     */
-    public function fetchAllByAlbumIdAndPage($albumId, $page, $itemsPerPage)
-    {
-        return $this->prepareResults($this->photoMapper->fetchAllByAlbumIdAndPage($albumId, $page, $itemsPerPage));
+        return $this->prepareResults($this->photoMapper->fetchAllByPage($page, $itemsPerPage, $albumId));
     }
 
     /**

@@ -38,7 +38,7 @@ final class Browser extends AbstractController
      */
     public function albumAction($id, $page = 1)
     {
-        $photos = $this->getPhotoManager()->fetchAllByAlbumIdAndPage($id, $page, $this->getSharedPerPageCount());
+        $photos = $this->getPhotoManager()->fetchAllByPage($page, $this->getSharedPerPageCount(), $id);
         $url = '/admin/module/photogallery/browse/album/'.$id.'/page/(:var)';
 
         return $this->createGrid($photos, $url, $id);
