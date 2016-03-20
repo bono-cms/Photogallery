@@ -22,7 +22,7 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      */
     public static function getTableName()
     {
-        return 'bono_module_photoalbum_photos';
+        return self::getWithPrefix('bono_module_photoalbum_photos');
     }
 
     /**
