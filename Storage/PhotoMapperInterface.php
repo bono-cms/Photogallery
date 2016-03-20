@@ -61,15 +61,6 @@ interface PhotoMapperInterface
     public function fetchAllPublished();
 
     /**
-     * Fetches all published records by page
-     * 
-     * @param integer $page
-     * @param integer $itemsPerPage
-     * @return array
-     */
-    public function fetchAllPublihedByPage($page, $itemsPerPage);
-
-    /**
      * Count amount of records associated with category id
      * 
      * @param string $albumId

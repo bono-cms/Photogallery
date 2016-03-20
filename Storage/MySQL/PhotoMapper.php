@@ -210,18 +210,6 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     }
 
     /**
-     * Fetches all published records by page
-     * 
-     * @param integer $page Current page
-     * @param integer $itemsPerPage Per page count
-     * @return array
-     */
-    public function fetchAllPublihedByPage($page, $itemsPerPage)
-    {
-        return $this->getResults($page, $itemsPerPage, true);
-    }
-
-    /**
      * Fetch all records filter by pagination
      * 
      * @param integer $page
