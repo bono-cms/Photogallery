@@ -54,21 +54,6 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     }
 
     /**
-     * Queries for results
-     * 
-     * @param boolean $published Whether to sort only published records
-     * @param string $sort Column name to sort by
-     * @param string $albumId Optional album id
-     * @return array
-     */
-    private function getResults($page, $itemsPerPage, $published, $albumId = null)
-    {
-        return $this->getSelectQuery($published, $albumId)
-                    ->paginate($page, $itemsPerPage)
-                    ->queryAll();
-    }
-
-    /**
      * Fetches a photo name by its associated id
      * 
      * @param string $id
@@ -220,7 +205,9 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      */
     public function fetchAllByPage($page, $itemsPerPage, $albumId = null, $published = false)
     {
-        return $this->getResults($page, $itemsPerPage, $published, $albumId);
+        return $this->getSelectQuery($published, $albumId)
+                    ->paginate($page, $itemsPerPage)
+                    ->queryAll();
     }
 
     /**
