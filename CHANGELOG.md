@@ -4,7 +4,7 @@ CHANGELOG
 1.3
 ---
 
- * Merged fetchAllByAlbumIdAndPage() with fetchAllByPage()
+ * Merged `fetchAllByAlbumIdAndPage()` and `fetchAllPublishedByAlbumIdAndPage()` with `fetchAllByPage()`
  * Added missing highlighter for active album in the grid
  * Switched to two columns view
  * Changed module icon
