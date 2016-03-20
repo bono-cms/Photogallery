@@ -152,7 +152,7 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
                 return false;
             }
         }
-        
+
         $this->track('Batch removal of %s photos', count($ids));
         return true;
     }
@@ -168,12 +168,9 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
         $name = Filter::escape($this->photoMapper->fetchNameById($id));
 
         if ($this->delete($id)) {
-
             $this->track('The photo "%s" has been removed', $name);
             return true;
-
         } else {
-
             return false;
         }
     }
@@ -254,18 +251,15 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
         // Upload a photo if present and override it
         if (!empty($input['files'])) {
             $input = $this->prepareInput($input);
-
             $file =& $input['files']['file'];
 
             // First of all, we need to remove old photo on the file-system
             if ($this->imageManager->delete($data['id'], $data['photo'])) {
-
                 // And now upload a new one
                 $data['photo'] = $file[0]->getName();
                 $this->imageManager->upload($data['id'], $file);
 
             } else {
-
                 return false;
             }
         }
@@ -333,7 +327,7 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
     {
         return $this->prepareResults($this->photoMapper->fetchAllPublishedByAlbumIdAndPage($albumId, $page, $itemsPerPage));
     }
-    
+
     /**
      * Tracks activity
      * 
