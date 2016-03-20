@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Removed `fetchAllPublihedByPage()` in `PhotoMapper`
  * Merged `fetchAllByAlbumIdAndPage()` and `fetchAllPublishedByAlbumIdAndPage()` with `fetchAllByPage()`
  * Added missing highlighter for active album in the grid
  * Switched to two columns view
