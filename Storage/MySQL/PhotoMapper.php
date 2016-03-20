@@ -109,17 +109,6 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     }
 
     /**
-     * Fetches all published records
-     * 
-     * @return array
-     */
-    public function fetchAllPublished()
-    {
-        return $this->getSelectQuery(true)
-                    ->queryAll();
-    }
-
-    /**
      * Count amount of records associated with category id
      * 
      * @param string $albumId
@@ -157,17 +146,6 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     public function fetchById($id)
     {
         return $this->findByPk($id);
-    }
-
-    /**
-     * Fetches all photos
-     * 
-     * @return array
-     */
-    public function fetchAll()
-    {
-        return $this->getSelectQuery(false)
-                    ->queryAll();
     }
 
     /**
@@ -211,26 +189,15 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     }
 
     /**
-     * Fetches all published photos associated with provided album id
+     * Fetches all photos
      * 
-     * @param string $albumId
+     * @param boolean $published Whether to filter by published attribute
+     * @param string $albumId Optional album id filter
      * @return array
      */
-    public function fetchAllPublishedByAlbumId($albumId)
+    public function fetchAll($published, $albumId = null)
     {
-        return $this->getSelectQuery(true, $albumId)
-                    ->queryAll();
-    }
-
-    /**
-     * Fetches all photos filtered by album id
-     * 
-     * @param string $albumId
-     * @return array
-     */
-    public function fetchAllByAlbumId($albumId)
-    {
-        return $this->getSelectQuery(false, $albumId)
+        return $this->getSelectQuery($published, $albumId)
                     ->queryAll();
     }
 }

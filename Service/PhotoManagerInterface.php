@@ -96,4 +96,13 @@ interface PhotoManagerInterface
      * @return array
      */
     public function fetchAllByPage($page, $itemsPerPage, $albumId = null, $published = false);
+
+    /**
+     * Fetches all photos
+     * 
+     * @param boolean $published Whether to filter by published attribute
+     * @param string $albumId Optional album id filter
+     * @return array
+     */
+    public function fetchAll($published, $albumId = null);
 }

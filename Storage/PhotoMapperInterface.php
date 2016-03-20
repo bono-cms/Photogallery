@@ -54,13 +54,6 @@ interface PhotoMapperInterface
     public function deleteById($id);
 
     /**
-     * Fetches all published records
-     * 
-     * @return array
-     */
-    public function fetchAllPublished();
-
-    /**
      * Count amount of records associated with category id
      * 
      * @param string $albumId
@@ -85,13 +78,6 @@ interface PhotoMapperInterface
     public function fetchById($id);
 
     /**
-     * Fetches all records
-     * 
-     * @return array
-     */
-    public function fetchAll();
-
-    /**
      * Updates published state by its associated ids
      * 
      * @param string $id
@@ -110,14 +96,6 @@ interface PhotoMapperInterface
     public function updateOrderById($id, $order);
 
     /**
-     * Fetches all published photos associated with provided album id
-     * 
-     * @param string $albumId
-     * @return array
-     */
-    public function fetchAllPublishedByAlbumId($albumId);
-
-    /**
      * Fetch all records filter by pagination
      * 
      * @param integer $page
@@ -129,10 +107,11 @@ interface PhotoMapperInterface
     public function fetchAllByPage($page, $itemsPerPage, $albumId = null, $published = false);
 
     /**
-     * Fetches all records filtered by album id
+     * Fetches all photos
      * 
-     * @param string $albumId
+     * @param boolean $published Whether to filter by published attribute
+     * @param string $albumId Optional album id filter
      * @return array
      */
-    public function fetchAllByAlbumId($albumId);
+    public function fetchAll($published, $albumId = null);
 }
