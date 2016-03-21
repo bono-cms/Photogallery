@@ -21,7 +21,7 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
      */
     public static function getTableName()
     {
-        return 'bono_module_photoalbum_albums';
+        return self::getWithPrefix('bono_module_photoalbum_albums');
     }
 
     /**
