@@ -16,7 +16,6 @@ use Cms\Service\HistoryManagerInterface;
 use Photogallery\Storage\PhotoMapperInterface;
 use Photogallery\Storage\AlbumMapperInterface;
 use Krystal\Image\Tool\ImageManagerInterface;
-use Krystal\Stdlib\VirtualEntity;
 use Krystal\Security\Filter;
 
 final class PhotoManager extends AbstractManager implements PhotoManagerInterface
@@ -79,7 +78,7 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
         $imageBag->setId((int) $photo['id'])
                  ->setCover($photo['photo']);
 
-        $entity = new VirtualEntity();
+        $entity = new PhotoEntity();
         $entity->setImageBag($imageBag)
                  ->setId((int) $photo['id'])
                  ->setName(Filter::escape($photo['name']))
