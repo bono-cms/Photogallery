@@ -15,4 +15,14 @@ use Krystal\Stdlib\VirtualEntity;
 
 final class PhotoEntity extends VirtualEntity
 {
+    /**
+     * Returns image URL
+     * 
+     * @param string $size
+     * @return string
+     */
+    public function getImageUrl($size)
+    {
+        return $this->getImageBag()->getUrl($size);
+    }
 }
