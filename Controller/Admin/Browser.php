@@ -23,7 +23,7 @@ final class Browser extends AbstractController
      */
     public function indexAction($page = 1)
     {
-        $url = '/admin/module/photogallery/browse/(:var)';
+        $url = $this->createUrl('Photogallery:Admin:Browser@indexAction', array(), 1);
         return $this->createGrid($page, $url, null);
     }
 
@@ -36,7 +36,7 @@ final class Browser extends AbstractController
      */
     public function albumAction($id, $page = 1)
     {
-        $url = '/admin/module/photogallery/browse/album/'.$id.'/page/(:var)';
+        $url = $this->createUrl('Photogallery:Admin:Browser@albumAction', array($id), 1);
         return $this->createGrid($page, $url, $id);
     }
 
