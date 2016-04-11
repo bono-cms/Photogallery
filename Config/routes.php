@@ -38,7 +38,7 @@ return array(
     ),
     
     '/admin/module/photogallery/browse/album/(:var)/page/(:var)' => array(
-        'controller' => 'Admin:Photo:Browser@albumAction'
+        'controller' => 'Admin:Browser@albumAction'
     ),
     
     '/admin/module/photogallery' => array(
