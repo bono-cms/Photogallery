@@ -24,7 +24,7 @@ use Krystal\Form\Element;
 		 
 		 <?php if (!empty($photos)): ?>
 		 <li><a href="#" data-button="save-changes" data-url="<?php echo $this->url('Photogallery:Admin:Photo@tweakAction'); ?>"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save changes');?></a></li>
-		 <li><a href="#" data-button="remove-selected" data-url="<?php echo $this->url('Photogallery:Admin:Photo@deleteAction'); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>
+		 <li><a href="#" data-button="remove-selected" data-url="<?php echo $this->url('Photogallery:Admin:Photo@deleteAction', null); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>
 		 
 		 <?php else: ?>
 		 
@@ -82,7 +82,7 @@ use Krystal\Form\Element;
                             </td>
                             <td class="text-center col-md-1">
                                 <a data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit the photo'); ?>" data-button="edit" href="<?php echo $this->url('Photogallery:Admin:Photo@editAction', $photo->getId()); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
-                                <a data-toggle="tooltip" data-button="delete" data-id="<?php echo $photo->getId(); ?>" data-category="photo" data-placement="left" data-original-title="<?php $this->show('Remove the photo'); ?>" href="#"><i class="glyphicon glyphicon-remove"></i></a>
+                                <a data-toggle="tooltip" data-button="delete" data-url="<?php echo $this->url('Photogallery:Admin:Photo@deleteAction', $photo->getId()); ?>" data-placement="left" data-original-title="<?php $this->show('Remove the photo'); ?>" href="#"><i class="glyphicon glyphicon-remove"></i></a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -127,7 +127,7 @@ use Krystal\Form\Element;
                     <td class="text-center">
                         <a data-button="view" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('View this album on site'); ?>" target="_blank" href="<?php echo $taskManager->fetchByAlbumId($id)->getUrl(); ?>"><i class="glyphicon glyphicon-search"></i></a>
                         <a data-button="edit" href="<?php echo $this->url('Photogallery:Admin:Album@editAction', $id); ?>" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit the album'); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
-                        <a data-button="delete" data-id="<?php echo $id; ?>" data-category="category" href="#" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove the album'); ?>"><i class="glyphicon glyphicon-remove"></i></a>
+                        <a data-button="delete" data-url="<?php echo $this->url('Photogallery:Admin:Album@deleteAction', $id); ?>" href="#" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove the album'); ?>"><i class="glyphicon glyphicon-remove"></i></a>
                     </td>
                 </tr>
                 <?php endforeach; ?>

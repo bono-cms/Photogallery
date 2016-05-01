@@ -111,11 +111,12 @@ final class Photo extends AbstractController
     /**
      * Deletes a photo by its associated id
      * 
+     * @param string $id
      * @return string
      */
-    public function deleteAction()
+    public function deleteAction($id)
     {
-        return $this->invokeRemoval('photoManager');
+        return $this->invokeRemoval('photoManager', $id);
     }
 
     /**

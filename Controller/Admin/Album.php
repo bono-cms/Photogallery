@@ -98,11 +98,12 @@ final class Album extends AbstractController
     /**
      * Deletes an album with its content by its associated id
      * 
+     * @param string $id
      * @return string
      */
-    public function deleteAction()
+    public function deleteAction($id)
     {
-        return $this->invokeRemoval('albumManager');
+        return $this->invokeRemoval('albumManager', $id);
     }
 
     /**

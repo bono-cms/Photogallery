@@ -28,7 +28,7 @@ return array(
         'disallow' => array('guest')
     ),
     
-    '/admin/module/photogallery/album/delete' => array(
+    '/admin/module/photogallery/album/delete/(:var)' => array(
         'controller' => 'Admin:Album@deleteAction',
         'disallow' => array('guest')
     ),
@@ -67,7 +67,7 @@ return array(
         'disallow' => array('guest')
     ),
     
-    '/admin/module/photogallery/photo/delete'  => array(
+    '/admin/module/photogallery/photo/delete/(:var)'  => array(
         'controller' => 'Admin:Photo@deleteAction',
         'disallow' => array('guest')
     ),

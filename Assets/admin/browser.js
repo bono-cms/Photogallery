@@ -6,16 +6,4 @@ $(function(){
 		lensFadeOut: 500,
 		easing : true
 	});
-	
-	// Handle delete buttons
-	$.delete({
-		categories : {
-			photo : {
-				url : "/admin/module/photogallery/photo/delete"
-			},
-			category : {
-				url : "/admin/module/photogallery/album/delete"
-			}
-		}
-	});
 });
