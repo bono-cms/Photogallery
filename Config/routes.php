@@ -10,73 +10,72 @@
  */
 
 return array(
-    
     '/module/photogallery/(:var)' => array(
         'controller' => 'Album@showAction',
     ),
     
-    '/admin/module/photogallery/album/add' => array(
+    '/%s/module/photogallery/album/add' => array(
         'controller' => 'Admin:Album@addAction'
     ),
 
-    '/admin/module/photogallery/album/edit/(:var)' => array(
+    '/%s/module/photogallery/album/edit/(:var)' => array(
         'controller' => 'Admin:Album@editAction'
     ),
     
-    '/admin/module/photogallery/album/save' => array(
+    '/%s/module/photogallery/album/save' => array(
         'controller' => 'Admin:Album@saveAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/photogallery/album/delete/(:var)' => array(
+    '/%s/module/photogallery/album/delete/(:var)' => array(
         'controller' => 'Admin:Album@deleteAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/photogallery/browse/album/(:var)' => array(
+    '/%s/module/photogallery/browse/album/(:var)' => array(
         'controller' => 'Admin:Browser@albumAction'
     ),
     
-    '/admin/module/photogallery/browse/album/(:var)/page/(:var)' => array(
+    '/%s/module/photogallery/browse/album/(:var)/page/(:var)' => array(
         'controller' => 'Admin:Browser@albumAction'
     ),
     
-    '/admin/module/photogallery' => array(
+    '/%s/module/photogallery' => array(
         'controller' => 'Admin:Browser@indexAction'
     ),
     
-    '/admin/module/photogallery/browse/(:var)' => array(
+    '/%s/module/photogallery/browse/(:var)' => array(
         'controller' => 'Admin:Browser@indexAction'
     ),
     
-    '/admin/module/photogallery/tweak' => array(
+    '/%s/module/photogallery/tweak' => array(
         'controller' => 'Admin:Photo@tweakAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/photogallery/photo/add' => array(
+    '/%s/module/photogallery/photo/add' => array(
         'controller' => 'Admin:Photo@addAction'
     ),
     
-    '/admin/module/photogallery/photo/edit/(:var)' => array(
+    '/%s/module/photogallery/photo/edit/(:var)' => array(
         'controller' => 'Admin:Photo@editAction'
     ),
     
-    '/admin/module/photogallery/photo/save' => array(
+    '/%s/module/photogallery/photo/save' => array(
         'controller' => 'Admin:Photo@saveAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/photogallery/photo/delete/(:var)'  => array(
+    '/%s/module/photogallery/photo/delete/(:var)'  => array(
         'controller' => 'Admin:Photo@deleteAction',
         'disallow' => array('guest')
     ),
     
-    '/admin/module/photogallery/config' => array(
+    '/%s/module/photogallery/config' => array(
         'controller' => 'Admin:Config@indexAction'
     ),
     
-    '/admin/module/photogallery/config.ajax' => array(
+    '/%s/module/photogallery/config.ajax' => array(
         'controller' => 'Admin:Config@saveAction',
         'disallow' => array('guest')
     )
