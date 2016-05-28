@@ -135,14 +135,11 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
     }
 
     /**
-     * Defined by Menu\Contract\MenuAwareManager
-     * 
-     * @param string $webPageId
-     * @return string
+     * {@inheritDoc}
      */
-    public function fetchTitleByWebPageId($webPageId)
+    public function fetchNameByWebPageId($webPageId)
     {
-        return $this->albumMapper->fetchTitleByWebPageId($webPageId);
+        return $this->albumMapper->fetchNameByWebPageId($webPageId);
     }
 
     /**
