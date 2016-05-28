@@ -244,7 +244,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
 
         // Empty slug is always taken from a name
         if (empty($form['slug'])) {
-            $form['slug'] = $form['title'];
+            $form['slug'] = $form['name'];
         }
 
         // It's time to make a string look like a slug
@@ -285,12 +285,12 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
                 $this->albumPhoto->upload($id, $input['files']['file']);
             }
 
-            $this->track('Album "%s" has been created', $form['title']);
+            $this->track('Album "%s" has been created', $form['name']);
 
             if ($this->webPageManager->add($this->getLastId(), $form['slug'], 'Photogallery', 'Photogallery:Album@showAction', $this->albumMapper)){
                 // Do the work in case menu widget was injected
                 if ($this->hasMenuWidget()) {
-                    $this->addMenuItem($this->webPageManager->getLastId(), $form['title'], $input);
+                    $this->addMenuItem($this->webPageManager->getLastId(), $form['name'], $input);
                 }
             }
 
@@ -340,10 +340,10 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
         }
 
         $this->webPageManager->update($form['web_page_id'], $form['slug']);
-        $this->track('Album "%s" has been updated', $form['title']);
+        $this->track('Album "%s" has been updated', $form['name']);
 
         if ($this->hasMenuWidget()) {
-            $this->updateMenuItem($form['web_page_id'], $form['title'], $input['data']['menu']);
+            $this->updateMenuItem($form['web_page_id'], $form['name'], $input['data']['menu']);
         }
 
         return $this->albumMapper->update(ArrayUtils::arrayWithout($form, array('slug', 'menu', 'remove_cover')));
