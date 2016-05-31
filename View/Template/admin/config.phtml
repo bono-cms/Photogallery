@@ -11,11 +11,11 @@ use Krystal\Form\Element;
         <li role="presentation"><a href="#dimensions" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Dimensions'); ?></a></li>
 	</ul>
 	
-	<div class="tab-content clearfix">
+	<div class="tab-content">
 		<!--Common tab-->
 		<div class="tab-pane fade in active" id="common" role="tabpanel">
-			<div class="well clearfix">
-				<div class="form-group clearfix">
+			<div class="well">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show('Photos in an album per page'); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
@@ -26,7 +26,7 @@ use Krystal\Form\Element;
 					</div>
 				</div>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show('Quality'); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
@@ -39,7 +39,7 @@ use Krystal\Form\Element;
 				
 				<?php if ($extendedMode): ?>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show("Language support"); ?></label>
 					<div class="col-lg-10">
                         <?php echo Element::select('config[language_support]', $this->translateArray($config->getLanguageSupportOptions()), $config->getLanguageSupport(), array('class' => 'form-control')); ?>
@@ -58,7 +58,7 @@ use Krystal\Form\Element;
 		
 		<div class="tab-pane fade" id="dimensions" role="tabpanel">
 			<div class="well">
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show("Maximal image height"); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
@@ -69,7 +69,7 @@ use Krystal\Form\Element;
 					</div>
 				</div>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show("Maximal image width"); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
@@ -80,7 +80,7 @@ use Krystal\Form\Element;
 					</div>
 				</div>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show("Thumb's height"); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
@@ -91,7 +91,7 @@ use Krystal\Form\Element;
 					</div>
 				</div>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show("Thumb's width"); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
@@ -102,7 +102,7 @@ use Krystal\Form\Element;
 					</div>
 				</div>
 
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show("Album's thumb height"); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
@@ -113,7 +113,7 @@ use Krystal\Form\Element;
 					</div>
 				</div>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show("Album's thumb width"); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">

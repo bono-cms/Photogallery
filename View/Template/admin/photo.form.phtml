@@ -16,14 +16,13 @@ use Krystal\Form\Element;
 	
 	
 	<div class="tab-content">
-		
 		<div role="tabpanel" class="tab-pane fade in active" id="image" role="tabpanel">
-			<div class="well clearfix">
+			<div class="well">
 				
                 <?php echo Element::hidden('photo[id]', $photo->getId()); ?>
                 <?php echo Element::hidden('photo[photo]', $photo->getPhoto()); ?>
                 
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
@@ -33,14 +32,14 @@ use Krystal\Form\Element;
 					</div>
 				</div>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show('Album'); ?></label>
 					<div class="col-lg-10">
                         <?php echo Element::select('photo[album_id]', $albums, $photo->getAlbumId(), array('class' => 'form-control')); ?>
 					</div>
 				</div>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					
 					<br />
 					
@@ -69,14 +68,14 @@ use Krystal\Form\Element;
 		
 		<div role="tabpanel" class="tab-pane fade" id="options" role="tabpanel">
 			<div class="well">
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
 					<div class="col-lg-10">
 						<?php echo Element::checkbox('photo[published]', $photo->getPublished(), array('class' => 'form-control')); ?>
 					</div>
 				</div>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
@@ -86,7 +85,7 @@ use Krystal\Form\Element;
 					</div>
 				</div>
 				
-				<div class="form-group clearfix">
+				<div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
