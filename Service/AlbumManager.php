@@ -173,19 +173,19 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
                  ->setCover($album['cover']);
 
         $entity = new AlbumEntity();
-        $entity->setId((int) $album['id'])
-            ->setParentId((int) $album['parent_id'])
-            ->setWebPageId((int) $album['web_page_id'])
-            ->setTitle(Filter::escape($album['title']))
-            ->setName(Filter::escape($album['name']))
-            ->setDescription(Filter::escapeContent($album['description']))
-            ->setOrder((int) $album['order'])
-            ->setKeywords(Filter::escape($album['keywords']))
-            ->setSlug(Filter::escape($this->webPageManager->fetchSlugByWebPageId($album['web_page_id'])))
+        $entity->setId($album['id'], AlbumEntity::FILTER_INT)
+            ->setParentId($album['parent_id'], AlbumEntity::FILTER_INT)
+            ->setWebPageId($album['web_page_id'], AlbumEntity::FILTER_INT)
+            ->setTitle($album['title'], AlbumEntity::FILTER_TAGS)
+            ->setName($album['name'], AlbumEntity::FILTER_TAGS)
+            ->setDescription($album['description'], FILTER_SAFE_TAGS)
+            ->setOrder($album['order'], AlbumEntity::FILTER_INT)
+            ->setKeywords($album['keywords'], AlbumEntity::FILTER_TAGS)
+            ->setSlug($this->webPageManager->fetchSlugByWebPageId($album['web_page_id']), AlbumEntity::FILTER_TAGS)
             ->setUrl($this->webPageManager->surround($entity->getSlug(), $album['lang_id']))
             ->setPermanentUrl('/module/photogallery/'.$entity->getId())
-            ->setMetaDescription(Filter::escape($album['meta_description']))
-            ->setSeo((bool) $album['seo'])
+            ->setMetaDescription($album['meta_description'], AlbumEntity::FILTER_TAGS)
+            ->setSeo($album['seo'], AlbumEntity::FILTER_BOOL)
             ->setCover($album['cover'])
             ->setImageBag($imageBag);
 

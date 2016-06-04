@@ -80,14 +80,14 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
 
         $entity = new PhotoEntity();
         $entity->setImageBag($imageBag)
-                 ->setId((int) $photo['id'])
-                 ->setName(Filter::escape($photo['name']))
-                 ->setAlbumId((int) $photo['album_id'])
-                 ->setAlbumName(Filter::escape($this->albumMapper->fetchNameById($photo['album_id'])))
-                 ->setPhoto(Filter::escape($photo['photo']))
-                 ->setDescription(Filter::escape($photo['description']))
-                 ->setOrder((int) $photo['order'])
-                 ->setPublished((bool) $photo['published'])
+                 ->setId($photo['id'], PhotoEntity::FILTER_INT)
+                 ->setName($photo['name'], PhotoEntity::FILTER_TAGS)
+                 ->setAlbumId($photo['album_id'], PhotoEntity::FILTER_INT)
+                 ->setAlbumName($this->albumMapper->fetchNameById($photo['album_id']), PhotoEntity::FILTER_TAGS)
+                 ->setPhoto($photo['photo'], PhotoEntity::FILTER_TAGS)
+                 ->setDescription($photo['description'], PhotoEntity::FILTER_TAGS)
+                 ->setOrder($photo['order'], PhotoEntity::FILTER_INT)
+                 ->setPublished($photo['published'], PhotoEntity::FILTER_BOOL)
                  ->setDate(date('d/m/y', $photo['date']));
 
         return $entity;
