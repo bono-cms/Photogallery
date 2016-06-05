@@ -178,7 +178,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
             ->setWebPageId($album['web_page_id'], AlbumEntity::FILTER_INT)
             ->setTitle($album['title'], AlbumEntity::FILTER_TAGS)
             ->setName($album['name'], AlbumEntity::FILTER_TAGS)
-            ->setDescription($album['description'], FILTER_SAFE_TAGS)
+            ->setDescription($album['description'], AlbumEntity::FILTER_SAFE_TAGS)
             ->setOrder($album['order'], AlbumEntity::FILTER_INT)
             ->setKeywords($album['keywords'], AlbumEntity::FILTER_TAGS)
             ->setSlug($this->webPageManager->fetchSlugByWebPageId($album['web_page_id']), AlbumEntity::FILTER_TAGS)
