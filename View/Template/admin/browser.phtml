@@ -36,7 +36,7 @@ use Krystal\Form\Element;
 	</div>
 </div>
 
-<?php $this->loadBlock('items-per-page', array('caption' => 'Photogallery')); ?>
+<?php $this->loadPartial('items-per-page', array('caption' => 'Photogallery')); ?>
 
 <div class="row">
     <div class="col-lg-8">
@@ -99,7 +99,7 @@ use Krystal\Form\Element;
                 <?php endif; ?>
             </div>
         </form>
-        <?php $this->loadBlock('paginator'); ?>
+        <?php $this->loadPartial('paginator'); ?>
     </div>
 
     <div class="col-lg-4">
