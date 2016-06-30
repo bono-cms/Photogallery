@@ -13,6 +13,7 @@ namespace Photogallery;
 
 use Cms\AbstractCmsModule;
 use Krystal\Image\Tool\ImageManager;
+use Krystal\Stdlib\VirtualEntity;
 use Photogallery\Service\AlbumManager;
 use Photogallery\Service\PhotoManager;
 use Photogallery\Service\TaskManager;
@@ -23,12 +24,11 @@ final class Module extends AbstractCmsModule
     /**
      * Returns album image manager
      * 
+     * @param \Krystal\Stdlib\VirtualEntity $config
      * @return \Krystal\Image\ImageManager
      */
-    private function getAlbumImageManager()
+    private function getAlbumImageManager(VirtualEntity $config)
     {
-        $config = $this->getConfigEntity();
-
         $plugins = array(
             'thumb' => array(
                 'dimensions' => array(
@@ -55,12 +55,11 @@ final class Module extends AbstractCmsModule
     /**
      * Returns prepared image manager
      * 
+     * @param \Krystal\Stdlib\VirtualEntity $config
      * @return \Krystal\Image\Too\ImageManager
      */
-    private function getImageManagerService()
+    private function getImageManagerService(VirtualEntity $config)
     {
-        $config = $this->getConfigEntity();
-
         $plugins = array(
             'thumb' => array(
                 'quality' => $config->getQuality(),
@@ -89,29 +88,12 @@ final class Module extends AbstractCmsModule
     }
 
     /**
-     * Returns language id
-     * 
-     * @return integer
-     */
-    private function getLanguageId()
-    {
-        $cms = $this->moduleManager->getModule('Cms');
-        $languageManager = $cms->getService('languageManager');
-
-        $config = $this->getConfigService();
-
-        if ($config->get('language_support') == '1') {
-            return $languageManager->getCurrentId();
-        } else {
-            return 0;
-        }
-    }
-
-    /**
      * {@inheritDoc}
      */
     public function getServiceProviders()
     {
+        $config = $this->createConfigService();
+
         // Build mappers
         $albumMapper = $this->getMapper('/Photogallery/Storage/MySQL/AlbumMapper');
         $photoMapper = $this->getMapper('/Photogallery/Storage/MySQL/PhotoMapper');
@@ -119,12 +101,12 @@ final class Module extends AbstractCmsModule
         // Grab required services
         $historyManager = $this->getHistoryManager();
         $webPageManager = $this->getWebPageManager();
-        $imageManager = $this->getImageManagerService();
+        $imageManager = $this->getImageManagerService($config->getEntity());
 
         $albumManager = new AlbumManager(
             $albumMapper, 
             $photoMapper, 
-            $this->getAlbumImageManager(), 
+            $this->getAlbumImageManager($config->getEntity()), 
             $imageManager, 
             $webPageManager, 
             $historyManager, 
@@ -135,7 +117,7 @@ final class Module extends AbstractCmsModule
 
         return array(
             'siteService' => new SiteService($photoManager),
-            'configManager' => $this->getConfigService(),
+            'configManager' => $config,
             'taskManager' => new TaskManager($photoMapper, $albumManager),
             'photoManager' => $photoManager,
             'albumManager' => $albumManager

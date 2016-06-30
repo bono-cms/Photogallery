@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Changed the way of storing configuration data. Since now its stored in the database
  * Added `getImageUrl()` shortcuts in entities
  * Merged several fetching methods into one `fetchAll()`
  * Removed `fetchAllPublihedByPage()` in `PhotoMapper`

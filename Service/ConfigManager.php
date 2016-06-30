@@ -11,29 +11,31 @@
 
 namespace Photogallery\Service;
 
-use Krystal\Config\File\AbstractConfigManager;
-use Krystal\Security\Filter;
+use Krystal\Config\ConfigModuleService;
+use Krystal\Stdlib\VirtualEntity;
 
-final class ConfigManager extends AbstractConfigManager
+final class ConfigManager extends ConfigModuleService
 {
     /**
      * {@inheritDoc}
      */
-    protected function populate()
+    public function getEntity()
     {
-        $entity = $this->getEntity();
-        $entity->setPerPageCount((int) $this->get('photos_per_page', 5))
-               ->setWidth((float) $this->get('thumb_width', 200))
-               ->setHeight((float) $this->get('thumb_height', 200))
-               ->setMaxHeight((float) $this->get('max_img_height', 200))
-               ->setMaxWidth((float) $this->get('max_img_width', 200))
-               ->setQuality((float) $this->get('quality', 75))
-               ->setLanguageSupport((bool) $this->get('language_support'))
-               ->setAlbumThumbWidth($this->get('album_thumb_width', 200))
-               ->setAlbumThumbHeight($this->get('album_thumb_height', 200))
+        $entity = new VirtualEntity();
+        $entity->setPerPageCount($this->get('photos_per_page', 5), VirtualEntity::FILTER_INT)
+               ->setWidth($this->get('thumb_width', 200), VirtualEntity::FILTER_FLOAT)
+               ->setHeight($this->get('thumb_height', 200), VirtualEntity::FILTER_FLOAT)
+               ->setMaxHeight($this->get('max_img_height', 200), VirtualEntity::FILTER_FLOAT)
+               ->setMaxWidth($this->get('max_img_width', 200), VirtualEntity::FILTER_FLOAT)
+               ->setQuality($this->get('quality', 75), VirtualEntity::FILTER_FLOAT)
+               ->setLanguageSupport($this->get('language_support'), VirtualEntity::FILTER_BOOL)
+               ->setAlbumThumbWidth($this->get('album_thumb_width', 200), VirtualEntity::FILTER_FLOAT)
+               ->setAlbumThumbHeight($this->get('album_thumb_height', 200), VirtualEntity::FILTER_FLOAT)
                ->setLanguageSupportOptions(array(
                     '0' => 'One photogallery version for all languages',
                     '1' => 'Each language must have its own photogallery version',
                 ));
+
+        return $entity;
     }
 }
