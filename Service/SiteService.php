@@ -21,14 +21,34 @@ final class SiteService implements SiteServiceInterface
     private $photoManager;
 
     /**
+     * Album manager service
+     * 
+     * @var \Photogallery\Service\AlbumManagerInterface
+     */
+    private $albumManager;
+
+    /**
      * State initialization
      * 
      * @param \Photogallery\Service\PhotoManagerInterface $photoManager
+     * @param \Photogallery\Service\AlbumManagerInterface $albumManager
      * @return void
      */
-    public function __construct(PhotoManagerInterface $photoManager)
+    public function __construct(PhotoManagerInterface $photoManager, AlbumManagerInterface $albumManager)
     {
         $this->photoManager = $photoManager;
+        $this->albumManager = $albumManager;
+    }
+
+    /**
+     * Returns child album entities
+     * 
+     * @param string $id Parent album id
+     * @return array
+     */
+    public function getChildAlbums($id)
+    {
+        return $this->albumManager->fetchChildrenByParentId($id);
     }
 
     /**

@@ -14,6 +14,14 @@ namespace Photogallery\Service;
 interface SiteServiceInterface
 {
     /**
+     * Returns child album entities
+     * 
+     * @param string $id Parent album id
+     * @return array
+     */
+    public function getChildAlbums($id);
+
+    /**
      * Fetches all photo entities by associated album id
      * 
      * @param string $id Album id

@@ -116,7 +116,7 @@ final class Module extends AbstractCmsModule
         $photoManager = new PhotoManager($photoMapper, $albumMapper, $imageManager, $historyManager);
 
         return array(
-            'siteService' => new SiteService($photoManager),
+            'siteService' => new SiteService($photoManager, $albumManager),
             'configManager' => $config,
             'taskManager' => new TaskManager($photoMapper, $albumManager),
             'photoManager' => $photoManager,
