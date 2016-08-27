@@ -22,7 +22,7 @@ interface SiteServiceInterface
     public function getChildAlbums($id);
 
     /**
-     * Fetches all photo entities by associated album id
+     * Returns all photo entities by associated album id
      * 
      * @param string $id Album id
      * @return array
