@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Fixed issue with quote escaping
  * Added `getChildAlbums()` in site service object
  * Changed the way of storing configuration data. Since now its stored in the database
  * Added `getImageUrl()` shortcuts in entities
