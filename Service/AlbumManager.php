@@ -461,7 +461,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
 
         return $builder->makeAll(function($breadcrumb) use ($wm) {
             return array(
-                'name' => $breadcrumb['title'],
+                'name' => $breadcrumb['name'],
                 'link' => $wm->getUrl($breadcrumb['web_page_id'], $breadcrumb['lang_id'])
             );
         });
