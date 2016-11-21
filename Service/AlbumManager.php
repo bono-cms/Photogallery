@@ -120,7 +120,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
     public function getAlbumsTree()
     {
         $treeBuilder = new TreeBuilder($this->fetchAll());
-        return $treeBuilder->render(new PhpArray('title'));
+        return $treeBuilder->render(new PhpArray('name'));
     }
 
     /**
