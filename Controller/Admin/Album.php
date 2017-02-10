@@ -103,7 +103,11 @@ final class Album extends AbstractController
      */
     public function deleteAction($id)
     {
-        return $this->invokeRemoval('albumManager', $id);
+        $service = $this->getModuleService('albumManager');
+        $service->deleteById($id);
+
+        $this->flashBag->set('success', 'Selected element has been removed successfully');
+        return '1';
     }
 
     /**
@@ -115,7 +119,7 @@ final class Album extends AbstractController
     {
         $input = $this->request->getPost('album');
 
-        return $this->invokeSave('albumManager', $input['id'], $this->request->getAll(), array(
+        $formValidator = $this->createValidator(array(
             'input' => array(
                 'source' => $input,
                 'definition' => array(
@@ -123,5 +127,25 @@ final class Album extends AbstractController
                 )
             )
         ));
+
+        if ($formValidator->isValid()) {
+            $service = $this->getModuleService('albumManager');
+
+            if (!empty($input['id'])) {
+                if ($service->update($this->request->getAll())) {
+                    $this->flashBag->set('success', 'The element has been updated successfully');
+                    return '1';
+                }
+
+            } else {
+                if ($service->add($this->request->getAll())) {
+                    $this->flashBag->set('success', 'The element has been created successfully');
+                    return $service->getLastId();
+                }
+            }
+
+        } else {
+            return $formValidator->getErrors();
+        }
     }
 }
