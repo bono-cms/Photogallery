@@ -101,28 +101,20 @@ use Krystal\Form\Element;
 						<label class="col-lg-2 control-label"><?php $this->show('Сover'); ?></label>
 						<div class="col-lg-10">
 							<?php if ($album->hasCover()): ?>
+                            <p><img src="<?php echo $album->getImageBag()->getUrl('200x200'); ?>" /></p>
 
-							<img src="<?php echo $album->getImageBag()->getUrl('200x200'); ?>" />
-
-							<br />
-							<br />
-
-							<div>
+							<p>
 								<label for="removeCover"><?php $this->show('Remove this cover'); ?>&nbsp;&nbsp;</label>
 								<input type="checkbox" id="removeCover" name="album[remove_cover]" data-toggle="tooltip" data-placement="left" title="<?php $this->show('Check it if you want to remove this cover'); ?>" />
-							</div>
-							
+							</p>
+
 							<?php else: ?>
-							
-							<img data-image="preview" />
-							
-							<br />
-							
+                            <p><img data-image="preview" /></p>
+
 							<?php endif; ?>
-							
-							<br />
-							
-                            <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg'); ?>
+
+                            <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
+                            <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden')); ?>
 						</div>
 					</div>
 				</div>
