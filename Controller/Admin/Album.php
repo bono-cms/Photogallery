@@ -49,8 +49,7 @@ final class Album extends AbstractController
     {
         // Load view plugins
         $this->loadMenuWidget();
-        $this->view->getPluginBag()->appendScript('@Photogallery/admin/album.form.js')
-                                   ->load($this->getWysiwygPluginName());
+        $this->view->getPluginBag()->load($this->getWysiwygPluginName());
 
         // Append breadcrumbs
         $this->view->getBreadcrumbBag()->addOne('Photogallery', 'Photogallery:Admin:Browser@indexAction')
