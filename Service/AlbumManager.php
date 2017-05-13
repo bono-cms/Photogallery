@@ -247,6 +247,11 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
         // It's time to make a string look like a slug
         $form['slug'] = $this->webPageManager->sluggify($form['slug']);
 
+        // Safe type casting
+        $form['web_page_id'] = (int) $form['web_page_id'];
+        $form['parent_id'] = (int) $form['parent_id'];
+        $form['order'] = (int) $form['order'];
+
         return $input;
     }
 
@@ -262,7 +267,6 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
         $form =& $input['data']['album'];
 
         // Default empty values
-        $form['web_page_id'] = '';
         $form['cover'] = '';
 
         // If we have a cover, then we need to upload it
@@ -310,13 +314,11 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
 
         // Allow to remove a cover, only it case it exists and checkbox was checked
         if (isset($form['remove_cover'])) {
-
             // Remove a cover, but not a dir itself
             $this->albumPhoto->delete($form['id']);
             $form['cover'] = '';
 
         } else {
-
             if (!empty($input['files']['file'])) {
                 $file =& $input['files']['file'];
 
