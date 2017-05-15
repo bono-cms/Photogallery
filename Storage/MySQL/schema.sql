@@ -8,7 +8,7 @@ CREATE TABLE `bono_module_photoalbum_albums` (
 	`web_page_id` INT NOT NULL COMMENT 'Album web page id',
 	`title` varchar(255) NOT NULL,
 	`name`  varchar(255) NOT NULL,
-	`description` TEXT NOT NULL COMMENT 'Album description that comes from WYSIWYG',
+	`description` LONGTEXT NOT NULL COMMENT 'Album description that comes from WYSIWYG',
 	`order` INT NOT NULL COMMENT 'Sort order',
 	`keywords` TEXT NOT NULL COMMENT 'Keywords for SEO',
 	`seo` varchar(1) NOT NULL,
