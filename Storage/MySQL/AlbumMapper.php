@@ -12,6 +12,7 @@
 namespace Photogallery\Storage\MySQL;
 
 use Cms\Storage\MySQL\AbstractMapper;
+use Cms\Storage\MySQL\WebPageMapper;
 use Photogallery\Storage\AlbumMapperInterface;
 
 final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
@@ -22,6 +23,14 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
     public static function getTableName()
     {
         return self::getWithPrefix('bono_module_photoalbum_albums');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public static function getTranslationTable()
+    {
+        return self::getWithPrefix('bono_module_photoalbum_albums_translations');
     }
 
     /**

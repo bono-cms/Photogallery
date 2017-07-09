@@ -2,18 +2,25 @@
 DROP TABLE IF EXISTS `bono_module_photoalbum_albums`;
 CREATE TABLE `bono_module_photoalbum_albums` (
 
-	`id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	`lang_id` INT NOT NULL COMMENT 'Language identificator',
-	`parent_id` INT NOT NULL COMMENT 'Parent album id in current table',
-	`web_page_id` INT NOT NULL COMMENT 'Album web page id',
-	`title` varchar(255) NOT NULL,
-	`name`  varchar(255) NOT NULL,
-	`description` LONGTEXT NOT NULL COMMENT 'Album description that comes from WYSIWYG',
-	`order` INT NOT NULL COMMENT 'Sort order',
-	`keywords` TEXT NOT NULL COMMENT 'Keywords for SEO',
-	`seo` varchar(1) NOT NULL,
-	`meta_description` TEXT NOT NULL COMMENT 'Meta description for SEO',
-	`cover` varchar(255) NOT NULL
+    `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `parent_id` INT NOT NULL COMMENT 'Parent album id in current table',
+    `order` INT NOT NULL COMMENT 'Sort order',
+    `seo` varchar(1) NOT NULL,
+    `cover` varchar(255) NOT NULL
+
+) DEFAULT CHARSET = UTF8;
+
+DROP TABLE IF EXISTS `bono_module_photoalbum_albums_translations`;
+CREATE TABLE `bono_module_photoalbum_albums_translations` (
+
+    `id` INT NOT NULL,
+    `lang_id` INT NOT NULL COMMENT 'Language identificator',
+    `web_page_id` INT NOT NULL COMMENT 'Album web page id',
+    `title` varchar(255) NOT NULL,
+    `name`  varchar(255) NOT NULL,
+    `description` LONGTEXT NOT NULL COMMENT 'Album description that comes from WYSIWYG',
+    `keywords` TEXT NOT NULL COMMENT 'Keywords for SEO',
+    `meta_description` TEXT NOT NULL COMMENT 'Meta description for SEO'
 
 ) DEFAULT CHARSET = UTF8;
 
