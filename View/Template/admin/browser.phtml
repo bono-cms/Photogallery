@@ -119,7 +119,7 @@ use Krystal\Form\Element;
                 <?php foreach ($albums as $id => $title): ?>
                 <tr <?php HtmlHelper::addClassOnDemand(isset($albumId) && $albumId == $id, 'info'); ?>>
                     <td class="text-center text-muted"><?php echo $id; ?></td>
-                    <td class="text-center">
+                    <td>
                         <a href="<?php echo $this->url('Photogallery:Admin:Browser@albumAction', $id); ?>">
                             <?php HtmlHelper::wrapOnDemand(isset($albumId) && $albumId == $id, 'strong', $title); ?>
                         </a>
