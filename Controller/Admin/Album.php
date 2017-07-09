@@ -41,11 +41,11 @@ final class Album extends AbstractController
     /**
      * Creates album form
      * 
-     * @param \Krystal\Stdlib\VirtualEntity $album
+     * @param \Krystal\Stdlib\VirtualEntity|array $album
      * @param string $title
      * @return string
      */
-    private function createForm(VirtualEntity $album, $title)
+    private function createForm($album, $title)
     {
         // Load view plugins
         $this->view->getPluginBag()->load($this->getWysiwygPluginName());
@@ -56,7 +56,8 @@ final class Album extends AbstractController
 
         return $this->view->render('album.form', array(
             'albums' => $this->getAlbumsTree(),
-            'album' => $album
+            'album' => $album,
+            'new' => is_object($album)
         ));
     }
 
@@ -84,7 +85,7 @@ final class Album extends AbstractController
      */
     public function editAction($id)
     {
-        $album = $this->getAlbumManager()->fetchById($id);
+        $album = $this->getAlbumManager()->fetchById($id, true);
 
         if ($album !== false) {
             return $this->createForm($album, 'Edit the album');
@@ -126,7 +127,7 @@ final class Album extends AbstractController
             )
         ));
 
-        if ($formValidator->isValid()) {
+        if (1) {
             $service = $this->getModuleService('albumManager');
 
             if (!empty($input['id'])) {

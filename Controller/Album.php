@@ -35,7 +35,7 @@ final class Album extends AbstractController
         $this->preparePaginator($paginator, $code, $slug, $pageNumber);
 
         // Fetch page's entity
-        $page = $albumManager->fetchById($albumId);
+        $page = $albumManager->fetchById($albumId, false);
 
         if ($page !== false) {
             // Append breadcrumbs to view now
@@ -59,7 +59,6 @@ final class Album extends AbstractController
             }
 
             return $this->view->render('album', $vars);
-
         } else {
             return false;
         }
