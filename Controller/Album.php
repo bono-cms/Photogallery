@@ -47,6 +47,7 @@ final class Album extends AbstractController
                 'page' => $page,
                 'paginator' => $paginator,
                 'photos' => $photoManager->fetchAllByPage($pageNumber, $config->getPerPageCount(), $albumId, true),
+                'languages' => $albumManager->getSwitchUrls($albumId)
             );
 
             // Try to find child nodes

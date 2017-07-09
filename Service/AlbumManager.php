@@ -95,6 +95,17 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
     }
 
     /**
+     * Returns a collection of switching URLs
+     * 
+     * @param string $id Page ID
+     * @return array
+     */
+    public function getSwitchUrls($id)
+    {
+        return $this->albumMapper->createSwitchUrls($id, 'Photogallery', 'Photogallery:Album@showAction');
+    }
+
+    /**
      * Returns a tree pre-pending prompt message
      * 
      * @param string $text

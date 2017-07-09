@@ -19,6 +19,14 @@ use Krystal\Stdlib\VirtualEntity;
 interface AlbumManagerInterface
 {
     /**
+     * Returns a collection of switching URLs
+     * 
+     * @param string $id Page ID
+     * @return array
+     */
+    public function getSwitchUrls($id);
+
+    /**
      * Returns a tree pre-pending prompt message
      * 
      * @param string $text
