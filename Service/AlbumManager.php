@@ -170,20 +170,21 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
 
         $entity = new AlbumEntity();
         $entity->setId($album['id'], AlbumEntity::FILTER_INT)
-            ->setParentId($album['parent_id'], AlbumEntity::FILTER_INT)
-            ->setWebPageId($album['web_page_id'], AlbumEntity::FILTER_INT)
-            ->setTitle($album['title'], AlbumEntity::FILTER_HTML)
-            ->setName($album['name'], AlbumEntity::FILTER_HTML)
-            ->setDescription($album['description'], AlbumEntity::FILTER_SAFE_TAGS)
-            ->setOrder($album['order'], AlbumEntity::FILTER_INT)
-            ->setKeywords($album['keywords'], AlbumEntity::FILTER_HTML)
-            ->setSlug($this->webPageManager->fetchSlugByWebPageId($album['web_page_id']), AlbumEntity::FILTER_HTML)
-            ->setUrl($this->webPageManager->surround($entity->getSlug(), $album['lang_id']))
-            ->setPermanentUrl('/module/photogallery/'.$entity->getId())
-            ->setMetaDescription($album['meta_description'], AlbumEntity::FILTER_HTML)
-            ->setSeo($album['seo'], AlbumEntity::FILTER_BOOL)
-            ->setCover($album['cover'])
-            ->setImageBag($imageBag);
+               ->setParentId($album['parent_id'], AlbumEntity::FILTER_INT)
+               ->setLangId($album['lang_id'], AlbumEntity::FILTER_INT)
+               ->setWebPageId($album['web_page_id'], AlbumEntity::FILTER_INT)
+               ->setTitle($album['title'], AlbumEntity::FILTER_HTML)
+               ->setName($album['name'], AlbumEntity::FILTER_HTML)
+               ->setDescription($album['description'], AlbumEntity::FILTER_SAFE_TAGS)
+               ->setOrder($album['order'], AlbumEntity::FILTER_INT)
+               ->setKeywords($album['keywords'], AlbumEntity::FILTER_HTML)
+               ->setSlug($album['slug'])
+               ->setUrl($this->webPageManager->surround($entity->getSlug(), $album['lang_id']))
+               ->setPermanentUrl('/module/photogallery/'.$entity->getId())
+               ->setMetaDescription($album['meta_description'], AlbumEntity::FILTER_HTML)
+               ->setSeo($album['seo'], AlbumEntity::FILTER_BOOL)
+               ->setCover($album['cover'])
+               ->setImageBag($imageBag);
 
         return $entity;
     }
@@ -217,38 +218,25 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
      */
     public function fetchAllByPage($page, $itemsPerPage)
     {
-        return $this->prepareResults($this->albumMapper->fetchAllByPage($page, $itemsPerPage));
+        return $this->prepareResults($this->albumMapper->fetchAll($page, $itemsPerPage));
     }
 
     /**
-     * Prepares raw input data before sending it to the mapper
+     * Saves a page
      * 
      * @param array $input
-     * @return array
+     * @return boolean
      */
-    private function prepareInput(array $input)
+    private function savePage(array $input)
     {
-        $form =& $input['data']['album'];
+        $album =& $input['data']['album'];
 
-        // When name is empty, then it needs to be taken from a title
-        if (empty($form['title'])) {
-            $form['title'] = $form['name'];
-        }
+        // Strict casting
+        $album['parent_id'] = (int) $album['parent_id'];
+        $album['order'] = (int) $album['order'];
 
-        // Empty slug is always taken from a name
-        if (empty($form['slug'])) {
-            $form['slug'] = $form['name'];
-        }
-
-        // It's time to make a string look like a slug
-        $form['slug'] = $this->webPageManager->sluggify($form['slug']);
-
-        // Safe type casting
-        $form['web_page_id'] = (int) $form['web_page_id'];
-        $form['parent_id'] = (int) $form['parent_id'];
-        $form['order'] = (int) $form['order'];
-
-        return $input;
+        $album = ArrayUtils::arrayWithout($album, array('slug', 'remove_cover'));
+        return $this->albumMapper->savePage('Photogallery', 'Photogallery:Album@showAction', $album, $input['data']['translation']);
     }
 
     /**
@@ -259,42 +247,25 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
      */
     public function add(array $input)
     {
-        $input = $this->prepareInput($input);
-        $form =& $input['data']['album'];
+        // Form data reference
+        $album =& $input['data']['album'];
 
-        // Default empty values
-        $form['cover'] = '';
-
-        // If we have a cover, then we need to upload it
+        // If there's a file, then it needs to uploaded as a cover
         if (!empty($input['files']['file'])) {
+            $id = $this->getLastId();
+            $this->imageManager->upload($id, $input['files']['file']);
+
             $file =& $input['files']['file'];
             $this->filterFileInput($file);
 
             // Override empty cover's value now
-            $form['cover'] = $file[0]->getName();
-        }
-
-        if ($this->albumMapper->insert(ArrayUtils::arrayWithout($form, array('slug', 'menu')))) {
-            $id = $this->getLastId();
-
-            // If there's a file, then it needs to uploaded as a cover
-            if (!empty($input['files']['file'])) {
-                $this->albumPhoto->upload($id, $input['files']['file']);
-            }
-
-            $this->track('Album "%s" has been created', $form['name']);
-
-            if ($this->webPageManager->add($this->getLastId(), $form['slug'], 'Photogallery', 'Photogallery:Album@showAction', $this->albumMapper)){
-                // Do the work in case menu widget was injected
-                if ($this->hasMenuWidget()) {
-                    $this->addMenuItem($this->webPageManager->getLastId(), $form['name'], $input);
-                }
-            }
-
-            return true;
+            $album['cover'] = $file[0]->getName();
         } else {
-            return false;
+            $album['cover'] = '';
         }
+
+        #$this->track('Album "%s" has been created', $form['name']);
+        return $this->savePage($input);
     }
 
     /**
@@ -305,22 +276,19 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
      */
     public function update(array $input)
     {
-        $input = $this->prepareInput($input);
-        $form =& $input['data']['album'];
+        $album =& $input['data']['album'];
 
         // Allow to remove a cover, only it case it exists and checkbox was checked
-        if (isset($form['remove_cover'])) {
+        if (isset($category['remove_cover'])) {
             // Remove a cover, but not a dir itself
-            $this->albumPhoto->delete($form['id']);
-            $form['cover'] = '';
-
+            $this->albumPhoto->delete($album['id']);
+            $album['cover'] = '';
         } else {
             if (!empty($input['files']['file'])) {
                 $file =& $input['files']['file'];
-
                 // If we have a previous cover's image, then we need to remove it
-                if (!empty($form['cover'])) {
-                    if (!$this->albumPhoto->delete($form['id'], $form['cover'])) {
+                if (!empty($album['cover'])) {
+                    if (!$this->albumPhoto->delete($album['id'], $album['cover'])) {
                         // If failed, then exit this method immediately
                         return false;
                     }
@@ -328,20 +296,14 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
 
                 // And now upload a new one
                 $this->filterFileInput($file);
-                $form['cover'] = $file[0]->getName();
+                $album['cover'] = $file[0]->getName();
 
-                $this->albumPhoto->upload($form['id'], $file);
+                $this->albumPhoto->upload($album['id'], $file);
             }
         }
 
-        $this->webPageManager->update($form['web_page_id'], $form['slug']);
-        $this->track('Album "%s" has been updated', $form['name']);
-
-        if ($this->hasMenuWidget()) {
-            $this->updateMenuItem($form['web_page_id'], $form['name'], $input['data']['menu']);
-        }
-
-        return $this->albumMapper->update(ArrayUtils::arrayWithout($form, array('slug', 'menu', 'remove_cover')));
+        #$this->track('Category "%s" has been updated', $category['name']);
+        return $this->savePage($input);
     }
 
     /**
@@ -393,8 +355,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
      */
     private function removeAlbumById($albumId)
     {
-        $this->albumMapper->deleteById($albumId);
-        $this->removeWebPage($albumId);
+        $this->albumMapper->deletePage($albumId);
 
         // Grab all photos associated with target album id
         $photosIds = $this->photoMapper->fetchPhotoIdsByAlbumId($albumId);
@@ -412,26 +373,19 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
     }
 
     /**
-     * Removes an album from web page collection
-     * 
-     * @param string $albumId
-     * @return boolean
-     */
-    private function removeWebPage($albumId)
-    {
-        $webPageId = $this->albumMapper->fetchWebPageIdById($albumId);
-        return $this->webPageManager->deleteById($webPageId);
-    }
-
-    /**
      * Fetches album entity by its id
      * 
      * @param string $id Album's id
+     * @param boolean $withTranslations Whether to fetch translations or not
      * @return array
      */
-    public function fetchById($id)
+    public function fetchById($id, $withTranslations)
     {
-        return $this->prepareResult($this->albumMapper->fetchById($id));
+        if ($withTranslations == true) {
+            return $this->prepareResults($this->albumMapper->fetchById($id, true));
+        } else {
+            return $this->prepareResult($this->albumMapper->fetchById($id, false));
+        }
     }
 
     /**

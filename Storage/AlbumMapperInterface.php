@@ -29,22 +29,6 @@ interface AlbumMapperInterface
     public function fetchAll();
 
     /**
-     * Inserts a record
-     * 
-     * @param array $data
-     * @return boolean
-     */
-    public function insert(array $data);
-
-    /**
-     * Updates a record
-     * 
-     * @param array $data
-     * @return boolean
-     */
-    public function update(array $data);
-
-    /**
      * Deletes an album by its associated id
      * 
      * @param string $id
@@ -71,16 +55,8 @@ interface AlbumMapperInterface
      * Fetches a record by its id
      * 
      * @param string $id
+     * @param boolean $withTranslations Whether to fetch translations or not
      * @return array
      */
-    public function fetchById($id);
-
-    /**
-     * Fetch all records filtered by pagination
-     * 
-     * @param integer $page Current page
-     * @param integer $itemsPerPage Items Per page count
-     * @return array
-     */
-    public function fetchAllByPage($page, $itemsPerPage);
+    public function fetchById($id, $withTranslations);
 }
