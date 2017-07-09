@@ -8,41 +8,35 @@ use Krystal\Form\Element;
 <form data-group="album">
 	<ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Album'); ?></a></li>
+        <li role="presentation"><a href="#configuration" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Configuration'); ?></a></li>
 	</ul>
-	
+
 	<div class="tab-content">
 		<div class="tab-pane fade in active" id="page" role="tabpanel">
 			<div class="well">
-                
+
                 <?php echo Element::hidden('album[id]', $album->getId()); ?>
                 <?php echo Element::hidden('album[web_page_id]', $album->getWebPageId()); ?>
                 <?php echo Element::hidden('web_page_id', $album->getWebPageId()); ?>
-                
-				<div class="form-group">
+
+                <div class="form-group">
 					<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
-					<div class="col-lg-10">
-						<div class="input-group">
+                    <div class="col-lg-10">
+                        <div class="input-group">
                             <?php echo Element::text('album[name]', $album->getName(), array('class' => 'form-control', 'data-input' => 'title', 'placeholder' => $this->translate("Photoalbum's name"))); ?>
-							<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 						</div>
 					</div>
 				</div>
-				
-				<div class="form-group">
-					<label class="col-lg-2 control-label"><?php $this->show('Parent album'); ?></label>
-					<div class="col-lg-10">
-                        <?php echo Element::select('album[parent_id]', $albums, $album->getParentId(), array('class' => 'form-control')); ?>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
-					<div class="col-lg-10">
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
+                    <div class="col-lg-10">
                         <?php echo Element::textarea('album[description]', $album->getDescription(), array('class' => 'form-control', 'data-wysiwyg' => 'true')); ?>
 					</div>
 				</div>
-				
-				<div class="options">
+
+                <div class="options">
 					<div class="form-group">
 						<label class="col-lg-2 control-label"><?php $this->show('Title'); ?></label>
 						<div class="col-lg-10">
@@ -52,18 +46,8 @@ use Krystal\Form\Element;
 							</div>
 						</div>
 					</div>
-					
-					<div class="form-group">
-						<label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
-						<div class="col-lg-10">
-							<div class="input-group">
-                                <?php echo Element::number('album[order]', $album->getOrder(), array('class' => 'form-control', 'min' => '0', 'placeholder' => $this->translate('Sort order of this album'))); ?>
-								<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-							</div>
-						</div>
-					</div>
-					
-					<div class="form-group">
+
+                    <div class="form-group">
 						<label class="col-lg-2 control-label"><?php $this->show('Slug'); ?></label>
 						<div class="col-lg-10">
 							<div class="input-group">
@@ -74,66 +58,88 @@ use Krystal\Form\Element;
 							</div>
 						</div>
 					</div>
-					
+
 					<div class="form-group">
 						<label class="col-lg-2 control-label"><?php $this->show('Keywords'); ?></label>
 						<div class="col-lg-10">
                             <?php echo Element::textarea('album[keywords]', $album->getKeywords(), array('class' => 'form-control', 'placeholder' => $this->translate('Keywords for search engines'))); ?>
 						</div>
 					</div>
-					
+
 					<div class="form-group">
 						<label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
 						<div class="col-lg-10">
                             <?php echo Element::textarea('album[meta_description]', $album->getMetaDescription(), array('class' => 'form-control', 'placeholder' => $this->translate('Meta description for search engines'))); ?>
 						</div>
 					</div>
-					
-					<div class="form-group">
-						<label class="col-lg-2 control-label"><?php $this->show('Enable SEO'); ?></label>
-						<div class="col-lg-10">
-                            <?php echo Element::checkbox('album[seo]', $album->getSeo(), array('class' => 'form-control')); ?>
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label class="col-lg-2 control-label"><?php $this->show('Сover'); ?></label>
-						<div class="col-lg-10">
-							<?php if ($album->hasCover()): ?>
-                            <p><img src="<?php echo $album->getImageBag()->getUrl('200x200'); ?>" /></p>
-
-							<p>
-								<label for="removeCover"><?php $this->show('Remove this cover'); ?>&nbsp;&nbsp;</label>
-								<input type="checkbox" id="removeCover" name="album[remove_cover]" data-toggle="tooltip" data-placement="left" title="<?php $this->show('Check it if you want to remove this cover'); ?>" />
-							</p>
-
-							<?php else: ?>
-                            <p><img data-image="preview" /></p>
-
-							<?php endif; ?>
-
-                            <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
-                            <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
-						</div>
-					</div>
 				</div>
 			</div>
-			
-			<?php if (!$album->getId()): ?>
-			
-			<button data-button="add" data-back-url="<?php echo $this->url('Photogallery:Admin:Album@editAction', null); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Album@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
-			<button data-button="add-create" data-url="<?php echo $this->url('Photogallery:Admin:Album@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Create new'); ?></button>
-			
-            <?php else: ?>
-			
-			<button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Album@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
-			<button data-button="save-create" data-back-url="<?php echo $this->url('Photogallery:Admin:Album@addAction'); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Album@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Create new'); ?></button>
-			
-            <?php endif; ?>
-			
-			<button data-button="options" class="btn btn-primary"><i class="glyphicon glyphicon-open"></i> <?php $this->show('More options'); ?></button>
-			<button data-button="cancel" data-url="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
-			
 		</div>
+        
+        <div role="tabpanel" class="tab-pane" id="configuration">
+            <div class="well">
+				<div class="form-group">
+					<label class="col-lg-2 control-label"><?php $this->show('Parent album'); ?></label>
+					<div class="col-lg-10">
+                        <?php echo Element::select('album[parent_id]', $albums, $album->getParentId(), array('class' => 'form-control')); ?>
+					</div>
+				</div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
+                    <div class="col-lg-10">
+                        <div class="input-group">
+                            <?php echo Element::number('album[order]', $album->getOrder(), array('class' => 'form-control', 'min' => '0', 'placeholder' => $this->translate('Sort order of this album'))); ?>
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Enable SEO'); ?></label>
+                    <div class="col-lg-10">
+                        <?php echo Element::checkbox('album[seo]', $album->getSeo(), array('class' => 'form-control')); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"><?php $this->show('Сover'); ?></label>
+                    <div class="col-lg-10">
+                        <?php if ($album->hasCover()): ?>
+                        <p><img src="<?php echo $album->getImageBag()->getUrl('200x200'); ?>" /></p>
+
+                        <p>
+                            <label for="removeCover"><?php $this->show('Remove this cover'); ?>&nbsp;&nbsp;</label>
+                            <input type="checkbox" id="removeCover" name="album[remove_cover]" data-toggle="tooltip" data-placement="left" title="<?php $this->show('Check it if you want to remove this cover'); ?>" />
+                        </p>
+
+                        <?php else: ?>
+                        <p><img data-image="preview" /></p>
+
+                        <?php endif; ?>
+
+                        <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
+                        <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
+                    </div>
+                </div>
+                
+            </div>
+        </div>      
 	</div>
+
+    <?php if (!$album->getId()): ?>
+
+    <button data-button="add" data-back-url="<?php echo $this->url('Photogallery:Admin:Album@editAction', null); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Album@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
+    <button data-button="add-create" data-url="<?php echo $this->url('Photogallery:Admin:Album@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Create new'); ?></button>
+
+    <?php else: ?>
+
+    <button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Album@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+    <button data-button="save-create" data-back-url="<?php echo $this->url('Photogallery:Admin:Album@addAction'); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Album@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Create new'); ?></button>
+
+    <?php endif; ?>
+
+    <button data-button="options" class="btn btn-primary"><i class="glyphicon glyphicon-open"></i> <?php $this->show('More options'); ?></button>
+    <button data-button="cancel" data-url="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
+
 </form>

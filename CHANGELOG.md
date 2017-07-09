@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Compact form in album form
  * Removed menu widget
  * Added shortcut in administration panel
  * Replaced `text` input with `textarea` for `keywords` attribute
