@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Removed internal `TaskManager` service
  * Compact form in album form
  * Removed menu widget
  * Added shortcut in administration panel

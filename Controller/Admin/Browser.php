@@ -67,8 +67,7 @@ final class Browser extends AbstractController
 
         return $this->view->render('browser', array(
             'albumId' => $albumId,
-            'taskManager' => $this->getModuleService('taskManager'),
-            'albums' => $this->getModuleService('albumManager')->getAlbumsTree(),
+            'albums' => $this->getModuleService('albumManager')->getAlbumsTree(true),
             'paginator' => $paginator,
             'photos' => $photos
         ));

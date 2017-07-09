@@ -29,9 +29,10 @@ interface AlbumManagerInterface
     /**
      * Returns albums tree
      * 
+     * @param boolean $all Whether to fetch as a pair or a collection
      * @return array
      */
-    public function getAlbumsTree();
+    public function getAlbumsTree($all);
 
     /**
      * Returns breadcrumbs

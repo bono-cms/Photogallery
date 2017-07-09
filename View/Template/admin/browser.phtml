@@ -113,22 +113,22 @@ use Krystal\Form\Element;
                     <th class="text-center"><?php $this->show('Actions'); ?></th>
                 </tr>
             </thead>
-            
+
             <?php if (!empty($albums)): ?>
             <tbody>
-                <?php foreach ($albums as $id => $title): ?>
-                <tr <?php HtmlHelper::addClassOnDemand(isset($albumId) && $albumId == $id, 'info'); ?>>
-                    <td class="text-center text-muted"><?php echo $id; ?></td>
+                <?php foreach ($albums as $album): ?>
+                <tr <?php HtmlHelper::addClassOnDemand(isset($albumId) && $albumId == $album['id'], 'info'); ?>>
+                    <td class="text-center text-muted"><?php echo $album['id']; ?></td>
                     <td>
-                        <a href="<?php echo $this->url('Photogallery:Admin:Browser@albumAction', $id); ?>">
-                            <?php HtmlHelper::wrapOnDemand(isset($albumId) && $albumId == $id, 'strong', $title); ?>
+                        <a href="<?php echo $this->url('Photogallery:Admin:Browser@albumAction', $album['id']); ?>">
+                            <?php HtmlHelper::wrapOnDemand(isset($albumId) && $album['id'] == $albumId, 'strong', $album['name']); ?>
                         </a>
                     </td>
-                    <td class="text-center"><?php echo $taskManager->getCountByAlbumId($id); ?></td>
+                    <td class="text-center"><?php echo $album['photos_count']; ?></td>
                     <td class="text-center">
-                        <a data-button="view" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('View this album on site'); ?>" target="_blank" href="<?php echo $taskManager->fetchByAlbumId($id)->getUrl(); ?>"><i class="glyphicon glyphicon-search"></i></a>
-                        <a data-button="edit" href="<?php echo $this->url('Photogallery:Admin:Album@editAction', $id); ?>" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit the album'); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
-                        <a data-button="delete" data-url="<?php echo $this->url('Photogallery:Admin:Album@deleteAction', $id); ?>" href="#" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove the album'); ?>"><i class="glyphicon glyphicon-remove"></i></a>
+                        <a data-button="view" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('View this album on site'); ?>" target="_blank" href="<?php echo $album['url']; ?>"><i class="glyphicon glyphicon-search"></i></a>
+                        <a data-button="edit" href="<?php echo $this->url('Photogallery:Admin:Album@editAction', $album['id']); ?>" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Edit the album'); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
+                        <a data-button="delete" data-url="<?php echo $this->url('Photogallery:Admin:Album@deleteAction', $album['id']); ?>" href="#" data-toggle="tooltip" data-placement="left" data-original-title="<?php $this->show('Remove the album'); ?>"><i class="glyphicon glyphicon-remove"></i></a>
                     </td>
                 </tr>
                 <?php endforeach; ?>
@@ -142,5 +142,4 @@ use Krystal\Form\Element;
         </div>
         <?php endif; ?>
     </div>
-
 </div>

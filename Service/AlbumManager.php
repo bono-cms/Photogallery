@@ -21,7 +21,7 @@ use Krystal\Image\Tool\ImageManagerInterface;
 use Krystal\Security\Filter;
 use Krystal\Tree\AdjacencyList\TreeBuilder;
 use Krystal\Tree\AdjacencyList\BreadcrumbBuilder;
-use Krystal\Tree\AdjacencyList\Render\PhpArray;
+use Krystal\Tree\AdjacencyList\Render;
 
 final class AlbumManager extends AbstractManager implements AlbumManagerInterface
 {
@@ -102,7 +102,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
      */
     public function getPromtWithAlbumsTree($text)
     {
-        $tree = $this->getAlbumsTree();
+        $tree = $this->getAlbumsTree(false);
         ArrayUtils::assocPrepend($tree, null, $text);
 
         return $tree;
@@ -111,12 +111,28 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
     /**
      * Returns albums tree
      * 
+     * @param boolean $all Whether to fetch as a pair or a collection
      * @return array
      */
-    public function getAlbumsTree()
+    public function getAlbumsTree($all)
     {
-        $treeBuilder = new TreeBuilder($this->fetchAll());
-        return $treeBuilder->render(new PhpArray('name'));
+        $rows = $this->albumMapper->fetchAll();
+
+        $treeBuilder = new TreeBuilder($rows);
+
+        if ($all == true) {
+            $rows = $treeBuilder->render(new Render\Merge('name'));
+
+            // @TODO XSS filtering
+            foreach ($rows as $index => $row) {
+                // Append new "url" key
+                $rows[$index]['url'] = $this->webPageManager->surround($row['slug'], $row['lang_id']);
+            }
+
+            return $rows;
+        } else {
+            return $treeBuilder->render(new Render\PhpArray('name'));
+        }
     }
 
     /**

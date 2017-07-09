@@ -16,7 +16,6 @@ use Krystal\Image\Tool\ImageManager;
 use Krystal\Stdlib\VirtualEntity;
 use Photogallery\Service\AlbumManager;
 use Photogallery\Service\PhotoManager;
-use Photogallery\Service\TaskManager;
 use Photogallery\Service\SiteService;
 
 final class Module extends AbstractCmsModule
@@ -117,7 +116,6 @@ final class Module extends AbstractCmsModule
         return array(
             'siteService' => new SiteService($photoManager, $albumManager),
             'configManager' => $config,
-            'taskManager' => new TaskManager($photoMapper, $albumManager),
             'photoManager' => $photoManager,
             'albumManager' => $albumManager
         );
