@@ -48,7 +48,6 @@ final class Album extends AbstractController
     private function createForm(VirtualEntity $album, $title)
     {
         // Load view plugins
-        $this->loadMenuWidget();
         $this->view->getPluginBag()->load($this->getWysiwygPluginName());
 
         // Append breadcrumbs

@@ -8,7 +8,6 @@ use Krystal\Form\Element;
 <form data-group="album">
 	<ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#page" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-file"></i> <?php $this->show('Album'); ?></a></li>
-        <li role="presentation"><a href="#menu" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-list"></i> <?php $this->show('Item in menu'); ?></a></li>
 	</ul>
 	
 	<div class="tab-content">
@@ -135,10 +134,6 @@ use Krystal\Form\Element;
 			<button data-button="options" class="btn btn-primary"><i class="glyphicon glyphicon-open"></i> <?php $this->show('More options'); ?></button>
 			<button data-button="cancel" data-url="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
 			
-		</div>
-		
-		<div class="tab-pane fade" id="menu" role="tabpanel">
-			<?php $this->loadPartial('menu-widget'); ?>
 		</div>
 	</div>
 </form>

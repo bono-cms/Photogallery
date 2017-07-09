@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Removed menu widget
  * Added shortcut in administration panel
  * Replaced `text` input with `textarea` for `keywords` attribute
  * Fixed issue with quote escaping

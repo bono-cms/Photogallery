@@ -16,8 +16,6 @@ use Photogallery\Storage\PhotoMapperInterface;
 use Cms\Service\HistoryManagerInterface;
 use Cms\Service\AbstractManager;
 use Cms\Service\WebPageManagerInterface;
-use Menu\Contract\MenuAwareManager;
-use Menu\Service\MenuWidgetInterface;
 use Krystal\Stdlib\ArrayUtils;
 use Krystal\Image\Tool\ImageManagerInterface;
 use Krystal\Security\Filter;
@@ -25,7 +23,7 @@ use Krystal\Tree\AdjacencyList\TreeBuilder;
 use Krystal\Tree\AdjacencyList\BreadcrumbBuilder;
 use Krystal\Tree\AdjacencyList\Render\PhpArray;
 
-final class AlbumManager extends AbstractManager implements AlbumManagerInterface, MenuAwareManager
+final class AlbumManager extends AbstractManager implements AlbumManagerInterface
 {
     /**
      * Any-compliant album mapper
@@ -86,8 +84,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
         ImageManagerInterface $albumPhoto,
         ImageManagerInterface $imageManager, 
         WebPageManagerInterface $webPageManager, 
-        HistoryManagerInterface $historyManager,
-        MenuWidgetInterface $menuWidget = null
+        HistoryManagerInterface $historyManager
     ){
         $this->albumMapper = $albumMapper;
         $this->photoMapper = $photoMapper;
@@ -95,7 +92,6 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
         $this->imageManager = $imageManager;
         $this->webPageManager = $webPageManager;
         $this->historyManager = $historyManager;
-        $this->setMenuWidget($menuWidget);
     }
 
     /**

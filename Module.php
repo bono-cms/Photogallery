@@ -109,8 +109,7 @@ final class Module extends AbstractCmsModule
             $this->getAlbumImageManager($config->getEntity()), 
             $imageManager, 
             $webPageManager, 
-            $historyManager, 
-            $this->getMenuWidget()
+            $historyManager
         );
 
         $photoManager = new PhotoManager($photoMapper, $albumMapper, $imageManager, $historyManager);
