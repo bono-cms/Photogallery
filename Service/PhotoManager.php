@@ -180,14 +180,7 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
      */
     private function prepareInput(array $input)
     {
-        $data =& $input['data']['photo'];
         $file =& $input['files']['file'];
-
-        // Empty photo name should be replace by target filename
-        if (empty($data['name'])) {
-            $data['name'] = pathinfo($file[0]->getName(), \PATHINFO_FILENAME);
-        }
-
         $this->filterFileInput($file);
 
         return $input;
