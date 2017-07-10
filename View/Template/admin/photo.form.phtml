@@ -1,7 +1,8 @@
-<?php defined('KRYSTAL') or die; ?>
 <?php
 
 use Krystal\Form\Element;
+use Cms\Service\LanguageManager;
+defined('KRYSTAL') or die;
 
 ?>
 
@@ -10,35 +11,89 @@ use Krystal\Form\Element;
 <form data-group="photo">
 
 	<ul class="nav nav-tabs" role="tablist">
-		<li role="presentation" class="active"><a href="#image" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Image'); ?></a></li>
-		<li role="presentation"><a href="#options" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Options'); ?></a></li>
+		<li role="presentation" class="active"><a href="#options" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Options'); ?></a></li>
+		<li role="presentation"><a href="#image" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Image'); ?></a></li>
 	</ul>
-	
-	
-	<div class="tab-content">
-		<div role="tabpanel" class="tab-pane fade in active" id="image" role="tabpanel">
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="options" role="tabpanel">
+            <div class="well">
+                <?php if (count($languages) > 1): ?>
+                <ul class="nav nav-tabs" role="tablist">
+                    <?php foreach ($languages as $index => $language): ?>
+                    <li role="presentation" class="<?php echo $index == 0 ? 'active' : null; ?>"><a href="<?php printf('#language-%s', $language->getId()); ?>" role="tab" data-toggle="tab"><i class="<?php printf('famfamfam-flag-%s', $language->getFlag()); ?>"></i> <?php echo $language->getName(); ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+                <?php endif; ?>
+
+                <br />
+
+                <div class="tab-content">
+                    <?php foreach ($languages as $index => $language): ?>
+                    <div class="tab-pane fade in <?php echo $index == 0 ? 'active' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                        <?php $entity = LanguageManager::findByLangId($language->getId(), $photo); ?>
+
+                        <?php echo Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                        <?php echo Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+
+                        <h2 class="text-muted"><?php echo $language->getName(); ?></h2>
+                        <br />
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+                            <div class="col-lg-10">
+                                <div class="input-group">
+                                    <?php echo Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Name of the photo to be added'))); ?>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
+                            <div class="col-lg-10">
+                                <div class="input-group">
+                                    <?php echo Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('class' => 'form-control', 'placeholder' => $this->translate('Description. Can be used as a hint when mouse overs'))); ?>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+			</div>
+		</div>
+
+		<div role="tabpanel" class="tab-pane fade" id="image" role="tabpanel">
 			<div class="well">
-				
-                <?php echo Element::hidden('photo[id]', $photo->getId()); ?>
-                <?php echo Element::hidden('photo[photo]', $photo->getPhoto()); ?>
-                
+
+                <?php echo Element::hidden('photo[id]', $entity->getId()); ?>
+                <?php echo Element::hidden('photo[photo]', $entity->getPhoto()); ?>
+
 				<div class="form-group">
-					<label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+					<label class="col-lg-2 control-label"><?php $this->show('Album'); ?></label>
+					<div class="col-lg-10">
+                        <?php echo Element::select('photo[album_id]', $albums, $entity->getAlbumId(), array('class' => 'form-control')); ?>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
 					<div class="col-lg-10">
 						<div class="input-group">
-                            <?php echo Element::text('photo[name]', $photo->getName(), array('class' => 'form-control', 'placeholder' => $this->translate('Name of the photo to be added'))); ?>
+                            <?php echo Element::number('photo[order]', $entity->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate('Order of this photo in selected album'))); ?>
 							<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
 						</div>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
-					<label class="col-lg-2 control-label"><?php $this->show('Album'); ?></label>
+					<label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
 					<div class="col-lg-10">
-                        <?php echo Element::select('photo[album_id]', $albums, $photo->getAlbumId(), array('class' => 'form-control')); ?>
+						<?php echo Element::checkbox('photo[published]', $entity->getPublished(), array('class' => 'form-control')); ?>
 					</div>
 				</div>
-				
+
 				<div class="form-group">
 					
 					<br />
@@ -46,11 +101,11 @@ use Krystal\Form\Element;
 					<label class="col-lg-2 control-label"><?php $this->show('Photo file'); ?></label>
 					<div class="col-lg-10">
 						
-						<?php if (!$photo->getPhoto()): ?>
+						<?php if (!$entity->getPhoto()): ?>
                         <p><img data-image="preview" /></p>
 						
 						<?php else: ?>
-                        <p><img class="img-responsive" src="<?php echo $photo->getImageBag()->getUrl('400x200'); ?>" data-zoom-image="<?php echo $photo->getImageBag()->getUrl('original'); ?>" /></p>
+                        <p><img class="img-responsive" src="<?php echo $entity->getImageBag()->getUrl('400x200'); ?>" data-zoom-image="<?php echo $entity->getImageBag()->getUrl('original'); ?>" /></p>
 						<?php endif; ?>
 						
                         <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
@@ -59,56 +114,23 @@ use Krystal\Form\Element;
 					
 					<br />
 				</div>
-				
-			</div>
-		</div>
-		
-		
-		<div role="tabpanel" class="tab-pane fade" id="options" role="tabpanel">
-			<div class="well">
-				<div class="form-group">
-					<label class="col-lg-2 control-label"><?php $this->show('Published'); ?></label>
-					<div class="col-lg-10">
-						<?php echo Element::checkbox('photo[published]', $photo->getPublished(), array('class' => 'form-control')); ?>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-lg-2 control-label"><?php $this->show('Order'); ?></label>
-					<div class="col-lg-10">
-						<div class="input-group">
-                            <?php echo Element::number('photo[order]', $photo->getOrder(), array('class' => 'form-control', 'placeholder' => $this->translate('Order of this photo in selected album'))); ?>
-							<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
-					<div class="col-lg-10">
-						<div class="input-group">
-                            <?php echo Element::textarea('photo[description]', $photo->getDescription(), array('class' => 'form-control', 'placeholder' => $this->translate('Description. Can be used as a hint when mouse overs'))); ?>
-							<span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
 
-	<?php if (!$photo->getId()): ?>
+    <?php if ($new): ?>
 
-	<button data-button="add" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo@editAction', null); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
+    <button data-button="add" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo@editAction', null); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
 	<button data-button="add-create" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Upload new'); ?></button>
 
-	<?php else: ?>
+    <?php else: ?>
 
-	<button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
+    <button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
 	<button data-button="save-create" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo@addAction'); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Upload new'); ?></button>
 
-	<?php endif; ?>
+    <?php endif; ?>
 
-	<button data-button="cancel" data-url="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
+    <button data-button="cancel" data-url="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
 </form>
 
 <?php else: ?>

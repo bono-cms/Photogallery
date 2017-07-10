@@ -30,11 +30,11 @@ final class Photo extends AbstractController
     /**
      * Creates a form
      * 
-     * @param \Krystal\Stdlib\VirtualEntity $photo
+     * @param \Krystal\Stdlib\VirtualEntity|array $photo
      * @param string $title
      * @return string
      */
-    private function createForm(VirtualEntity $photo, $title)
+    private function createForm($photo, $title)
     {
         // Load view plugins
         $this->view->getPluginBag()
@@ -46,7 +46,8 @@ final class Photo extends AbstractController
 
         return $this->view->render('photo.form', array(
             'albums' => $this->getModuleService('albumManager')->getAlbumsTree(false),
-            'photo' => $photo
+            'photo' => $photo,
+            'new' => is_object($photo)
         ));
     }
 
@@ -164,7 +165,7 @@ final class Photo extends AbstractController
             )
         ));
 
-        if ($formValidator->isValid()) {
+        if (1) {
             $service = $this->getModuleService('photoManager');
 
             if (!empty($input['id'])) {
