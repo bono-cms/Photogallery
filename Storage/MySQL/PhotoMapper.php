@@ -26,6 +26,34 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public static function getTranslationTable()
+    {
+        return self::getWithPrefix('bono_module_photoalbum_photos_translations');
+    }
+
+    /**
+     * Returns a collection of shared columns
+     * 
+     * @return array
+     */
+    private function getSharedColumns()
+    {
+        return array(
+            self::getFullColumnName('lang_id', self::getTranslationTable()),
+            self::getFullColumnName('name', self::getTranslationTable()),
+            self::getFullColumnName('description', self::getTranslationTable()),
+            self::getFullColumnName('date'),
+            self::getFullColumnName('published'),
+            self::getFullColumnName('order'),
+            self::getFullColumnName('photo'),
+            self::getFullColumnName('album_id'),
+            self::getFullColumnName('id')
+        );
+    }
+
+    /**
      * Returns shared select
      * 
      * @param boolean $published Whether to filter by published records only
@@ -34,19 +62,55 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      */
     private function getSelectQuery($published, $albumId = null)
     {
-        $db = $this->db->select('*')
-                       ->from(static::getTableName())
-                       ->whereEquals('lang_id', $this->getLangId());
+        // Columns to be selected
+        $columns = array_merge(
+            $this->getSharedColumns(), 
+            array(AlbumMapper::getFullColumnName('name', AlbumMapper::getTranslationTable()) => 'album')
+        );
+
+        $db = $this->db->select($columns)
+                       ->from(self::getTableName())
+                       // Translation relation
+                       ->innerJoin(self::getTranslationTable())
+                       ->on()
+                       ->equals(
+                            self::getFullColumnName('id', self::getTranslationTable()),
+                            new RawSqlFragment(self::getFullColumnName('id'))
+                        )
+                        // Category translation
+                        ->innerJoin(AlbumMapper::getTranslationTable())
+                        ->on()
+                        ->equals(
+                            self::getFullColumnName('album_id'),
+                            new RawSqlFragment(AlbumMapper::getFullColumnName('id', AlbumMapper::getTranslationTable()))
+                        )
+                        ->rawAnd()
+                        ->equals(
+                            AlbumMapper::getFullColumnName('lang_id', AlbumMapper::getTranslationTable()),
+                            new RawSqlFragment(self::getFullColumnName('lang_id', self::getTranslationTable()))
+                        )
+                        // Category relation
+                        ->innerJoin(AlbumMapper::getTableName())
+                        ->on()
+                        ->equals(
+                            AlbumMapper::getFullColumnName('id'),
+                            new RawSqlFragment(AlbumMapper::getFullColumnName('id', AlbumMapper::getTranslationTable()))
+                        )
+                        // Filtering condition
+                        ->whereEquals(
+                            self::getFullColumnName('lang_id', self::getTranslationTable()), 
+                            $this->getLangId()
+                        );
 
         if ($albumId !== null) {
             $db->andWhereEquals('album_id', $albumId);
         }
 
         if ($published === true) {
-            $db->andWhereEquals('published', '1')
+            $db->andWhereEquals(self::getFullColumnName('published'), '1')
                ->orderBy(new RawSqlFragment('`order`, CASE WHEN `order` = 0 THEN `id` END DESC'));
         } else {
-            $db->orderBy('id')
+            $db->orderBy(self::getFullColumnName('id'))
                ->desc();
         }
 
@@ -61,7 +125,6 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      */
     public function fetchNameById($id)
     {
-        return $this->findColumnByPk($id, 'name');
     }
 
     /**
@@ -73,54 +136,6 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     public function deleteAllByAlbumId($albumId)
     {
         return $this->deleteByColumn('album_id', $albumId);
-    }
-
-    /**
-     * Deletes a photo by its associated id
-     * 
-     * @param string $id
-     * @return boolean
-     */
-    public function deleteById($id)
-    {
-        return $this->deleteByPk($id);
-    }
-
-    /**
-     * Adds a photo
-     * 
-     * @param array $input Raw input data
-     * @return boolean
-     */
-    public function insert(array $input)
-    {
-        return $this->persist($this->getWithLang($input));
-    }
-
-    /**
-     * Updates a photo
-     * 
-     * @param array $input Raw input data
-     * @return boolean
-     */
-    public function update(array $input)
-    {
-        return $this->persist($input);
-    }
-
-    /**
-     * Count amount of records associated with category id
-     * 
-     * @param string $albumId
-     * @return integer
-     */
-    public function countAllByAlbumId($albumId)
-    {
-        return $this->db->select()
-                        ->count('id', 'count')
-                        ->from(static::getTableName())
-                        ->whereEquals('album_id', $albumId)
-                        ->query('count');
     }
 
     /**
@@ -145,7 +160,7 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      */
     public function fetchById($id)
     {
-        return $this->findByPk($id);
+        return $this->findEntity($this->getSharedColumns(), $id, true);
     }
 
     /**

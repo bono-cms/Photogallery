@@ -30,38 +30,6 @@ interface PhotoMapperInterface
     public function deleteAllByAlbumId($albumId);
 
     /**
-     * Updates a record
-     * 
-     * @param array $data
-     * @return boolean
-     */
-    public function update(array $data);
-
-    /**
-     * Inserts a record
-     * 
-     * @param array $data
-     * @return boolean
-     */
-    public function insert(array $data);
-
-    /**
-     * Deletes a photo by its associated id
-     * 
-     * @param string $id
-     * @return boolean
-     */
-    public function deleteById($id);
-
-    /**
-     * Count amount of records associated with category id
-     * 
-     * @param string $albumId
-     * @return integer
-     */
-    public function countAllByAlbumId($albumId);
-
-    /**
      * Fetches photo ids by associated album id
      * 
      * @param string $albumId

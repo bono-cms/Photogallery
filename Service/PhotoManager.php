@@ -81,9 +81,10 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
         $entity = new PhotoEntity();
         $entity->setImageBag($imageBag)
                  ->setId($photo['id'], PhotoEntity::FILTER_INT)
+                 ->setLangId($photo['lang_id'], PhotoEntity::FILTER_INT)
                  ->setName($photo['name'], PhotoEntity::FILTER_HTML)
                  ->setAlbumId($photo['album_id'], PhotoEntity::FILTER_INT)
-                 ->setAlbumName($this->albumMapper->fetchNameById($photo['album_id']), PhotoEntity::FILTER_HTML)
+                 ->setAlbumName(isset($photo['album']) ? $photo['album'] : null, PhotoEntity::FILTER_HTML)
                  ->setPhoto($photo['photo'], PhotoEntity::FILTER_HTML)
                  ->setDescription($photo['description'], PhotoEntity::FILTER_HTML)
                  ->setOrder($photo['order'], PhotoEntity::FILTER_INT)
@@ -135,7 +136,7 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
      */
     private function delete($id)
     {
-        return $this->imageManager->delete($id) && $this->photoMapper->deleteById($id);
+        return $this->imageManager->delete($id) && $this->photoMapper->deleteEntity($id);
     }
 
     /**
@@ -164,10 +165,10 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
      */
     public function deleteById($id)
     {
-        $name = Filter::escape($this->photoMapper->fetchNameById($id));
+        #$name = Filter::escape($this->photoMapper->fetchNameById($id));
 
         if ($this->delete($id)) {
-            $this->track('The photo "%s" has been removed', $name);
+            #$this->track('The photo "%s" has been removed', $name);
             return true;
         } else {
             return false;
@@ -227,14 +228,16 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
 
         $data =& $input['data']['photo'];
         $file =& $input['files']['file'];
+        $translations =& $input['data']['translation'];
 
         $data['photo'] = $file[0]->getName();
         $data['date'] = time();
 
-        $this->track('A new photo "%s" has been uploaded', $data['name']);
+        #$this->track('A new photo "%s" has been uploaded', $data['name']);
+        $this->photoMapper->saveEntity($data, $translations);
 
         // Insert must be first, so that we can get the last id
-        return $this->photoMapper->insert($data) && $this->imageManager->upload($this->getLastId(), $file);
+        return $this->imageManager->upload($this->getLastId(), $file);
     }
 
     /**
@@ -246,6 +249,7 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
     public function update(array $input)
     {
         $data =& $input['data']['photo'];
+        $translations =& $input['data']['translation'];
 
         // Upload a photo if present and override it
         if (!empty($input['files'])) {
@@ -263,8 +267,8 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
             }
         }
 
-        $this->track('The photo "%s" has been updated', $data['name']);
-        return $this->photoMapper->update($data);
+        #$this->track('The photo "%s" has been updated', $data['name']);
+        return $this->photoMapper->saveEntity($data, $translations);
     }
 
     /**
@@ -275,7 +279,7 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
      */
     public function fetchById($id)
     {
-        return $this->prepareResult($this->photoMapper->fetchById($id));
+        return $this->prepareResults($this->photoMapper->fetchById($id));
     }
 
     /**
