@@ -36,21 +36,6 @@ use Krystal\Form\Element;
 						<span class="help-block"><?php $this->show('Quality for saved images. 100 - best quality, 50 - medium, 20 or lower - worst'); ?></span>
 					</div>
 				</div>
-				
-				<?php if ($extendedMode): ?>
-				
-				<div class="form-group">
-					<label class="col-lg-2 control-label"><?php $this->show("Language support"); ?></label>
-					<div class="col-lg-10">
-                        <?php echo Element::select('config[language_support]', $this->translateArray($config->getLanguageSupportOptions()), $config->getLanguageSupport(), array('class' => 'form-control')); ?>
-					</div>
-				</div>
-				
-				<?php else: ?>
-				
-                <?php echo Element::hidden('config[language_support]', $config->getLanguageSupport()); ?>
-				
-				<?php endif; ?>
 			</div>
 		</div>
 		<!--/Common-->

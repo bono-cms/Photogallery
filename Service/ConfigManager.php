@@ -30,11 +30,7 @@ final class ConfigManager extends ConfigModuleService
                ->setQuality($this->get('quality', 75), VirtualEntity::FILTER_FLOAT)
                ->setLanguageSupport($this->get('language_support'), VirtualEntity::FILTER_BOOL)
                ->setAlbumThumbWidth($this->get('album_thumb_width', 200), VirtualEntity::FILTER_FLOAT)
-               ->setAlbumThumbHeight($this->get('album_thumb_height', 200), VirtualEntity::FILTER_FLOAT)
-               ->setLanguageSupportOptions(array(
-                    '0' => 'One photogallery version for all languages',
-                    '1' => 'Each language must have its own photogallery version',
-                ));
+               ->setAlbumThumbHeight($this->get('album_thumb_height', 200), VirtualEntity::FILTER_FLOAT);
 
         return $entity;
     }
