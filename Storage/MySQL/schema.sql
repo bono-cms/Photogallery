@@ -26,15 +26,22 @@ CREATE TABLE `bono_module_photoalbum_albums_translations` (
 
 DROP TABLE IF EXISTS `bono_module_photoalbum_photos`;
 CREATE TABLE `bono_module_photoalbum_photos` (
-	
+
 	`id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-	`lang_id` INT NOT NULL,
 	`album_id` INT NOT NULL,
-	`name` varchar(254) NOT NULL,
 	`photo` varchar(254) NOT NULL,
 	`order` INT NOT NULL COMMENT 'Sort order',
-	`description` TEXT NOT NULL,
 	`published` varchar(1) NOT NULL,
 	`date` INT NOT NULL COMMENT 'Timestamp of uploading'
-	
+
+) DEFAULT CHARSET = UTF8;
+
+DROP TABLE IF EXISTS `bono_module_photoalbum_photos_translations`;
+CREATE TABLE `bono_module_photoalbum_photos_translations` (
+
+    `id` INT NOT NULL,
+	`lang_id` INT NOT NULL,
+	`name` varchar(254) NOT NULL,
+	`description` TEXT NOT NULL,
+
 ) DEFAULT CHARSET = UTF8;
