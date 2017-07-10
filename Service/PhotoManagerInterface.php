@@ -17,20 +17,12 @@ namespace Photogallery\Service;
 interface PhotoManagerInterface
 {
     /**
-     * Updates published state by their associated ids
+     * Update settings
      * 
-     * @param array $pair
+     * @param array $settings
      * @return boolean
      */
-    public function updatePublished(array $pair);
-
-    /**
-     * Update orders by their associated ids
-     * 
-     * @param array $pair
-     * @return boolean
-     */
-    public function updateOrders(array $pair);
+    public function updateSettings(array $settings);
 
     /**
      * Removes photos by their associated ids

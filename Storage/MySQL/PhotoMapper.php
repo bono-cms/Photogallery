@@ -164,27 +164,14 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     }
 
     /**
-     * Updates published state by its associated ids
+     * Update settings
      * 
-     * @param string $id
-     * @param string $published
+     * @param array $settings
      * @return boolean
      */
-    public function updatePublishedById($id, $published)
+    public function updateSettings(array $settings)
     {
-        return $this->updateColumnByPk($id, 'published', $published);
-    }
-
-    /**
-     * Updates an order by its associated id
-     * 
-     * @param string $id
-     * @param integer $order
-     * @return boolean
-     */
-    public function updateOrderById($id, $order)
-    {
-        return $this->updateColumnByPk($id, 'order', $order);
+        return $this->updateColumns($settings, array('order', 'published'));
     }
 
     /**

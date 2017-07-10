@@ -96,13 +96,7 @@ final class Photo extends AbstractController
     public function tweakAction()
     {
         if ($this->request->hasPost('published', 'order')) {
-            $published = $this->request->getPost('published');
-            $orders = $this->request->getPost('order');
-
-            // Grab a service
-            $photoManager = $this->getPhotoManager();
-
-            if ($photoManager->updatePublished($published) && $photoManager->updateOrders($orders)) {
+            if ($this->getPhotoManager()->updateSettings($this->request->getPost())) {
                 $this->flashBag->set('success', 'Settings have been updated successfully');
                 return '1';
             }

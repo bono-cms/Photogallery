@@ -46,22 +46,12 @@ interface PhotoMapperInterface
     public function fetchById($id);
 
     /**
-     * Updates published state by its associated ids
+     * Update settings
      * 
-     * @param string $id
-     * @param string $published
+     * @param array $settings
      * @return boolean
      */
-    public function updatePublishedById($id, $published);
-
-    /**
-     * Updates an order by its associated id
-     * 
-     * @param string $id
-     * @param integer $order
-     * @return boolean
-     */
-    public function updateOrderById($id, $order);
+    public function updateSettings(array $settings);
 
     /**
      * Fetch all records filter by pagination
