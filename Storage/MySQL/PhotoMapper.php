@@ -108,7 +108,12 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
 
         if ($published === true) {
             $db->andWhereEquals(self::getFullColumnName('published'), '1')
-               ->orderBy(new RawSqlFragment('`order`, CASE WHEN `order` = 0 THEN `id` END DESC'));
+               ->orderBy(
+                new RawSqlFragment(sprintf('%s, CASE WHEN %s = 0 THEN %s END DESC', 
+                    self::getFullColumnName('order'), 
+                    self::getFullColumnName('order'), 
+                    self::getFullColumnName('id')))
+                );
         } else {
             $db->orderBy(self::getFullColumnName('id'))
                ->desc();
