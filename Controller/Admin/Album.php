@@ -56,8 +56,7 @@ final class Album extends AbstractController
 
         return $this->view->render('album.form', array(
             'albums' => $this->getAlbumsTree(),
-            'album' => $album,
-            'new' => is_object($album)
+            'album' => $album
         ));
     }
 

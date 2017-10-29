@@ -46,8 +46,7 @@ final class Photo extends AbstractController
 
         return $this->view->render('photo.form', array(
             'albums' => $this->getModuleService('albumManager')->getAlbumsTree(false),
-            'photo' => $photo,
-            'new' => is_object($photo)
+            'photo' => $photo
         ));
     }
 
