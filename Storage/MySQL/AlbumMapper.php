@@ -44,23 +44,23 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
     {
         // Basic columns to be selected
         $columns = array(
-            self::getFullColumnName('id'),
-            self::getFullColumnName('parent_id'),
-            self::getFullColumnName('web_page_id', self::getTranslationTable()),
-            self::getFullColumnName('lang_id', self::getTranslationTable()),
-            self::getFullColumnName('name', self::getTranslationTable()),
-            self::getFullColumnName('seo'),
-            self::getFullColumnName('cover'),
-            self::getFullColumnName('order'),
-            WebPageMapper::getFullColumnName('slug'),
+            self::column('id'),
+            self::column('parent_id'),
+            self::column('web_page_id', self::getTranslationTable()),
+            self::column('lang_id', self::getTranslationTable()),
+            self::column('name', self::getTranslationTable()),
+            self::column('seo'),
+            self::column('cover'),
+            self::column('order'),
+            WebPageMapper::column('slug'),
         );
 
         if ($all) {
             $columns = array_merge($columns, array(
-                self::getFullColumnName('title', self::getTranslationTable()),
-                self::getFullColumnName('description', self::getTranslationTable()),
-                self::getFullColumnName('keywords', self::getTranslationTable()),
-                self::getFullColumnName('meta_description', self::getTranslationTable()),
+                self::column('title', self::getTranslationTable()),
+                self::column('description', self::getTranslationTable()),
+                self::column('keywords', self::getTranslationTable()),
+                self::column('meta_description', self::getTranslationTable()),
             ));
         }
 
@@ -80,23 +80,23 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
                         ->innerJoin(self::getTranslationTable())
                         ->on()
                         ->equals(
-                            self::getFullColumnName('id', self::getTranslationTable()), 
-                            new RawSqlFragment(self::getFullColumnName('id'))
+                            self::column('id', self::getTranslationTable()), 
+                            new RawSqlFragment(self::column('id'))
                         )
                         // Web page relation
                         ->innerJoin(WebPageMapper::getTableName())
                         ->on()
                         ->equals(
-                            WebPageMapper::getFullColumnName('id'),
-                            new RawSqlFragment(self::getFullColumnName('web_page_id', self::getTranslationTable()))
+                            WebPageMapper::column('id'),
+                            new RawSqlFragment(self::column('web_page_id', self::getTranslationTable()))
                         )
                         ->rawAnd()
                         ->equals(
-                            WebPageMapper::getFullColumnName('lang_id'),
-                            new RawSqlFragment(self::getFullColumnName('lang_id', self::getTranslationTable()))
+                            WebPageMapper::column('lang_id'),
+                            new RawSqlFragment(self::column('lang_id', self::getTranslationTable()))
                         )
                         // Filtering condition
-                        ->whereEquals(self::getFullColumnName('lang_id', self::getTranslationTable()), $this->getLangId())
+                        ->whereEquals(self::column('lang_id', self::getTranslationTable()), $this->getLangId())
                         ->queryAll();
     }
 
@@ -110,8 +110,8 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
     {
         return $this->createWebPageSelect($this->getSharedColumns(true))
                     // Filtering condition
-                    ->whereEquals(self::getFullColumnName('parent_id'), $parentId)
-                    ->andWhereEquals(self::getFullColumnName('lang_id', self::getTranslationTable()), $this->getLangId())
+                    ->whereEquals(self::column('parent_id'), $parentId)
+                    ->andWhereEquals(self::column('lang_id', self::getTranslationTable()), $this->getLangId())
                     ->queryAll();
     }
 
@@ -143,43 +143,43 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
         $columns = $this->getSharedColumns($needsPagination);
 
         $db = $this->db->select($columns)
-                        ->count(PhotoMapper::getFullColumnName('id'), 'photos_count')
+                        ->count(PhotoMapper::column('id'), 'photos_count')
                         ->from(self::getTableName())
 
                         // Album relation
                         ->leftJoin(PhotoMapper::getTableName())
                         ->on()
                         ->equals(
-                            self::getFullColumnName('id'), 
-                            new RawSqlFragment(PhotoMapper::getFullColumnName('album_id'))
+                            self::column('id'), 
+                            new RawSqlFragment(PhotoMapper::column('album_id'))
                         )
                         // Translation relation
                         ->innerJoin(self::getTranslationTable())
                         ->on()
                         ->equals(
-                            self::getFullColumnName('id', self::getTranslationTable()),
-                            new RawSqlFragment(self::getFullColumnName('id'))
+                            self::column('id', self::getTranslationTable()),
+                            new RawSqlFragment(self::column('id'))
                         )
                         ->rawAnd()
                         ->equals(
-                            self::getFullColumnName('lang_id', self::getTranslationTable()),
+                            self::column('lang_id', self::getTranslationTable()),
                             $this->getLangId()
                         )
                         // Web page relation
                         ->innerJoin(WebPageMapper::getTableName())
                         ->on()
                         ->equals(
-                            WebPageMapper::getFullColumnName('id'),
-                            new RawSqlFragment(self::getFullColumnName('web_page_id', self::getTranslationTable()))
+                            WebPageMapper::column('id'),
+                            new RawSqlFragment(self::column('web_page_id', self::getTranslationTable()))
                         )
                         ->rawAnd()
                         ->equals(
-                            WebPageMapper::getFullColumnName('lang_id'),
-                            new RawSqlFragment(self::getFullColumnName('lang_id', self::getTranslationTable()))
+                            WebPageMapper::column('lang_id'),
+                            new RawSqlFragment(self::column('lang_id', self::getTranslationTable()))
                         );
 
         if ($countOnlyPublished == true) {
-            $db->whereEquals(PhotoMapper::getFullColumnName('published'), '1');
+            $db->whereEquals(PhotoMapper::column('published'), '1');
         }
 
         // Aggregate grouping
