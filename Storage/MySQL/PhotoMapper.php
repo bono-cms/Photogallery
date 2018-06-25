@@ -30,7 +30,7 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      */
     public static function getTranslationTable()
     {
-        return self::getWithPrefix('bono_module_photoalbum_photos_translations');
+        return PhotoTranslationMapper::getTableName();
     }
 
     /**
@@ -41,9 +41,9 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     private function getSharedColumns()
     {
         return array(
-            self::column('lang_id', self::getTranslationTable()),
-            self::column('name', self::getTranslationTable()),
-            self::column('description', self::getTranslationTable()),
+            PhotoTranslationMapper::column('lang_id'),
+            PhotoTranslationMapper::column('name'),
+            PhotoTranslationMapper::column('description'),
             self::column('date'),
             self::column('published'),
             self::column('order'),
@@ -65,7 +65,7 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
         // Columns to be selected
         $columns = array_merge(
             $this->getSharedColumns(), 
-            array(AlbumMapper::column('name', AlbumMapper::getTranslationTable()) => 'album')
+            array(AlbumTranslationMapper::column('name') => 'album')
         );
 
         $db = $this->db->select($columns)
@@ -74,7 +74,7 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
                        ->innerJoin(self::getTranslationTable())
                        ->on()
                        ->equals(
-                            self::column('id', self::getTranslationTable()),
+                            PhotoTranslationMapper::column('id'),
                             new RawSqlFragment(self::column('id'))
                         )
                         // Category translation
@@ -82,23 +82,23 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
                         ->on()
                         ->equals(
                             self::column('album_id'),
-                            new RawSqlFragment(AlbumMapper::column('id', AlbumMapper::getTranslationTable()))
+                            new RawSqlFragment(AlbumTranslationMapper::column('id'))
                         )
                         ->rawAnd()
                         ->equals(
-                            AlbumMapper::column('lang_id', AlbumMapper::getTranslationTable()),
-                            new RawSqlFragment(self::column('lang_id', self::getTranslationTable()))
+                            AlbumTranslationMapper::column('lang_id'),
+                            new RawSqlFragment(PhotoTranslationMapper::column('lang_id'))
                         )
                         // Category relation
                         ->innerJoin(AlbumMapper::getTableName())
                         ->on()
                         ->equals(
                             AlbumMapper::column('id'),
-                            new RawSqlFragment(AlbumMapper::column('id', AlbumMapper::getTranslationTable()))
+                            new RawSqlFragment(AlbumTranslationMapper::column('id'))
                         )
                         // Filtering condition
                         ->whereEquals(
-                            self::column('lang_id', self::getTranslationTable()), 
+                            PhotoTranslationMapper::column('lang_id'), 
                             $this->getLangId()
                         );
 
