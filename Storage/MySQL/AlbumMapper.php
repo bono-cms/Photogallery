@@ -31,7 +31,7 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
      */
     public static function getTranslationTable()
     {
-        return self::getWithPrefix('bono_module_photoalbum_albums_translations');
+        return AlbumTranslationMapper::getTableName();
     }
 
     /**
@@ -46,9 +46,9 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
         $columns = array(
             self::column('id'),
             self::column('parent_id'),
-            self::column('web_page_id', self::getTranslationTable()),
-            self::column('lang_id', self::getTranslationTable()),
-            self::column('name', self::getTranslationTable()),
+            AlbumTranslationMapper::column('web_page_id'),
+            AlbumTranslationMapper::column('lang_id'),
+            AlbumTranslationMapper::column('name'),
             self::column('seo'),
             self::column('cover'),
             self::column('order'),
@@ -57,10 +57,10 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
 
         if ($all) {
             $columns = array_merge($columns, array(
-                self::column('title', self::getTranslationTable()),
-                self::column('description', self::getTranslationTable()),
-                self::column('keywords', self::getTranslationTable()),
-                self::column('meta_description', self::getTranslationTable()),
+                AlbumTranslationMapper::column('title'),
+                AlbumTranslationMapper::column('description'),
+                AlbumTranslationMapper::column('keywords'),
+                AlbumTranslationMapper::column('meta_description'),
             ));
         }
 
@@ -80,7 +80,7 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
                         ->innerJoin(self::getTranslationTable())
                         ->on()
                         ->equals(
-                            self::column('id', self::getTranslationTable()), 
+                            AlbumTranslationMapper::column('id'), 
                             new RawSqlFragment(self::column('id'))
                         )
                         // Web page relation
@@ -88,15 +88,15 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
                         ->on()
                         ->equals(
                             WebPageMapper::column('id'),
-                            new RawSqlFragment(self::column('web_page_id', self::getTranslationTable()))
+                            new RawSqlFragment(AlbumTranslationMapper::column('web_page_id'))
                         )
                         ->rawAnd()
                         ->equals(
                             WebPageMapper::column('lang_id'),
-                            new RawSqlFragment(self::column('lang_id', self::getTranslationTable()))
+                            new RawSqlFragment(AlbumTranslationMapper::column('lang_id'))
                         )
                         // Filtering condition
-                        ->whereEquals(self::column('lang_id', self::getTranslationTable()), $this->getLangId())
+                        ->whereEquals(AlbumTranslationMapper::column('lang_id'), $this->getLangId())
                         ->queryAll();
     }
 
@@ -111,7 +111,7 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
         return $this->createWebPageSelect($this->getSharedColumns(true))
                     // Filtering condition
                     ->whereEquals(self::column('parent_id'), $parentId)
-                    ->andWhereEquals(self::column('lang_id', self::getTranslationTable()), $this->getLangId())
+                    ->andWhereEquals(AlbumTranslationMapper::column('lang_id'), $this->getLangId())
                     ->queryAll();
     }
 
@@ -157,7 +157,7 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
                         ->innerJoin(self::getTranslationTable())
                         ->on()
                         ->equals(
-                            self::column('id', self::getTranslationTable()),
+                            AlbumTranslationMapper::column('id'),
                             new RawSqlFragment(self::column('id'))
                         )
                         ->rawAnd()
@@ -170,12 +170,12 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
                         ->on()
                         ->equals(
                             WebPageMapper::column('id'),
-                            new RawSqlFragment(self::column('web_page_id', self::getTranslationTable()))
+                            new RawSqlFragment(AlbumTranslationMapper::column('web_page_id'))
                         )
                         ->rawAnd()
                         ->equals(
                             WebPageMapper::column('lang_id'),
-                            new RawSqlFragment(self::column('lang_id', self::getTranslationTable()))
+                            new RawSqlFragment(AlbumTranslationMapper::column('lang_id'))
                         );
 
         if ($countOnlyPublished == true) {
