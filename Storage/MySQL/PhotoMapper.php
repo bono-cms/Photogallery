@@ -71,31 +71,18 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
         $db = $this->db->select($columns)
                        ->from(self::getTableName())
                        // Translation relation
-                       ->innerJoin(self::getTranslationTable())
-                       ->on()
-                       ->equals(
-                            PhotoTranslationMapper::column('id'),
-                            new RawSqlFragment(self::column('id'))
-                        )
+                       ->innerJoin(self::getTranslationTable(), array(
+                            PhotoTranslationMapper::column('id') => self::getRawColumn('id')
+                       ))
                         // Category translation
-                        ->innerJoin(AlbumMapper::getTranslationTable())
-                        ->on()
-                        ->equals(
-                            self::column('album_id'),
-                            new RawSqlFragment(AlbumTranslationMapper::column('id'))
-                        )
-                        ->rawAnd()
-                        ->equals(
-                            AlbumTranslationMapper::column('lang_id'),
-                            new RawSqlFragment(PhotoTranslationMapper::column('lang_id'))
-                        )
+                        ->innerJoin(AlbumMapper::getTranslationTable(), array(
+                            self::column('album_id') => AlbumTranslationMapper::getRawColumn('id'),
+                            AlbumTranslationMapper::column('lang_id') => PhotoTranslationMapper::getRawColumn('lang_id')
+                        ))
                         // Category relation
-                        ->innerJoin(AlbumMapper::getTableName())
-                        ->on()
-                        ->equals(
-                            AlbumMapper::column('id'),
-                            new RawSqlFragment(AlbumTranslationMapper::column('id'))
-                        )
+                        ->innerJoin(AlbumMapper::getTableName(), array(
+                            AlbumMapper::column('id') => AlbumTranslationMapper::getRawColumn('id')
+                        ))
                         // Filtering condition
                         ->whereEquals(
                             PhotoTranslationMapper::column('lang_id'), 
@@ -152,7 +139,7 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
     public function fetchPhotoIdsByAlbumId($albumId)
     {
         return $this->db->select('id')
-                        ->from(static::getTableName())
+                        ->from(self::getTableName())
                         ->whereEquals('album_id', $albumId)
                         ->queryAll('id');
     }
