@@ -173,20 +173,6 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
     }
 
     /**
-     * Prepares a container before sending to a mapper
-     * 
-     * @param array $input Raw input data
-     * @return array
-     */
-    private function prepareInput(array $input)
-    {
-        $file =& $input['files']['file'];
-        $this->filterFileInput($file);
-
-        return $input;
-    }
-
-    /**
      * Adds a photo
      * 
      * @param array $input Raw input data
@@ -194,13 +180,11 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
      */
     public function add(array $input)
     {
-        $input = $this->prepareInput($input);
-
         $data =& $input['data']['photo'];
         $file =& $input['files']['file'];
         $translations =& $input['data']['translation'];
 
-        $data['photo'] = $file[0]->getName();
+        $data['photo'] = $file->getUniqueName();
         $data['date'] = time();
 
         #$this->track('A new photo "%s" has been uploaded', $data['name']);
@@ -223,13 +207,12 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
 
         // Upload a photo if present and override it
         if (!empty($input['files'])) {
-            $input = $this->prepareInput($input);
             $file =& $input['files']['file'];
 
             // First of all, we need to remove old photo on the file-system
             if ($this->imageManager->delete($data['id'], $data['photo'])) {
                 // And now upload a new one
-                $data['photo'] = $file[0]->getName();
+                $data['photo'] = $file->getUniqueName();
                 $this->imageManager->upload($data['id'], $file);
 
             } else {
