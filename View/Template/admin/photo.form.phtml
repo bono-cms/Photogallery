@@ -109,19 +109,14 @@ defined('KRYSTAL') or die;
 		</div>
 	</div>
 
-    <?php if (!$entity->getId()): ?>
+    <?php $this->loadPartial('actions', array(
+        'new' => !$entity->getId(),
+        'add' => 'Photogallery:Admin:Photo@addAction',
+        'edit' => 'Photogallery:Admin:Photo@editAction',
+        'save' => 'Photogallery:Admin:Photo@saveAction',
+        'cancel' => 'Photogallery:Admin:Browser@indexAction'
+    )); ?>
 
-    <button data-button="add" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo@editAction', null); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add'); ?></button>
-	<button data-button="add-create" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Add & Upload new'); ?></button>
-
-    <?php else: ?>
-
-    <button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save'); ?></button>
-    <button data-button="save-create" data-back-url="<?php echo $this->url('Photogallery:Admin:Photo@addAction'); ?>" data-url="<?php echo $this->url('Photogallery:Admin:Photo@saveAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save & Upload new'); ?></button>
-
-    <?php endif; ?>
-
-    <button data-button="cancel" data-url="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-floppy-remove"></i> <?php $this->show('Cancel'); ?></button>
 </form>
 
 <?php else: ?>
