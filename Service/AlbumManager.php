@@ -276,23 +276,19 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
     {
         // Form data reference
         $album =& $input['data']['album'];
+        $file = isset($input['files']['file']) ? $input['files']['file'] : false;
 
-        // If there's a file, then it needs to uploaded as a cover
-        if (!empty($input['files']['file'])) {
-            $id = $this->getLastId();
-            $this->imageManager->upload($id, $input['files']['file']);
-
-            $file =& $input['files']['file'];
-            $this->filterFileInput($file);
-
-            // Override empty cover's value now
-            $album['cover'] = $file[0]->getName();
-        } else {
-            $album['cover'] = '';
-        }
+        // Set cover attribute
+        $album['cover'] = $file ? $file->getUniqueName() : '';
 
         #$this->track('Album "%s" has been created', $form['name']);
-        return $this->savePage($input);
+        $this->savePage($input);
+
+        if ($file) {
+            $this->imageManager->upload($this->getLastId(), $file);
+        }
+
+        return true;
     }
 
     /**
@@ -321,10 +317,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
                     }
                 }
 
-                // And now upload a new one
-                $this->filterFileInput($file);
-                $album['cover'] = $file[0]->getName();
-
+                $album['cover'] = $file->getUniqueName();
                 $this->albumPhoto->upload($album['id'], $file);
             }
         }
