@@ -155,11 +155,11 @@ defined('KRYSTAL') or die;
             'actions' => array(
                 'view' => function($album){
                     return Icon::view(
-                        $this->url('Advice:Admin:Advice@editAction', $album['url']),
+                        $album['url'],
                         $this->translate('View this album on site')
                     );
                 },
-                
+
                 'edit' => function($album){
                     return Icon::edit(
                         $this->url('Photogallery:Admin:Album@editAction', $album['id']),
