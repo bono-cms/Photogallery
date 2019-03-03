@@ -1,11 +1,11 @@
-<?php defined('KRYSTAL') or die; ?>
 <?php
 
 use Krystal\Form\Element;
+defined('KRYSTAL') or die;
 
 ?>
 
-<form data-group="config">
+<form data-group="config" autocomplete="off">
 	<ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#common" role="tab" data-toggle="tab"><i class="fa fa-home fa-fw"></i> <?php $this->show('Common'); ?></a></li>
         <li role="presentation"><a href="#dimensions" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Dimensions'); ?></a></li>

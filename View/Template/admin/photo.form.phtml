@@ -8,8 +8,7 @@ defined('KRYSTAL') or die;
 
 <?php if (count($albums) != 0): ?>
 
-<form data-group="photo">
-
+<form data-group="photo" autocomplete="off">
 	<ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active"><a href="#options" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Options'); ?></a></li>
 		<li role="presentation"><a href="#image" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Image'); ?></a></li>

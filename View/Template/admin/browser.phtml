@@ -1,7 +1,7 @@
 <?php
 
 use Krystal\Form\Element;
-use Krystal\Widget\GridWidget;
+use Krystal\Widget\GridView\GridViewWidget;
 use Cms\View\Icon;
 
 defined('KRYSTAL') or die;
@@ -44,7 +44,7 @@ defined('KRYSTAL') or die;
 
         <form>
             <div class="table-responsive">
-                <?= $this->widget(new GridWidget($photos, array(
+                <?= $this->widget(new GridViewWidget($photos, array(
                     // A column to be considered as a primary key
                     'pk' => 'id',
                     'batch' => true,
@@ -126,7 +126,7 @@ defined('KRYSTAL') or die;
     <div class="col-lg-4">
         <h4><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Albums'); ?> (<?php echo count($albums); ?>)</h4>
 
-        <?= $this->widget(new GridWidget($albums, array(
+        <?= $this->widget(new GridViewWidget($albums, array(
             'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
             'rowAttributes' => array(
                 'class' => function($album) use ($albumId){
