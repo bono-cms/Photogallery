@@ -9,177 +9,172 @@ defined('KRYSTAL') or die;
 ?>
 
 <div class="btn-toolbar">
-	<div class="btn-group">
-	  <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-		<i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?> <span class="caret"></span>
+	<div class="dropdown">
+	  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+		<i class="glyphicon glyphicon-list"></i> <?php $this->show('Menu'); ?>
 	  </button>
-	  <ul class="dropdown-menu pull-bottom">
+
+	  <div class="dropdown-menu">
          <?php if (isset($albumId)): ?>
-		 <li><a href="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>"><i class="glyphicon glyphicon-home"></i> <?php $this->show('Go home'); ?></a></li>
-		 <li class="divider"></li>
+		 <a class="dropdown-item" href="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>"><i class="glyphicon glyphicon-home"></i> <?php $this->show('Go home'); ?></a>
+		 <div class="dropdown-divider"></div>
          <?php endif; ?>
-         
-		 <li><a href="<?php echo $this->url('Photogallery:Admin:Photo@addAction'); ?>"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Add a photo'); ?></a></li>
-		 <li><a href="<?php echo $this->url('Photogallery:Admin:Album@addAction'); ?>"><i class="glyphicon glyphicon-folder-open"></i> <?php $this->show('Add album'); ?></a></li>
-		 <li><a href="<?php echo $this->url('Photogallery:Admin:Config@indexAction'); ?>"><i class="glyphicon glyphicon-tasks"></i> <?php $this->show('Configuration'); ?></a></li>
-		 <li class="divider"></li>
-		 <li class="dropdown-header"><?php $this->show('Actions'); ?></li>
-		 
+		 <a class="dropdown-item" href="<?php echo $this->url('Photogallery:Admin:Photo@addAction'); ?>"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Add a photo'); ?></a>
+		 <a class="dropdown-item" href="<?php echo $this->url('Photogallery:Admin:Album@addAction'); ?>"><i class="glyphicon glyphicon-folder-open"></i> <?php $this->show('Add album'); ?></a>
+		 <a class="dropdown-item" href="<?php echo $this->url('Photogallery:Admin:Config@indexAction'); ?>"><i class="glyphicon glyphicon-tasks"></i> <?php $this->show('Configuration'); ?></a>
+		 <div class="dropdown-divider"></div>
+		 <div class="dropdown-header"><?php $this->show('Actions'); ?></div>
 		 <?php if (!empty($photos)): ?>
-		 <li><a href="#" data-button="save-changes" data-url="<?php echo $this->url('Photogallery:Admin:Photo@tweakAction'); ?>"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save changes');?></a></li>
-		 <li><a href="#" data-button="remove-selected" data-url="<?php echo $this->url('Photogallery:Admin:Photo@deleteAction', null); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>
-		 
+		 <a class="dropdown-item" href="#" data-button="save-changes" data-url="<?php echo $this->url('Photogallery:Admin:Photo@tweakAction'); ?>"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save changes');?></a>
+		 <a class="dropdown-item" href="#" data-button="remove-selected" data-url="<?php echo $this->url('Photogallery:Admin:Photo@deleteAction', null); ?>"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>
 		 <?php else: ?>
-		 
-		 <li class="disabled"><a><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save changes');?></a></li>
-		 <li class="disabled"><a><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a></li>
+		 <a class="dropdown-item disabled"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save changes');?></a>
+		 <a class="dropdown-item disabled"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Remove selected'); ?></a>
 		 <?php endif; ?>
-	  </ul>
+	  </div>
 	</div>
 </div>
 
-<div class="row">
-    <div class="col-lg-8">
-        <?php $this->loadPartial('items-per-page', array('caption' => 'Photogallery')); ?>
+<div class="card">
+    <?php $this->loadPartial('items-per-page', array('caption' => 'Photogallery')); ?>
 
-        <form>
-            <div class="table-responsive">
-                <?= $this->widget(new GridViewWidget($photos, array(
-                    // A column to be considered as a primary key
-                    'pk' => 'id',
-                    'batch' => true,
-                    'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
-                    'columns' => array(
-                        array(
-                            'column' => 'id',
-                            'label' => '#'
-                        ),
-
-                        array(
-                            'column' => 'image_bag',
-                            'label' => 'Image',
-                            'value' => function($photo){
-                                return Element::image($photo->getImageBag()->getUrl('400x200'), array(
-                                    'class' => 'img-responsive center-block',
-                                    'data-zoom-image' => $photo->getImageBag()->getUrl('original')
-                                ));
-                            }
-                        ),
-
-                        array(
-                            'column' => 'name'
-                        ),
-
-                        array(
-                            'column' => 'date'
-                        ),
-
-                        array(
-                            'column' => 'album_name',
-                            'label' => 'Album'
-                        ),
-
-                        array(
-                            'column' => 'published',
-                            'value' => function($photo){
-                                return Element::checkbox(sprintf('published[%s]', $photo->getId()), $photo->getPublished());
-                            }
-                        ),
-
-                        array(
-                            'column' => 'order',
-                            'value' => function($photo){
-                                return Element::number(sprintf('order[%s]', $photo->getId()), $photo->getOrder(), array('class' => 'form-control', 'min' => '0'));
-                            }
-                        )
+    <form>
+        <div class="table-responsive">
+            <?= $this->widget(new GridViewWidget($photos, array(
+                // A column to be considered as a primary key
+                'pk' => 'id',
+                'batch' => true,
+                'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+                'columns' => array(
+                    array(
+                        'column' => 'id',
+                        'label' => '#'
                     ),
 
-                    'actions' => array(
-                        'edit' => function($photo){
-                            return Icon::edit(
-                                $this->url('Photogallery:Admin:Photo@editAction', $photo->getId()),
-                                $this->translate('Edit the photo')
-                            );
-                        },
+                    array(
+                        'column' => 'image_bag',
+                        'label' => 'Image',
+                        'value' => function($photo){
+                            return Element::image($photo->getImageBag()->getUrl('400x200'), array(
+                                'class' => 'img-fluid',
+                                'data-zoom-image' => $photo->getImageBag()->getUrl('original')
+                            ));
+                        }
+                    ),
 
-                        'remove' => function($photo){
-                            return Icon::remove(
-                                $this->url('Photogallery:Admin:Photo@deleteAction', $photo->getId()), 
-                                $this->translate('Remove this photo')
-                            );
+                    array(
+                        'column' => 'name'
+                    ),
+
+                    array(
+                        'column' => 'date'
+                    ),
+
+                    array(
+                        'column' => 'album_name',
+                        'label' => 'Album'
+                    ),
+
+                    array(
+                        'column' => 'published',
+                        'value' => function($photo){
+                            return Element::checkbox(sprintf('published[%s]', $photo->getId()), $photo->getPublished());
+                        }
+                    ),
+
+                    array(
+                        'column' => 'order',
+                        'value' => function($photo){
+                            return Element::number(sprintf('order[%s]', $photo->getId()), $photo->getOrder(), array('class' => 'form-control', 'min' => '0'));
                         }
                     )
-
-                ))); ?>
-
-                <?php if (empty($photos)): ?>
-                <div class="center-block">
-                    <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No photos'); ?></h2>
-                </div>
-                <?php endif; ?>
-            </div>
-        </form>
-
-        <?php $this->loadPartial('paginator'); ?>
-    </div>
-
-    <div class="col-lg-4">
-        <h4><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Albums'); ?> (<?php echo count($albums); ?>)</h4>
-
-        <?= $this->widget(new GridViewWidget($albums, array(
-            'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
-            'rowAttributes' => array(
-                'class' => function($album) use ($albumId){
-                    return $album['id'] == $albumId ? 'info' : null;
-                }
-            ),
-            'columns' => array(
-                array(
-                    'column' => 'id',
-                    'label' => '#'
                 ),
 
-                array(
-                    'column' => 'name',
-                    'value' => function($album){
-                        return Element::link($album['name'], $this->url('Photogallery:Admin:Browser@albumAction', $album['id']));
+                'actions' => array(
+                    'edit' => function($photo){
+                        return Icon::edit(
+                            $this->url('Photogallery:Admin:Photo@editAction', $photo->getId()),
+                            $this->translate('Edit the photo')
+                        );
+                    },
+
+                    'remove' => function($photo){
+                        return Icon::remove(
+                            $this->url('Photogallery:Admin:Photo@deleteAction', $photo->getId()), 
+                            $this->translate('Remove this photo')
+                        );
                     }
-                ),
-
-                array(
-                    'column' => 'photos_count',
-                    'label' => 'Amount of photos'
                 )
+
+            ))); ?>
+
+            <?php if (empty($photos)): ?>
+            <div class="center-block">
+                <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No photos'); ?></h2>
+            </div>
+            <?php endif; ?>
+        </div>
+    </form>
+
+    <?php $this->loadPartial('paginator'); ?>
+</div>
+
+<div class="card">
+    <h4><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Albums'); ?> (<?php echo count($albums); ?>)</h4>
+
+    <?= $this->widget(new GridViewWidget($albums, array(
+        'tableClass' => 'table table-hover table-bordered table-striped table-condensed',
+        'rowAttributes' => array(
+            'class' => function($album) use ($albumId){
+                return $album['id'] == $albumId ? 'table-info' : null;
+            }
+        ),
+        'columns' => array(
+            array(
+                'column' => 'id',
+                'label' => '#'
             ),
 
-            'actions' => array(
-                'view' => function($album){
-                    return Icon::view(
-                        $album['url'],
-                        $this->translate('View this album on site')
-                    );
-                },
-
-                'edit' => function($album){
-                    return Icon::edit(
-                        $this->url('Photogallery:Admin:Album@editAction', $album['id']),
-                        $this->translate('Edit the album')
-                    );
-                },
-
-                'remove' => function($album){
-                    return Icon::remove(
-                        $this->url('Photogallery:Admin:Album@deleteAction', $album['id']),
-                        $this->translate('Remove the album')
-                    );
+            array(
+                'column' => 'name',
+                'value' => function($album){
+                    return Element::link($album['name'], $this->url('Photogallery:Admin:Browser@albumAction', $album['id']));
                 }
-            )
-        ))); ?>
+            ),
 
-        <?php if (empty($albums)): ?>
-        <div class="center-block">
-            <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No albums'); ?></h2>
-        </div>
-        <?php endif; ?>
+            array(
+                'column' => 'photos_count',
+                'label' => 'Amount of photos'
+            )
+        ),
+
+        'actions' => array(
+            'view' => function($album){
+                return Icon::view(
+                    $album['url'],
+                    $this->translate('View this album on site')
+                );
+            },
+
+            'edit' => function($album){
+                return Icon::edit(
+                    $this->url('Photogallery:Admin:Album@editAction', $album['id']),
+                    $this->translate('Edit the album')
+                );
+            },
+
+            'remove' => function($album){
+                return Icon::remove(
+                    $this->url('Photogallery:Admin:Album@deleteAction', $album['id']),
+                    $this->translate('Remove the album')
+                );
+            }
+        )
+    ))); ?>
+
+    <?php if (empty($albums)): ?>
+    <div class="center-block">
+        <h2 class="text-center text-muted"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('No albums'); ?></h2>
     </div>
+    <?php endif; ?>
 </div>
