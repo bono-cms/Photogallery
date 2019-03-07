@@ -12,7 +12,7 @@ return array(
         array(
             'name' => 'Add a photo',
             'controller' => 'Photogallery:Admin:Photo@addAction',
-            'icon' => 'glyphicon glyphicon-picture'
+            'icon' => 'fas fa-camera'
         )
     ),
     'menu' => array(
