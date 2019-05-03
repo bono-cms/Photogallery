@@ -20,7 +20,9 @@ CREATE TABLE `bono_module_photoalbum_albums_translations` (
     `name`  varchar(255) NOT NULL,
     `description` LONGTEXT NOT NULL COMMENT 'Album description that comes from WYSIWYG',
     `keywords` TEXT NOT NULL COMMENT 'Keywords for SEO',
-    `meta_description` TEXT NOT NULL COMMENT 'Meta description for SEO'
+    `meta_description` TEXT NOT NULL COMMENT 'Meta description for SEO',
+
+    FOREIGN KEY (id) REFERENCES bono_module_photoalbum_albums(id) ON DELETE CASCADE
 
 ) DEFAULT CHARSET = UTF8;
 
@@ -40,8 +42,10 @@ DROP TABLE IF EXISTS `bono_module_photoalbum_photos_translations`;
 CREATE TABLE `bono_module_photoalbum_photos_translations` (
 
     `id` INT NOT NULL,
-	`lang_id` INT NOT NULL,
-	`name` varchar(254) NOT NULL,
-	`description` TEXT NOT NULL,
+    `lang_id` INT NOT NULL,
+    `name` varchar(254) NOT NULL,
+    `description` TEXT NOT NULL,
 
+    FOREIGN KEY (id) REFERENCES bono_module_photoalbum_photos(id) ON DELETE CASCADE
+    
 ) DEFAULT CHARSET = UTF8;
