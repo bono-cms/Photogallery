@@ -28,6 +28,26 @@ final class Photo extends AbstractController
     }
 
     /**
+     * Renders batch upload form
+     * 
+     * @return string
+     */
+    public function batchFormAction()
+    {
+        
+    }
+
+    /**
+     * Performs batch uploading
+     * 
+     * @return string
+     */
+    public function batchUploadAction()
+    {
+        
+    }
+
+    /**
      * Creates a form
      * 
      * @param \Krystal\Stdlib\VirtualEntity|array $photo
