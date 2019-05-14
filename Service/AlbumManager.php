@@ -305,7 +305,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
         $album =& $input['data']['album'];
 
         // Allow to remove a cover, only it case it exists and checkbox was checked
-        if (isset($category['remove_cover'])) {
+        if (isset($album['remove_cover'])) {
             // Remove a cover, but not a dir itself
             $this->albumPhoto->delete($album['id']);
             $album['cover'] = '';
