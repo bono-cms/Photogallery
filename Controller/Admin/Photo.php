@@ -34,7 +34,13 @@ final class Photo extends AbstractController
      */
     public function batchFormAction()
     {
-        
+        // Append breadcrumbs
+        $this->view->getBreadcrumbBag()->addOne('Photogallery', 'Photogallery:Admin:Browser@indexAction')
+                                       ->addOne('Batch photo uploading');
+
+        return $this->view->render('batch.form', array(
+            'albums' => $this->getModuleService('albumManager')->getAlbumsTree(false)
+        ));
     }
 
     /**
@@ -44,7 +50,6 @@ final class Photo extends AbstractController
      */
     public function batchUploadAction()
     {
-        
     }
 
     /**
