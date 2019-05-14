@@ -23,6 +23,9 @@ defined('KRYSTAL') or die;
 		 <a class="dropdown-item" href="<?php echo $this->url('Photogallery:Admin:Album@addAction'); ?>"><i class="glyphicon glyphicon-folder-open"></i> <?php $this->show('Add album'); ?></a>
 		 <a class="dropdown-item" href="<?php echo $this->url('Photogallery:Admin:Config@indexAction'); ?>"><i class="glyphicon glyphicon-tasks"></i> <?php $this->show('Configuration'); ?></a>
 		 <div class="dropdown-divider"></div>
+		 <div class="dropdown-header"><?php $this->show('Extra options'); ?></div>
+		 <a class="dropdown-item" href="<?php echo $this->url('Photogallery:Admin:Photo@batchFormAction'); ?>"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Batch photo uploading'); ?></a>
+		 <div class="dropdown-divider"></div>
 		 <div class="dropdown-header"><?php $this->show('Actions'); ?></div>
 		 <?php if (!empty($photos)): ?>
 		 <a class="dropdown-item" href="#" data-button="save-changes" data-url="<?php echo $this->url('Photogallery:Admin:Photo@tweakAction'); ?>"><i class="glyphicon glyphicon-floppy-save"></i> <?php $this->show('Save changes');?></a>
