@@ -18,16 +18,6 @@ use Krystal\Stdlib\VirtualEntity;
 final class Photo extends AbstractController
 {
     /**
-     * Returns photo manager
-     * 
-     * @return \Photogallery\Service\PhotoManager
-     */
-    private function getPhotoManager()
-    {
-        return $this->getModuleService('photoManager');
-    }
-
-    /**
      * Renders batch upload form
      * 
      * @return string
@@ -110,7 +100,7 @@ final class Photo extends AbstractController
      */
     public function editAction($id)
     {
-        $photo = $this->getPhotoManager()->fetchById($id);
+        $photo = $this->getModuleService('photoManager')->fetchById($id);
 
         if ($photo !== false) {
             $this->view->getPluginBag()
@@ -130,7 +120,7 @@ final class Photo extends AbstractController
     public function tweakAction()
     {
         if ($this->request->hasPost('published', 'order')) {
-            if ($this->getPhotoManager()->updateSettings($this->request->getPost())) {
+            if ($this->getModuleService('photoManager')->updateSettings($this->request->getPost())) {
                 $this->flashBag->set('success', 'Settings have been updated successfully');
                 return '1';
             }
