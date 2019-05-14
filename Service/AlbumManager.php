@@ -274,18 +274,21 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
      */
     public function add(array $input)
     {
-        // Form data reference
+        // References
         $album =& $input['data']['album'];
         $file = isset($input['files']['file']) ? $input['files']['file'] : false;
 
-        // Set cover attribute
-        $album['cover'] = $file ? $file->getUniqueName() : '';
+        // If image file is selected
+        if ($file) {
+            // And finally append
+            $album['cover'] = $file->getUniqueName();
+        }
 
         #$this->track('Album "%s" has been created', $form['name']);
         $this->savePage($input);
 
         if ($file) {
-            $this->imageManager->upload($this->getLastId(), $file);
+            $this->albumPhoto->upload($this->getLastId(), $file);
         }
 
         return true;
