@@ -28,6 +28,41 @@ final class Photo extends AbstractController
     }
 
     /**
+     * Renders batch upload form
+     * 
+     * @return string
+     */
+    public function batchFormAction()
+    {
+        // Append breadcrumbs
+        $this->view->getBreadcrumbBag()->addOne('Photogallery', 'Photogallery:Admin:Browser@indexAction')
+                                       ->addOne('Batch photo uploading');
+
+        return $this->view->render('batch.form', array(
+            'albums' => $this->getModuleService('albumManager')->getAlbumsTree(false)
+        ));
+    }
+
+    /**
+     * Performs batch uploading
+     * 
+     * @return int
+     */
+    public function batchUploadAction()
+    {
+        // Grab parameters
+        $request = $this->request->getAll();
+        $activeLanguageIds = $this->getService('Cms', 'languageManager')->fetchActiveIds();
+
+        // Now do batch uploading
+        $this->getModuleService('photoManager')->batch($request, $activeLanguageIds);
+
+        // And finally, inform about success
+        $this->flashBag->set('success', 'Photos have been uploaded successfully');
+        return 1;
+    }
+
+    /**
      * Creates a form
      * 
      * @param \Krystal\Stdlib\VirtualEntity|array $photo

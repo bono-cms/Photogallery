@@ -173,6 +173,51 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
     }
 
     /**
+     * Performs batch photo uploading
+     * 
+     * @param array $input Raw input data
+     * @param array $activeLanguageIds Active language Ids
+     * @return boolean
+     */
+    public function batch(array $input, array $activeLanguageIds)
+    {
+        // Short-cuts
+        $files =& $input['files']['files'];
+        $data =& $input['data'];
+
+        foreach ($files as $file) {
+            // Photo entity data
+            $data = array(
+                'album_id' => $data['album_id'],
+                'date' => time(),
+                'order' => 0,
+                'published' => 1,
+                'photo' => $file->getUniqueName()
+            );
+
+            // Now prepare translations
+            $translations = array();
+
+            // Prepare each one
+            foreach ($activeLanguageIds as $activeLanguageId) {
+                $translations[] = array(
+                    'lang_id' => $activeLanguageId,
+                    'name' => pathinfo($file->getName(), \PATHINFO_FILENAME),
+                    'description' => ''
+                );
+            }
+
+            // Save entity
+            $this->photoMapper->saveEntity($data, $translations);
+
+            // And finally, upload its image
+            $this->imageManager->upload($this->getLastId(), $file);
+        }
+
+        return true;
+    }
+
+    /**
      * Adds a photo
      * 
      * @param array $input Raw input data

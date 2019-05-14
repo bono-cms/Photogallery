@@ -1,0 +1,29 @@
+<?php
+
+use Krystal\Form\Element;
+use Cms\Service\LanguageManager;
+defined('KRYSTAL') or die;
+
+?>
+
+<form class="card" autocomplete="off">
+    <div class="form-group">
+        <label class="col-lg-12 control-label"><?php $this->show('Album'); ?></label>
+        <div class="col-lg-10">
+            <?php echo Element::select('album_id', $albums, null, array('class' => 'form-control')); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-12 control-label"><?php $this->show('Photo files'); ?></label>
+        <div class="col-lg-10">
+            <a class="btn btn-primary" data-button="upload" data-target="[name='files[]']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload photos'); ?></a>
+            <?php echo Element::file('files[]', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview', 'multiple' => true)); ?>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button data-button="save" data-url="<?php echo $this->url('Photogallery:Admin:Photo@batchUploadAction'); ?>" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i> <?php $this->show('Start'); ?></button>
+        <button data-button="cancel" data-url="<?php echo $this->url('Photogallery:Admin:Browser@indexAction'); ?>" class="btn btn-default"><i class="glyphicon glyphicon-remove"></i> <?php $this->show('Cancel'); ?></button>
+    </div>
+</form>

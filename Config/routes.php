@@ -53,6 +53,14 @@ return array(
         'disallow' => array('guest')
     ),
     
+    '/%s/module/photogallery/photo/batch-form' => array(
+        'controller' => 'Admin:Photo@batchFormAction'
+    ),
+
+    '/%s/module/photogallery/photo/batch-upload' => array(
+        'controller' => 'Admin:Photo@batchUploadAction'
+    ),
+    
     '/%s/module/photogallery/photo/add' => array(
         'controller' => 'Admin:Photo@addAction'
     ),
