@@ -46,10 +46,20 @@ final class Photo extends AbstractController
     /**
      * Performs batch uploading
      * 
-     * @return string
+     * @return int
      */
     public function batchUploadAction()
     {
+        // Grab parameters
+        $request = $this->request->getAll();
+        $activeLanguageIds = $this->getService('Cms', 'languageManager')->fetchActiveIds();
+
+        // Now do batch uploading
+        $this->getModuleService('photoManager')->batch($request, $activeLanguageIds);
+
+        // And finally, inform about success
+        $this->flashBag->set('success', 'Photos have been uploaded successfully');
+        return 1;
     }
 
     /**
