@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Added batch uploading support
  * Support complete internalization
  * Removed internal `TaskManager` service
  * Compact form in album form
