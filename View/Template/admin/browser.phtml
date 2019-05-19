@@ -140,6 +140,10 @@ defined('KRYSTAL') or die;
 
             array(
                 'column' => 'name',
+                'attributes' => array(
+                    // Cancel default column class
+                    'class' => null
+                ),
                 'value' => function($album){
                     return Element::link($album['name'], $this->url('Photogallery:Admin:Browser@albumAction', $album['id']));
                 }
