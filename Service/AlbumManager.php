@@ -169,11 +169,12 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
      * Fetches children by parent id
      * 
      * @param string $parentId
+     * @param mixed $limit Optional limit to be applied
      * @return array
      */
-    public function fetchChildrenByParentId($parentId)
+    public function fetchChildrenByParentId($parentId, $limit = null)
     {
-        return $this->prepareResults($this->albumMapper->fetchChildrenByParentId($parentId));
+        return $this->prepareResults($this->albumMapper->fetchChildrenByParentId($parentId, $limit));
     }
 
     /**

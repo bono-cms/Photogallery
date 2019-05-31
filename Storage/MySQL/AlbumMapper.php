@@ -94,15 +94,22 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
      * Fetches child albums by parent id
      * 
      * @param string $parentId
+     * @param mixed $limit Optional limit to be applied
      * @return array
      */
-    public function fetchChildrenByParentId($parentId)
+    public function fetchChildrenByParentId($parentId, $limit = null)
     {
-        return $this->createWebPageSelect($this->getSharedColumns(true))
+        $db = $this->createWebPageSelect($this->getSharedColumns(true))
                     // Filtering condition
                     ->whereEquals(self::column('parent_id'), $parentId)
-                    ->andWhereEquals(AlbumTranslationMapper::column('lang_id'), $this->getLangId())
-                    ->queryAll();
+                    ->andWhereEquals(AlbumTranslationMapper::column('lang_id'), $this->getLangId());
+
+        // Apply limit if required
+        if ($limit !== null) {
+            $db->limit($limit);
+        }
+
+        return $db->queryAll();
     }
 
     /**

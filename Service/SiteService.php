@@ -44,11 +44,12 @@ final class SiteService implements SiteServiceInterface
      * Returns child album entities
      * 
      * @param string $id Parent album id
+     * @param mixed $limit Optional limit to be applied
      * @return array
      */
-    public function getChildAlbums($id)
+    public function getChildAlbums($id, $limit = null)
     {
-        return $this->albumManager->fetchChildrenByParentId($id);
+        return $this->albumManager->fetchChildrenByParentId($id, $limit);
     }
 
     /**

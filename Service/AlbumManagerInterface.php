@@ -54,9 +54,10 @@ interface AlbumManagerInterface
      * Fetches children by parent id
      * 
      * @param string $parentId
+     * @param mixed $limit Optional limit to be applied
      * @return array
      */
-    public function fetchChildrenByParentId($parentId);
+    public function fetchChildrenByParentId($parentId, $limit = null);
 
     /**
      * Fetches all albums
