@@ -87,7 +87,8 @@ final class Album extends AbstractController
         $album = $this->getAlbumManager()->fetchById($id, true);
 
         if ($album !== false) {
-            return $this->createForm($album, 'Edit the album');
+            $name = $this->getCurrentProperty($album, 'name');
+            return $this->createForm($album, $this->translator->translate('Edit the album "%s"', $name));
         } else {
             return false;
         }

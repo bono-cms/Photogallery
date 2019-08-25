@@ -50,7 +50,7 @@ interface AlbumMapperInterface
      * @param mixed $limit Optional limit to be applied
      * @return array
      */
-    public function fetchChildrenByParentId($parentId, $limit = null);;
+    public function fetchChildrenByParentId($parentId, $limit = null);
 
     /**
      * Fetches a record by its id
