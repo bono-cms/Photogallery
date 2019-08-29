@@ -53,6 +53,8 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
             self::column('cover'),
             self::column('order'),
             WebPageMapper::column('slug'),
+            WebPageMapper::column('changefreq'),
+            WebPageMapper::column('priority')
         );
 
         if ($all) {

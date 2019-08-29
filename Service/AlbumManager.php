@@ -207,6 +207,8 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
                ->setOrder($album['order'], AlbumEntity::FILTER_INT)
                ->setKeywords($album['keywords'], AlbumEntity::FILTER_HTML)
                ->setSlug($album['slug'])
+               ->setChangeFreq($album['changefreq'])
+               ->setPriority($album['priority'])
                ->setUrl($this->webPageManager->surround($entity->getSlug(), $album['lang_id']))
                ->setPermanentUrl('/module/photogallery/'.$entity->getId())
                ->setMetaDescription($album['meta_description'], AlbumEntity::FILTER_HTML)

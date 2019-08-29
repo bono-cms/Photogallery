@@ -70,8 +70,13 @@ final class Album extends AbstractController
         $this->view->getPluginBag()
                    ->load('preview');
 
+        // CMS configuration object
+        $config = $this->getService('Cms', 'configManager')->getEntity();
+
         $album = new VirtualEntity();
-        $album->setSeo(true);
+        $album->setSeo(true)
+              ->setChangeFreq($config->getSitemapFrequency())
+              ->setPriority($config->getSitemapPriority());
 
         return $this->createForm($album, 'Add an album');
     }
