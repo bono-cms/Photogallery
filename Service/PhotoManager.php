@@ -17,7 +17,7 @@ use Photogallery\Storage\PhotoMapperInterface;
 use Photogallery\Storage\AlbumMapperInterface;
 use Krystal\Image\Tool\ImageManagerInterface;
 
-final class PhotoManager extends AbstractManager implements PhotoManagerInterface
+final class PhotoManager extends AbstractManager
 {
     /**
      * Any compliant photo mapper

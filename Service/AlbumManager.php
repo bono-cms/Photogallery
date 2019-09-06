@@ -22,7 +22,7 @@ use Krystal\Tree\AdjacencyList\TreeBuilder;
 use Krystal\Tree\AdjacencyList\BreadcrumbBuilder;
 use Krystal\Tree\AdjacencyList\Render;
 
-final class AlbumManager extends AbstractManager implements AlbumManagerInterface
+final class AlbumManager extends AbstractManager
 {
     /**
      * Any-compliant album mapper

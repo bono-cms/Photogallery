@@ -11,30 +11,30 @@
 
 namespace Photogallery\Service;
 
-final class SiteService implements SiteServiceInterface
+final class SiteService
 {
     /**
      * Photo manager service
      * 
-     * @var \Photogallery\Service\PhotoManagerInterface
+     * @var \Photogallery\Service\PhotoManager
      */
     private $photoManager;
 
     /**
      * Album manager service
      * 
-     * @var \Photogallery\Service\AlbumManagerInterface
+     * @var \Photogallery\Service\AlbumManager
      */
     private $albumManager;
 
     /**
      * State initialization
      * 
-     * @param \Photogallery\Service\PhotoManagerInterface $photoManager
-     * @param \Photogallery\Service\AlbumManagerInterface $albumManager
+     * @param \Photogallery\Service\PhotoManager $photoManager
+     * @param \Photogallery\Service\AlbumManager $albumManager
      * @return void
      */
-    public function __construct(PhotoManagerInterface $photoManager, AlbumManagerInterface $albumManager)
+    public function __construct(PhotoManager $photoManager, AlbumManager $albumManager)
     {
         $this->photoManager = $photoManager;
         $this->albumManager = $albumManager;
