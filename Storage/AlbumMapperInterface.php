@@ -14,14 +14,6 @@ namespace Photogallery\Storage;
 interface AlbumMapperInterface
 {
     /**
-     * Fetches album name by its associated id
-     * 
-     * @param string $id
-     * @return string
-     */
-    public function fetchNameById($id);
-
-    /**
      * Fetches all albums
      * 
      * @return array

@@ -175,16 +175,6 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
     }
 
     /**
-     * Fetches album name by its associated id
-     * 
-     * @param string $id
-     * @return string
-     */
-    public function fetchNameById($id)
-    {
-    }
-
-    /**
      * Deletes an album by its associated id
      * 
      * @param string $id
