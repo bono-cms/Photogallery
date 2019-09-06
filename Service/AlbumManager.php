@@ -147,14 +147,6 @@ final class AlbumManager extends AbstractManager
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function fetchNameByWebPageId($webPageId)
-    {
-        return $this->albumMapper->fetchNameByWebPageId($webPageId);
-    }
-
-    /**
      * Fetches children by parent id
      * 
      * @param string $parentId
