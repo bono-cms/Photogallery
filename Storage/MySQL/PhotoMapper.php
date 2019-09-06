@@ -138,11 +138,12 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      * Fetches a photo by its associated id
      * 
      * @param string $id Photo's id
+     * @param boolean $withTranslations Whether to fetch translation or not
      * @return array
      */
-    public function fetchById($id)
+    public function fetchById($id, $withTranslations)
     {
-        return $this->findEntity($this->getSharedColumns(), $id, true);
+        return $this->findEntity($this->getSharedColumns(), $id, $withTranslations);
     }
 
     /**

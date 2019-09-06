@@ -74,9 +74,10 @@ interface PhotoManagerInterface
      * Fetches a photo bag by its associated id
      * 
      * @param string $id
+     * @param boolean $withTranslations Whether to fetch translation or not
      * @return array
      */
-    public function fetchById($id);
+    public function fetchById($id, $withTranslations = true);
 
     /**
      * Fetches all photos filtered by pagination

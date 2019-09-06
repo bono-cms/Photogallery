@@ -33,9 +33,10 @@ interface PhotoMapperInterface
      * Fetches a record by its associated id
      * 
      * @param string $id
+     * @param boolean $withTranslations Whether to fetch translation or not
      * @return array
      */
-    public function fetchById($id);
+    public function fetchById($id, $withTranslations);
 
     /**
      * Update settings
