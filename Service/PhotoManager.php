@@ -16,7 +16,6 @@ use Cms\Service\HistoryManagerInterface;
 use Photogallery\Storage\PhotoMapperInterface;
 use Photogallery\Storage\AlbumMapperInterface;
 use Krystal\Image\Tool\ImageManagerInterface;
-use Krystal\Security\Filter;
 
 final class PhotoManager extends AbstractManager implements PhotoManagerInterface
 {
@@ -42,31 +41,18 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
     private $imageManager;
 
     /**
-     * History manager is used to keep track of common actions
-     * 
-     * @var \Photogallery\Storage\HistoryManagerInterface
-     */
-    private $historyManager;
-
-    /**
      * State initialization
      * 
      * @param \Photogallery\Storage\PhotoMapperInterface $photoMapper
      * @param \Photogallery\Storage\AlbumMapperInterface $albumMapper
      * @param \Krystal\Image\ImageManagerInterface $imageManager
-     * @param \Cms\Service\HistoryManagerInterface $historyManager
      * @return void
      */
-    public function __construct(
-        PhotoMapperInterface $photoMapper, 
-        AlbumMapperInterface $albumMapper, 
-        ImageManagerInterface $imageManager,
-        HistoryManagerInterface $historyManager
-    ){
+    public function __construct(PhotoMapperInterface $photoMapper, AlbumMapperInterface $albumMapper, ImageManagerInterface $imageManager)
+    {
         $this->photoMapper  = $photoMapper;
         $this->albumMapper  = $albumMapper;
         $this->imageManager = $imageManager;
-        $this->historyManager = $historyManager;
     }
 
     /**
@@ -130,7 +116,6 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
             }
         }
 
-        $this->track('Batch removal of %s photos', count($ids));
         return true;
     }
 
@@ -142,14 +127,7 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
      */
     public function deleteById($id)
     {
-        #$name = Filter::escape($this->photoMapper->fetchNameById($id));
-
-        if ($this->delete($id)) {
-            #$this->track('The photo "%s" has been removed', $name);
-            return true;
-        } else {
-            return false;
-        }
+        return $this->delete($id);
     }
 
     /**
@@ -232,7 +210,6 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
         $data['photo'] = $file->getUniqueName();
         $data['date'] = time();
 
-        #$this->track('A new photo "%s" has been uploaded', $data['name']);
         $this->photoMapper->saveEntity($data, $translations);
 
         // Insert must be first, so that we can get the last id
@@ -265,7 +242,6 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
             }
         }
 
-        #$this->track('The photo "%s" has been updated', $data['name']);
         return $this->photoMapper->saveEntity($data, $translations);
     }
 
@@ -273,11 +249,16 @@ final class PhotoManager extends AbstractManager implements PhotoManagerInterfac
      * Fetches a photo bag by its associated id
      * 
      * @param string $id
+     * @param boolean $withTranslations Whether to fetch translation or not
      * @return array
      */
-    public function fetchById($id)
+    public function fetchById($id, $withTranslations = true)
     {
-        return $this->prepareResults($this->photoMapper->fetchById($id));
+        if ($withTranslations === true) {
+            return $this->prepareResults($this->photoMapper->fetchById($id, $withTranslations));
+        } else {
+            return $this->prepareResult($this->photoMapper->fetchById($id, $withTranslations));
+        }
     }
 
     /**

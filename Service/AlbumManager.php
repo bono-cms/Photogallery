@@ -18,7 +18,6 @@ use Cms\Service\AbstractManager;
 use Cms\Service\WebPageManagerInterface;
 use Krystal\Stdlib\ArrayUtils;
 use Krystal\Image\Tool\ImageManagerInterface;
-use Krystal\Security\Filter;
 use Krystal\Tree\AdjacencyList\TreeBuilder;
 use Krystal\Tree\AdjacencyList\BreadcrumbBuilder;
 use Krystal\Tree\AdjacencyList\Render;
@@ -38,13 +37,6 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
      * @var \Photogallery\Storage\PhotoMapperInterface
      */
     private $photoMapper;
-
-    /**
-     * History manager
-     * 
-     * @var \Cms\Service\HistoryManagerInterface
-     */
-    private $historyManager;
 
     /**
      * Image manager to deal with images removal
@@ -83,15 +75,13 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
         PhotoMapperInterface $photoMapper, 
         ImageManagerInterface $albumPhoto,
         ImageManagerInterface $imageManager, 
-        WebPageManagerInterface $webPageManager, 
-        HistoryManagerInterface $historyManager
+        WebPageManagerInterface $webPageManager
     ){
         $this->albumMapper = $albumMapper;
         $this->photoMapper = $photoMapper;
         $this->albumPhoto = $albumPhoto;
         $this->imageManager = $imageManager;
         $this->webPageManager = $webPageManager;
-        $this->historyManager = $historyManager;
     }
 
     /**
@@ -128,7 +118,6 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
     public function getAlbumsTree($all)
     {
         $rows = $this->albumMapper->fetchAll();
-
         $treeBuilder = new TreeBuilder($rows);
 
         if ($all == true) {
@@ -287,7 +276,6 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
             $album['cover'] = $file->getUniqueName();
         }
 
-        #$this->track('Album "%s" has been created', $form['name']);
         $this->savePage($input);
 
         if ($file) {
@@ -328,7 +316,6 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
             }
         }
 
-        #$this->track('Category "%s" has been updated', $category['name']);
         return $this->savePage($input);
     }
 
@@ -340,16 +327,7 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
      */
     public function deleteById($id)
     {
-        // Save the name into a variable, before an album is removed
-        $name = Filter::escape($this->albumMapper->fetchNameById($id));
-
-        // Do remove now
-        $this->removeAlbumById($id);
-        $this->removeChildAlbumsByParentId($id);
-
-        $this->track('The album "%s" has been removed', $name);
-
-        return true;
+        return $this->removeAlbumById($id) && $this->removeChildAlbumsByParentId($id);
     }
 
     /**
@@ -412,18 +390,6 @@ final class AlbumManager extends AbstractManager implements AlbumManagerInterfac
         } else {
             return $this->prepareResult($this->albumMapper->fetchById($id, false));
         }
-    }
-
-    /**
-     * Tracks activity
-     * 
-     * @param string $message
-     * @param string $placeholder
-     * @return boolean
-     */
-    private function track($message, $placeholder)
-    {
-        return $this->historyManager->write('Photogallery', $message, $placeholder);
     }
 
     /**

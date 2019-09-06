@@ -98,7 +98,6 @@ final class Module extends AbstractCmsModule
         $photoMapper = $this->getMapper('/Photogallery/Storage/MySQL/PhotoMapper');
 
         // Grab required services
-        $historyManager = $this->getHistoryManager();
         $webPageManager = $this->getWebPageManager();
         $imageManager = $this->getImageManagerService($config->getEntity());
 
@@ -107,11 +106,10 @@ final class Module extends AbstractCmsModule
             $photoMapper, 
             $this->getAlbumImageManager($config->getEntity()), 
             $imageManager, 
-            $webPageManager, 
-            $historyManager
+            $webPageManager
         );
 
-        $photoManager = new PhotoManager($photoMapper, $albumMapper, $imageManager, $historyManager);
+        $photoManager = new PhotoManager($photoMapper, $albumMapper, $imageManager);
 
         return array(
             'siteService' => new SiteService($photoManager, $albumManager),

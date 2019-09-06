@@ -107,11 +107,18 @@ final class Album extends AbstractController
      */
     public function deleteAction($id)
     {
-        $service = $this->getModuleService('albumManager');
-        $service->deleteById($id);
+        $album = $this->getAlbumManager()->fetchById($id, false);
 
-        $this->flashBag->set('success', 'Selected element has been removed successfully');
-        return '1';
+        if ($album !== false) {
+            $historyService = $this->getService('Cms', 'historyManager');
+            $historyService->write('Photogallery', 'The album "%s" has been removed', $album->getName());
+
+            $service = $this->getModuleService('albumManager');
+            $service->deleteById($id);
+
+            $this->flashBag->set('success', 'Selected element has been removed successfully');
+            return '1';
+        }
     }
 
     /**
@@ -133,17 +140,25 @@ final class Album extends AbstractController
         ));
 
         if (1) {
+            // Current page name
+            $name = $this->getCurrentProperty($this->request->getPost('translation'), 'name');
+
             $service = $this->getModuleService('albumManager');
+            $historyService = $this->getService('Cms', 'historyManager');
 
             if (!empty($input['id'])) {
                 if ($service->update($this->request->getAll())) {
                     $this->flashBag->set('success', 'The element has been updated successfully');
+
+                    $historyService->write('Photogallery', 'Album "%s" has been updated', $name);
                     return '1';
                 }
 
             } else {
                 if ($service->add($this->request->getAll())) {
                     $this->flashBag->set('success', 'The element has been created successfully');
+
+                    $historyService->write('Photogallery', 'The album "%s" has been created', $name);
                     return $service->getLastId();
                 }
             }

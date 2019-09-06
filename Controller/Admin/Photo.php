@@ -136,6 +136,7 @@ final class Photo extends AbstractController
     public function deleteAction($id)
     {
         $service = $this->getModuleService('photoManager');
+        $historyService = $this->getService('Cms', 'historyManager');
 
         // Batch removal
         if ($this->request->hasPost('batch')) {
@@ -144,14 +145,22 @@ final class Photo extends AbstractController
             $service->deleteByIds($ids);
             $this->flashBag->set('success', 'Selected elements have been removed successfully');
 
+            // Save in the history
+            $historyService->write('Photogallery', 'Batch removal of %s photos', count($ids));
+
         } else {
             $this->flashBag->set('warning', 'You should select at least one element to remove');
         }
 
         // Single removal
         if (!empty($id)) {
+            $photo = $this->getModuleService('photoManager')->fetchById($id, false);
+
             $service->deleteById($id);
             $this->flashBag->set('success', 'Selected element has been removed successfully');
+
+            // Save in the history
+            $historyService->write('Photogallery', 'The photo "%s" has been removed', $photo->getName());
         }
 
         return '1';
@@ -184,17 +193,25 @@ final class Photo extends AbstractController
         ));
 
         if (1) {
+            // Current page name
+            $name = $this->getCurrentProperty($this->request->getPost('translation'), 'name');
+
             $service = $this->getModuleService('photoManager');
+            $historyService = $this->getService('Cms', 'historyManager');
 
             if (!empty($input['id'])) {
                 if ($service->update($this->request->getAll())) {
                     $this->flashBag->set('success', 'The element has been updated successfully');
+
+                    $historyService->write('Photogallery', 'The photo "%s" has been updated', $name);
                     return '1';
                 }
 
             } else {
                 if ($service->add($this->request->getAll())) {
                     $this->flashBag->set('success', 'The element has been created successfully');
+
+                    $historyService->write('Photogallery', 'The photo "%s" has been updated', $name);
                     return $service->getLastId();
                 }
             }
