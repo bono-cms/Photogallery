@@ -4,6 +4,7 @@ CHANGELOG
 1.3
 ---
 
+ * Added optional limit arg in `getAllByAlbumId()`
  * Added optional limit arg in `getChildAlbums()`
  * Added batch uploading support
  * Support complete internalization
