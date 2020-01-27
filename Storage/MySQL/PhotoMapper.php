@@ -58,9 +58,10 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      * 
      * @param boolean $published Whether to filter by published records only
      * @param string $albumId Optionally can be filtered by album id
+     * @param mixed $limit Optional limit
      * @return \Krystal\Db\Sql\Db
      */
-    private function getSelectQuery($published, $albumId = null)
+    private function getSelectQuery($published, $albumId = null, $limit = null)
     {
         // Columns to be selected
         $columns = array_merge(
@@ -91,6 +92,11 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
 
         if ($albumId !== null) {
             $db->andWhereEquals('album_id', $albumId);
+        }
+
+        // Apply limit if defined
+        if ($limit !== null) {
+            $db->limit($limit);
         }
 
         if ($published === true) {
@@ -178,11 +184,12 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      * 
      * @param boolean $published Whether to filter by published attribute
      * @param string $albumId Optional album id filter
+     * @param mixed $limit Optional limit
      * @return array
      */
-    public function fetchAll($published, $albumId = null)
+    public function fetchAll($published, $albumId = null, $limit = null)
     {
-        return $this->getSelectQuery($published, $albumId)
+        return $this->getSelectQuery($published, $albumId, $limit)
                     ->queryAll();
     }
 }

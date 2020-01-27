@@ -280,11 +280,12 @@ final class PhotoManager extends AbstractManager
      * 
      * @param boolean $published Whether to filter by published attribute
      * @param string $albumId Optional album id filter
+     * @param mixed $limit Optional limit
      * @return array
      */
-    public function fetchAll($published, $albumId = null)
+    public function fetchAll($published, $albumId = null, $limit = null)
     {
-        return $this->prepareResults($this->photoMapper->fetchAll($published, $albumId));
+        return $this->prepareResults($this->photoMapper->fetchAll($published, $albumId, $limit));
     }
 
     /**

@@ -56,10 +56,11 @@ final class SiteService
      * Returns all photo entities by associated album id
      * 
      * @param string $id Album id
+     * @param mixed $limit Optional limit
      * @return array
      */
-    public function getAllByAlbumId($id)
+    public function getAllByAlbumId($id, $limit = null)
     {
-        return $this->photoManager->fetchAll(true, $id);
+        return $this->photoManager->fetchAll(true, $id, $limit);
     }
 }
