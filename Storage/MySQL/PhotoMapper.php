@@ -94,11 +94,6 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
             $db->andWhereEquals('album_id', $albumId);
         }
 
-        // Apply limit if defined
-        if ($limit !== null) {
-            $db->limit($limit);
-        }
-
         if ($published === true) {
             $db->andWhereEquals(self::column('published'), '1')
                ->orderBy(
@@ -110,6 +105,11 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
         } else {
             $db->orderBy(self::column('id'))
                ->desc();
+        }
+
+        // Apply limit if defined
+        if ($limit !== null) {
+            $db->limit($limit);
         }
 
         return $db;
