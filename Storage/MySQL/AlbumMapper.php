@@ -104,7 +104,8 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
         $db = $this->createWebPageSelect($this->getSharedColumns(true))
                     // Filtering condition
                     ->whereEquals(self::column('parent_id'), $parentId)
-                    ->andWhereEquals(AlbumTranslationMapper::column('lang_id'), $this->getLangId());
+                    ->andWhereEquals(AlbumTranslationMapper::column('lang_id'), $this->getLangId())
+                    ->orderBy(self::column('order'));
 
         // Apply limit if required
         if ($limit !== null) {
