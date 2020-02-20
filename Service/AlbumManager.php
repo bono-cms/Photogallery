@@ -360,7 +360,7 @@ final class AlbumManager extends AbstractManager
         if (!empty($photosIds)) {
             foreach ($photosIds as $photoId) {
                 // Remove a photo
-                $this->imageManager->delete($photoId) && $this->photoMapper->deleteById($photoId);
+                $this->imageManager->delete($photoId) && $this->photoMapper->deleteEntity($photoId);
             }
         }
 
