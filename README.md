@@ -6,13 +6,11 @@ This module enables you to manage photo galleries on your site, with the ability
 
 ## Available methods
 
-You only need a single template, named `album.phtml`. Here are the methods you'll be using:
+You only need a single template file named `album.phtml`.  Within this template, a variable called `$photos` is available, containing an array of photo entities. Each photo entity provides the following methods:
 
-    $photo->getName(); // Returns photo name
-    $photo->getDescription(); //Returns photo description
-    $photo->getImageUrl($dimension); // Returns URL path to a photo with provided dimension
-
-
+    $photo->getName();  // Returns the photo's name
+    $photo->getDescription(); // Returns the photo's description
+    $photo->getImageUrl($dimension); // Returns the URL of the photo at the specified dimension
 
 ## Nested albums
 
@@ -44,8 +42,19 @@ Note: This example assumes you've configured the image dimensions to 250x250 in 
 
 A pre-defined `$photogallery` service is also available if you need to render gallery members on a different page. For example, you might use it on a landing page to display all photos from a specific album. The `$photogallery` service provides a single method for this purpose:
 
-### getAll($id)
+### Getting all photos by album ID
 
-Returns an array of photo entities by given album id.
+Returns an array of photo entities for the specified album ID.
 
-As you might have already guessed, the usage is the same. Instead of rendering the `$photos` array as shown in the previous example, simply substitute it with `$photogallery->getAll('..some id..')`.
+Usage is similar to the previous example. Instead of using the `$photos` array directly, simply replace it with the result of:
+
+`$photogallery->getAll('..some id..')`
+
+### Getting child albums
+
+To retrieve child album entries, use the following method:
+
+`$photogallery->getAllByAlbumId($id, $limit = null)`
+
+-   The first argument, `$id`, is the ID of the parent album. 
+-   The second argument, `$limit`, optionally restricts the number of returned entries.
