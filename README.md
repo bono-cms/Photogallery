@@ -48,13 +48,13 @@ Returns an array of photo entities for the specified album ID.
 
 Usage is similar to the previous example. Instead of using the `$photos` array directly, simply replace it with the result of:
 
-`$photogallery->getAll('..some id..')`
+`$photogallery->getAllByAlbumId('..some id..')`
 
 ### Getting child albums
 
 To retrieve child album entries, use the following method:
 
-`$photogallery->getAllByAlbumId($id, $limit = null)`
+`$photogallery->getChildAlbums($id, $limit = null)`
 
 -   The first argument, `$id`, is the ID of the parent album. 
 -   The second argument, `$limit`, optionally restricts the number of returned entries.
