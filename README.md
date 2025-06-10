@@ -17,9 +17,30 @@ You only need a single template file named `album.phtml`.  Within this template,
 To check if an album has child albums, simply verify if the `$albums` variable exists. If it does, it will be an array of child album entities; otherwise, the album has no children. You can check this using the `isset()` function, like so:
  
 
-    <div>
+    <h2 class="mb-3"><?= $page->getName(); ?>
+    
+    <div class="py-3">
+       <?= $page->getDescription(); ?>
+    </div>
+    
+    <div class="container">
      <?php if (isset($albums)): ?>
-       // There are child albums, do iterate over this array somewhere
+     <div class="row">
+	     <?php foreach ($albums as $child): ?>
+	     <div class="col-lg-4">
+           <img class="d-block mb-3 img-fluid" title="<?= $child->getName(); ?>" src="<?= $child->getImageUrl('500x500'); ?>">
+           <a href="<?= $child->getUrl(); ?>"><?= $child-getName(); ?></a>
+         </div> 
+	     <?php endforeach?>
+     </div>
+     <?php else: ?>
+     <div class="row">
+	    <?php foreach ($photos as $photo): ?>
+	     <div class="col-lg-4">
+	       <img src="<?= $photo->getImageUrl('500x500'); ?>" alt="<?= $photo->getName(); ?>" />
+	     </div>
+	    <?php endforeach; ?>
+     </div>
      <?php endif; ?>
     </div>
 
