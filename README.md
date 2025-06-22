@@ -65,6 +65,12 @@ Note: This example assumes you've configured the image dimensions to 250x250 in 
     </div>
     <?php endif; ?>
 
+## URL Generation
+
+To generate a URL for an album by its ID (assuming the album ID is 1), use:
+
+    <a href="<?= $cms->createUrl(1, 'Photogallery'); ?>">View album</a>
+
 ## Site service
 
 A pre-defined `$photogallery` service is also available if you need to render gallery members on a different page. For example, you might use it on a landing page to display all photos from a specific album. The `$photogallery` service provides a single method for this purpose:
