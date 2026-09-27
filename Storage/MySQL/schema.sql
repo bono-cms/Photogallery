@@ -1,4 +1,3 @@
-
 /* Albums */
 DROP TABLE IF EXISTS `bono_module_photoalbum_albums`;
 CREATE TABLE `bono_module_photoalbum_albums` (
@@ -7,7 +6,7 @@ CREATE TABLE `bono_module_photoalbum_albums` (
     `order` INT NOT NULL COMMENT 'Sort order',
     `seo` varchar(1) NOT NULL,
     `cover` varchar(255) NOT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `bono_module_photoalbum_albums_translations`;
 CREATE TABLE `bono_module_photoalbum_albums_translations` (
@@ -23,7 +22,7 @@ CREATE TABLE `bono_module_photoalbum_albums_translations` (
     FOREIGN KEY (id) REFERENCES bono_module_photoalbum_albums(id) ON DELETE CASCADE,
     FOREIGN KEY (lang_id) REFERENCES bono_module_cms_languages(id) ON DELETE CASCADE,
     FOREIGN KEY (web_page_id) REFERENCES bono_module_cms_webpages(id) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /* Photos */
 DROP TABLE IF EXISTS `bono_module_photoalbum_photos`;
@@ -36,7 +35,7 @@ CREATE TABLE `bono_module_photoalbum_photos` (
 	`date` INT NOT NULL COMMENT 'Timestamp of uploading',
 
     FOREIGN KEY (album_id) REFERENCES bono_module_photoalbum_albums(id) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 DROP TABLE IF EXISTS `bono_module_photoalbum_photos_translations`;
 CREATE TABLE `bono_module_photoalbum_photos_translations` (
@@ -47,4 +46,4 @@ CREATE TABLE `bono_module_photoalbum_photos_translations` (
 
     FOREIGN KEY (id) REFERENCES bono_module_photoalbum_photos(id) ON DELETE CASCADE,
     FOREIGN KEY (lang_id) REFERENCES bono_module_cms_languages(id) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
