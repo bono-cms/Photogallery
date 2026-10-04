@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -12,7 +10,6 @@
 namespace Photogallery\Controller\Admin;
 
 use Cms\Controller\Admin\AbstractController;
-use Krystal\Validate\Pattern;
 use Krystal\Stdlib\VirtualEntity;
 
 final class Photo extends AbstractController
@@ -28,9 +25,9 @@ final class Photo extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Photogallery', 'Photogallery:Admin:Browser@indexAction')
                                        ->addOne('Batch photo uploading');
 
-        return $this->view->render('batch.form', array(
+        return $this->view->render('batch.form', [
             'albums' => $this->getModuleService('albumManager')->getAlbumsTree(false)
-        ));
+        ]);
     }
 
     /**
@@ -40,16 +37,31 @@ final class Photo extends AbstractController
      */
     public function batchUploadAction()
     {
-        // Grab parameters
-        $request = $this->request->getAll();
-        $activeLanguageIds = $this->getService('Cms', 'languageManager')->fetchActiveIds();
+        $validator = $this->createValidation();
 
-        // Now do batch uploading
-        $this->getModuleService('photoManager')->batch($request, $activeLanguageIds);
+        $validator->field('album_id')
+                  ->required()
+                  ->addRule('numeric');
 
-        // And finally, inform about success
-        $this->flashBag->set('success', 'Photos have been uploaded successfully');
-        return 1;
+        if ($validator->isPassed()) {
+            // Grab parameters
+            $request = $this->request->getAll();
+            $activeLanguageIds = $this->getService('Cms', 'languageManager')->fetchActiveIds();
+
+            // Now do batch uploading
+            $this->getModuleService('photoManager')->batch($request, $activeLanguageIds);
+
+            // And finally, inform about success
+            $this->flashBag->set('success', 'Photos have been uploaded successfully');
+
+            return $this->json([
+                'refresh' => true
+            ]);
+        } else {
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
+        }
     }
 
     /**
@@ -69,10 +81,10 @@ final class Photo extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Photogallery', 'Photogallery:Admin:Browser@indexAction')
                                        ->addOne($title);
 
-        return $this->view->render('photo.form', array(
+        return $this->view->render('photo.form', [
             'albums' => $this->getModuleService('albumManager')->getAlbumsTree(false),
             'photo' => $photo
-        ));
+        ]);
     }
 
     /**
@@ -120,11 +132,29 @@ final class Photo extends AbstractController
     public function tweakAction()
     {
         if ($this->request->hasPost('published', 'order')) {
-            if ($this->getModuleService('photoManager')->updateSettings($this->request->getPost())) {
-                $this->flashBag->set('success', 'Settings have been updated successfully');
-                return '1';
+            $validator = $this->createValidation();
+
+            $validator->field('order.*')
+                      ->addRule('numeric');
+
+            if ($validator->isPassed()) {
+                if ($this->getModuleService('photoManager')->updateSettings($this->request->getPost())) {
+                    $this->flashBag->set('success', 'Settings have been updated successfully');
+
+                    return $this->json([
+                        'refresh' => true
+                    ]);
+                }
+            } else {
+                return $this->json([
+                    'errors' => $validator->getErrors()
+                ]);
             }
         }
+
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -163,7 +193,9 @@ final class Photo extends AbstractController
             $historyService->write('Photogallery', 'The photo "%s" has been removed', $photo->getName());
         }
 
-        return '1';
+        return $this->json([
+            'refresh' => true
+        ]);
     }
 
     /**
@@ -175,24 +207,20 @@ final class Photo extends AbstractController
     {
         $input = $this->request->getPost('photo');
 
-        $formValidator = $this->createValidator(array(
-            'input' => array(
-                'source' => $input,
-                'definition' => array(
-                    'order' => new Pattern\Order()
-                )
-            ),
-            'file' => array(
-                'source' => $this->request->getFiles(),
-                'definition' => array(
-                    'file' => new Pattern\ImageFile(array(
-                        'required' => !$input['id']
-                    ))
-                )
-            )
-        ));
+        $validator = $this->createValidation();
 
-        if (1) {
+        $validator->field('photo.album_id')
+                  ->required()
+                  ->addRule('numeric');
+
+        $validator->field('photo.order')
+                  ->addRule('numeric');
+
+        $validator->file('file')
+                  ->required(null, (bool) !$input['id'])
+                  ->addRule('image');
+
+        if ($validator->isPassed()) {
             // Current page name
             $name = $this->getCurrentProperty($this->request->getPost('translation'), 'name');
 
@@ -204,7 +232,10 @@ final class Photo extends AbstractController
                     $this->flashBag->set('success', 'The element has been updated successfully');
 
                     $historyService->write('Photogallery', 'The photo "%s" has been updated', $name);
-                    return '1';
+
+                    return $this->json([
+                        'refresh' => true
+                    ]);
                 }
 
             } else {
@@ -212,12 +243,17 @@ final class Photo extends AbstractController
                     $this->flashBag->set('success', 'The element has been created successfully');
 
                     $historyService->write('Photogallery', 'The photo "%s" has been updated', $name);
-                    return $service->getLastId();
+
+                    return $this->json([
+                        'redirect' => $this->createUrl('Photogallery:Admin:Photo@editAction', [$service->getLastId()]),
+                    ]);
                 }
             }
 
         } else {
-            return $formValidator->getErrors();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -246,7 +244,7 @@ final class AlbumManager extends AbstractManager
         $album['parent_id'] = (int) $album['parent_id'];
         $album['order'] = (int) $album['order'];
 
-        $album = ArrayUtils::arrayWithout($album, array('slug', 'remove_cover'));
+        $album = ArrayUtils::arrayWithout($album, ['slug', 'remove_cover']);
         return $this->albumMapper->savePage('Photogallery', 'Photogallery:Album@showAction', $album, $input['data']['translation']);
     }
 
@@ -396,10 +394,10 @@ final class AlbumManager extends AbstractManager
         $builder = new BreadcrumbBuilder($this->albumMapper->fetchBcData(), $id);
 
         return $builder->makeAll(function($breadcrumb) use ($wm) {
-            return array(
+            return [
                 'name' => $breadcrumb['name'],
                 'link' => $wm->getUrl($breadcrumb['web_page_id'], $breadcrumb['lang_id'])
-            );
+            ];
         });
     }   
 }

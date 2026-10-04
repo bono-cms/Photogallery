@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -21,13 +19,13 @@ final class Config extends AbstractConfigController
      */
     protected function getValidationRules()
     {
-        return array(
+        return [
             'max_img_height' => new Pattern\ImageHeight(),
             'max_img_width' => new Pattern\ImageWidth(),
             'photos_per_page' => new Pattern\PerPageCount(),
             'quality' => new Pattern\ImageQuality(),
             'thumb_height' => new Pattern\ThumbHeight(),
             'thumb_width' => new Pattern\ThumbWidth()
-        );
+        ];
     }
 }

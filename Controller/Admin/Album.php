@@ -3,15 +3,12 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
 
 namespace Photogallery\Controller\Admin;
 
-use Krystal\Validate\Pattern;
 use Krystal\Stdlib\VirtualEntity;
 use Cms\Controller\Admin\AbstractController;
 
@@ -54,10 +51,10 @@ final class Album extends AbstractController
         $this->view->getBreadcrumbBag()->addOne('Photogallery', 'Photogallery:Admin:Browser@indexAction')
                                        ->addOne($title);
 
-        return $this->view->render('album.form', array(
+        return $this->view->render('album.form', [
             'albums' => $this->getAlbumsTree(),
             'album' => $album
-        ));
+        ]);
     }
 
     /**
@@ -117,7 +114,10 @@ final class Album extends AbstractController
             $service->deleteById($id);
 
             $this->flashBag->set('success', 'Selected element has been removed successfully');
-            return '1';
+
+            return $this->json([
+                'refresh' => true
+            ]);
         }
     }
 
@@ -130,16 +130,18 @@ final class Album extends AbstractController
     {
         $input = $this->request->getPost('album');
 
-        $formValidator = $this->createValidator(array(
-            'input' => array(
-                'source' => $input,
-                'definition' => array(
-                    'name' => new Pattern\Name()
-                )
-            )
-        ));
+        $validator = $this->createValidation();
 
-        if (1) {
+        $validator->field('album.parent_id')
+                  ->addRule('numeric');
+
+        $validator->field('album.order')
+                  ->addRule('numeric');
+
+        $validator->field('translation.*.name')
+                  ->required();
+
+        if ($validator->isPassed()) {
             // Current page name
             $name = $this->getCurrentProperty($this->request->getPost('translation'), 'name');
 
@@ -151,7 +153,10 @@ final class Album extends AbstractController
                     $this->flashBag->set('success', 'The element has been updated successfully');
 
                     $historyService->write('Photogallery', 'Album "%s" has been updated', $name);
-                    return '1';
+
+                    return $this->json([
+                        'refresh' => true
+                    ]);
                 }
 
             } else {
@@ -159,12 +164,17 @@ final class Album extends AbstractController
                     $this->flashBag->set('success', 'The element has been created successfully');
 
                     $historyService->write('Photogallery', 'The album "%s" has been created', $name);
-                    return $service->getLastId();
+
+                    return $this->json([
+                        'redirect' => $this->createUrl('Photogallery:Admin:Album@editAction', [$service->getLastId()]),
+                    ]);
                 }
             }
 
         } else {
-            return $formValidator->getErrors();
+            return $this->json([
+                'errors' => $validator->getErrors()
+            ]);
         }
     }
 }

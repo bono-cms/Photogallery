@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -23,7 +21,7 @@ final class Browser extends AbstractController
      */
     public function indexAction($page = 1)
     {
-        $url = $this->createUrl('Photogallery:Admin:Browser@indexAction', array(), 1);
+        $url = $this->createUrl('Photogallery:Admin:Browser@indexAction', [], 1);
         return $this->createGrid($page, $url, null);
     }
 
@@ -36,7 +34,7 @@ final class Browser extends AbstractController
      */
     public function albumAction($id, $page = 1)
     {
-        $url = $this->createUrl('Photogallery:Admin:Browser@albumAction', array($id), 1);
+        $url = $this->createUrl('Photogallery:Admin:Browser@albumAction', [$id], 1);
         return $this->createGrid($page, $url, $id);
     }
 
@@ -65,11 +63,11 @@ final class Browser extends AbstractController
         $this->view->getBreadcrumbBag()
                    ->addOne('Photogallery');
 
-        return $this->view->render('browser', array(
+        return $this->view->render('browser', [
             'albumId' => $albumId,
             'albums' => $this->getModuleService('albumManager')->getAlbumsTree(true),
             'paginator' => $paginator,
             'photos' => $photos
-        ));
+        ]);
     }
 }

@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -28,20 +26,20 @@ final class Module extends AbstractCmsModule
      */
     private function getAlbumImageManager(VirtualEntity $config)
     {
-        $plugins = array(
-            'thumb' => array(
-                'dimensions' => array(
+        $plugins = [
+            'thumb' => [
+                'dimensions' => [
                     // Dimensions for administration panel
-                    array(200, 200),
+                    [200, 200],
                     // Dimensions for the site
-                    array($config->getAlbumThumbWidth(), $config->getAlbumThumbHeight())
-                )
-            ),
+                    [$config->getAlbumThumbWidth(), $config->getAlbumThumbHeight()]
+                ]
+            ],
 
-            'original' => array(
+            'original' => [
                 'prefix' => 'original'
-            )
-        );
+            ]
+        ];
 
         return new ImageManager(
             '/data/uploads/module/photogallery/albums',
@@ -59,24 +57,24 @@ final class Module extends AbstractCmsModule
      */
     private function getImageManagerService(VirtualEntity $config)
     {
-        $plugins = array(
-            'thumb' => array(
+        $plugins = [
+            'thumb' => [
                 'quality' => $config->getQuality(),
-                'dimensions' => array(
+                'dimensions' => [
                     // Dimensions for administration panel
-                    array(400, 200),
+                    [400, 200],
                     // Dimensions for site previews. 200 are default values
-                    array($config->getWidth(), $config->getHeight())
-                )
-            ),
+                    [$config->getWidth(), $config->getHeight()]
+                ]
+            ],
 
-            'original' => array(
+            'original' => [
                 'quality' => $config->getQuality(),
                 'prefix' => 'original',
                 'max_width' => $config->getMaxWidth(),
                 'max_height' => $config->getMaxHeight(),
-            )
-        );
+            ]
+        ];
 
         return new ImageManager(
             '/data/uploads/module/photogallery/photos',
@@ -111,11 +109,11 @@ final class Module extends AbstractCmsModule
 
         $photoManager = new PhotoManager($photoMapper, $albumMapper, $imageManager);
 
-        return array(
+        return [
             'siteService' => new SiteService($photoManager, $albumManager),
             'configManager' => $config,
             'photoManager' => $photoManager,
             'albumManager' => $albumManager
-        );
+        ];
     }
 }

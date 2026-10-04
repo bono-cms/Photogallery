@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -43,12 +41,12 @@ final class Album extends AbstractController
             $this->loadSitePlugins();
 
             // Template variables
-            $vars = array(
+            $vars = [
                 'page' => $page,
                 'paginator' => $paginator,
                 'photos' => $photoManager->fetchAllByPage($pageNumber, $config->getPerPageCount(), $albumId, true),
                 'languages' => $albumManager->getSwitchUrls($albumId)
-            );
+            ];
 
             // Try to find child nodes
             $children = $albumManager->fetchChildrenByParentId($albumId);

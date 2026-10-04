@@ -19,20 +19,20 @@ defined('KRYSTAL') or die;
 
             <div class="tab-content">
                 <?php foreach ($languages as $index => $language): ?>
-                <div class="tab-pane fade in <?php echo $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                <div class="tab-pane fade in <?= $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
                     <?php $entity = LanguageManager::findByLangId($language->getId(), $album); ?>
 
-                    <?php echo Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
-                    <?php echo Element::hidden(sprintf('translation[%s][web_page_id]', $language->getId()), $entity->getWebPageId()); ?>
-                    <?php echo Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][web_page_id]', $language->getId()), $entity->getWebPageId()); ?>
+                    <?= Element::hidden(sprintf('translation[%s][lang_id]', $language->getId()), $language->getId()); ?>
 
-                    <?php $this->loadPartial('language-name', array('language' => $language)); ?>
+                    <?php $this->loadPartial('language-name', ['language' => $language]); ?>
 
                     <div class="form-group">
                         <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
                         <div class="col-lg-10">
                             <div class="input-group">
-                                <?php echo Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), array('class' => 'form-control', 'data-input' => 'title', 'placeholder' => $this->translate("Photoalbum's name"))); ?>
+                                <?= Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), ['class' => 'form-control', 'data-input' => 'title', 'placeholder' => $this->translate("Photoalbum's name")]); ?>
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                             </div>
                         </div>
@@ -41,7 +41,7 @@ defined('KRYSTAL') or die;
                     <div class="form-group">
                         <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
                         <div class="col-lg-10">
-                            <?php echo Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), array('class' => 'form-control', 'data-wysiwyg' => 'true')); ?>
+                            <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), ['class' => 'form-control', 'data-wysiwyg' => 'true']); ?>
                         </div>
                     </div>
 
@@ -50,7 +50,7 @@ defined('KRYSTAL') or die;
                             <label class="col-lg-2 control-label"><?php $this->show('Title'); ?></label>
                             <div class="col-lg-10">
                                 <div class="input-group">
-                                    <?php echo Element::text(sprintf('translation[%s][title]', $language->getId()), $entity->getTitle(), array('class' => 'form-control', 'placeholder' => $this->translate("Photoalbum's title. By default is taken from the name"))); ?>
+                                    <?= Element::text(sprintf('translation[%s][title]', $language->getId()), $entity->getTitle(), ['class' => 'form-control', 'placeholder' => $this->translate("Photoalbum's title. By default is taken from the name")]); ?>
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@ defined('KRYSTAL') or die;
                             <label class="col-lg-2 control-label"><?php $this->show('Slug'); ?></label>
                             <div class="col-lg-10">
                                 <div class="input-group">
-                                    <?php echo Element::text(sprintf('translation[%s][slug]', $language->getId()), $entity->getSlug(), array('class' => 'form-control', 'placeholder' => $this->translate('URL slug for this album. By default its taken from the name'))); ?>
+                                    <?= Element::text(sprintf('translation[%s][slug]', $language->getId()), $entity->getSlug(), ['class' => 'form-control', 'placeholder' => $this->translate('URL slug for this album. By default its taken from the name')]); ?>
 
                                     <span class="input-group-addon">
                                         <a href="#" data-slug-selector="<?= LanguageManager::generateSelector($language->getId()); ?>"><i class="glyphicon glyphicon-refresh" data-toggle="tooltip" data-placement="left" title="<?php $this->show('Refresh the slug'); ?>"></i></a>
@@ -72,28 +72,28 @@ defined('KRYSTAL') or die;
                         <div class="form-group">
                             <label class="col-lg-12 control-label"><?php $this->show('Change frequency'); ?></label>
                             <div class="col-lg-10">
-                                <?php echo Element::select(sprintf('translation[%s][changefreq]', $language->getId()), $this->translateArray($changeFreqs), $entity->getChangeFreq(), array('class' => 'form-control')); ?>
+                                <?= Element::select(sprintf('translation[%s][changefreq]', $language->getId()), $this->translateArray($changeFreqs), $entity->getChangeFreq(), ['class' => 'form-control']); ?>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-lg-2 control-label"><?php $this->show('Priority'); ?></label>
                             <div class="col-lg-10">
-                                <?php echo Element::select(sprintf('translation[%s][priority]', $language->getId()), $priorities, $entity->getPriority(), array('class' => 'form-control')); ?>
+                                <?= Element::select(sprintf('translation[%s][priority]', $language->getId()), $priorities, $entity->getPriority(), ['class' => 'form-control']); ?>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-lg-2 control-label"><?php $this->show('Keywords'); ?></label>
                             <div class="col-lg-10">
-                                <?php echo Element::textarea(sprintf('translation[%s][keywords]', $language->getId()), $entity->getKeywords(), array('class' => 'form-control', 'placeholder' => $this->translate('Keywords for search engines'))); ?>
+                                <?= Element::textarea(sprintf('translation[%s][keywords]', $language->getId()), $entity->getKeywords(), ['class' => 'form-control', 'placeholder' => $this->translate('Keywords for search engines')]); ?>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
                             <div class="col-lg-10">
-                                <?php echo Element::textarea(sprintf('translation[%s][meta_description]', $language->getId()), $entity->getMetaDescription(), array('class' => 'form-control', 'placeholder' => $this->translate('Meta description for search engines'))); ?>
+                                <?= Element::textarea(sprintf('translation[%s][meta_description]', $language->getId()), $entity->getMetaDescription(), ['class' => 'form-control', 'placeholder' => $this->translate('Meta description for search engines')]); ?>
                             </div>
                         </div>
                     </div>
@@ -103,12 +103,12 @@ defined('KRYSTAL') or die;
 		</div>
 
         <div role="tabpanel" class="tab-pane" id="configuration">
-            <?php echo Element::hidden('album[id]', $entity->getId()); ?>
+            <?= Element::hidden('album[id]', $entity->getId()); ?>
 
             <div class="form-group">
                 <label class="col-lg-12 control-label"><?php $this->show('Parent album'); ?></label>
                 <div class="col-lg-10">
-                    <?php echo Element::select('album[parent_id]', $albums, $entity->getParentId(), array('class' => 'form-control')); ?>
+                    <?= Element::select('album[parent_id]', $albums, $entity->getParentId(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
@@ -116,7 +116,7 @@ defined('KRYSTAL') or die;
                 <label class="col-lg-12 control-label"><?php $this->show('Order'); ?></label>
                 <div class="col-lg-10">
                     <div class="input-group">
-                        <?php echo Element::number('album[order]', $entity->getOrder(), array('class' => 'form-control', 'min' => '0', 'placeholder' => $this->translate('Sort order of this album'))); ?>
+                        <?= Element::number('album[order]', $entity->getOrder(), ['class' => 'form-control', 'min' => '0', 'placeholder' => $this->translate('Sort order of this album')]); ?>
                         <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ defined('KRYSTAL') or die;
             <div class="form-group">
                 <label class="col-lg-12 control-label"><?php $this->show('Enable SEO'); ?></label>
                 <div class="col-lg-10">
-                    <?php echo Element::checkbox('album[seo]', $entity->getSeo(), array('class' => 'form-control')); ?>
+                    <?= Element::checkbox('album[seo]', $entity->getSeo(), ['class' => 'form-control']); ?>
                 </div>
             </div>
 
@@ -133,7 +133,7 @@ defined('KRYSTAL') or die;
                 <label class="col-lg-12 control-label"><?php $this->show('Сover'); ?></label>
                 <div class="col-lg-10">
                     <?php if ($entity->hasCover()): ?>
-                    <p><img src="<?php echo $entity->getImageBag()->getUrl('200x200'); ?>" /></p>
+                    <p><img src="<?= $entity->getImageBag()->getUrl('200x200'); ?>" /></p>
 
                     <p>
                         <label for="removeCover"><?php $this->show('Remove this cover'); ?>&nbsp;&nbsp;</label>
@@ -146,19 +146,19 @@ defined('KRYSTAL') or die;
                     <?php endif; ?>
 
                     <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
-                    <?php echo Element::file('file', 'image/x-png, image/gif, image/jpeg', array('class' => 'hidden', 'data-plugin' => 'preview')); ?>
+                    <?= Element::file('file', 'image/x-png, image/gif, image/jpeg', ['class' => 'hidden', 'data-plugin' => 'preview']); ?>
                 </div>
             </div>
         </div>
 	</div>
 
-    <?php $this->loadPartial('actions', array(
+    <?php $this->loadPartial('actions', [
         'new' => !$entity->getId(),
         'add' => 'Photogallery:Admin:Album@addAction',
         'edit' => 'Photogallery:Admin:Album@editAction',
         'save' => 'Photogallery:Admin:Album@saveAction',
         'cancel' => 'Photogallery:Admin:Browser@indexAction',
         'options' => true
-    )); ?>
+    ]); ?>
 
 </form>

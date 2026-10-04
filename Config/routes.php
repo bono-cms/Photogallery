@@ -3,88 +3,86 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
 
-return array(
-    '/module/photogallery/(:var)' => array(
+return [
+    '/module/photogallery/(:var)' => [
         'controller' => 'Album@showAction',
-    ),
+    ],
     
-    '/%s/module/photogallery/album/add' => array(
+    '/%s/module/photogallery/album/add' => [
         'controller' => 'Admin:Album@addAction'
-    ),
+    ],
 
-    '/%s/module/photogallery/album/edit/(:var)' => array(
+    '/%s/module/photogallery/album/edit/(:var)' => [
         'controller' => 'Admin:Album@editAction'
-    ),
+    ],
     
-    '/%s/module/photogallery/album/save' => array(
+    '/%s/module/photogallery/album/save' => [
         'controller' => 'Admin:Album@saveAction',
-        'disallow' => array('guest')
-    ),
+        'disallow' => ['guest']
+    ],
     
-    '/%s/module/photogallery/album/delete/(:var)' => array(
+    '/%s/module/photogallery/album/delete/(:var)' => [
         'controller' => 'Admin:Album@deleteAction',
-        'disallow' => array('guest')
-    ),
+        'disallow' => ['guest']
+    ],
     
-    '/%s/module/photogallery/browse/album/(:var)' => array(
+    '/%s/module/photogallery/browse/album/(:var)' => [
         'controller' => 'Admin:Browser@albumAction'
-    ),
+    ],
     
-    '/%s/module/photogallery/browse/album/(:var)/page/(:var)' => array(
+    '/%s/module/photogallery/browse/album/(:var)/page/(:var)' => [
         'controller' => 'Admin:Browser@albumAction'
-    ),
+    ],
     
-    '/%s/module/photogallery' => array(
+    '/%s/module/photogallery' => [
         'controller' => 'Admin:Browser@indexAction'
-    ),
+    ],
     
-    '/%s/module/photogallery/browse/(:var)' => array(
+    '/%s/module/photogallery/browse/(:var)' => [
         'controller' => 'Admin:Browser@indexAction'
-    ),
+    ],
     
-    '/%s/module/photogallery/tweak' => array(
+    '/%s/module/photogallery/tweak' => [
         'controller' => 'Admin:Photo@tweakAction',
-        'disallow' => array('guest')
-    ),
+        'disallow' => ['guest']
+    ],
     
-    '/%s/module/photogallery/photo/batch-form' => array(
+    '/%s/module/photogallery/photo/batch-form' => [
         'controller' => 'Admin:Photo@batchFormAction'
-    ),
+    ],
 
-    '/%s/module/photogallery/photo/batch-upload' => array(
+    '/%s/module/photogallery/photo/batch-upload' => [
         'controller' => 'Admin:Photo@batchUploadAction'
-    ),
+    ],
     
-    '/%s/module/photogallery/photo/add' => array(
+    '/%s/module/photogallery/photo/add' => [
         'controller' => 'Admin:Photo@addAction'
-    ),
+    ],
     
-    '/%s/module/photogallery/photo/edit/(:var)' => array(
+    '/%s/module/photogallery/photo/edit/(:var)' => [
         'controller' => 'Admin:Photo@editAction'
-    ),
+    ],
     
-    '/%s/module/photogallery/photo/save' => array(
+    '/%s/module/photogallery/photo/save' => [
         'controller' => 'Admin:Photo@saveAction',
-        'disallow' => array('guest')
-    ),
+        'disallow' => ['guest']
+    ],
     
-    '/%s/module/photogallery/photo/delete/(:var)'  => array(
+    '/%s/module/photogallery/photo/delete/(:var)'  => [
         'controller' => 'Admin:Photo@deleteAction',
-        'disallow' => array('guest')
-    ),
+        'disallow' => ['guest']
+    ],
     
-    '/%s/module/photogallery/config' => array(
+    '/%s/module/photogallery/config' => [
         'controller' => 'Admin:Config@indexAction'
-    ),
+    ],
     
-    '/%s/module/photogallery/config.ajax' => array(
+    '/%s/module/photogallery/config.ajax' => [
         'controller' => 'Admin:Config@saveAction',
-        'disallow' => array('guest')
-    )
-);
+        'disallow' => ['guest']
+    ]
+];

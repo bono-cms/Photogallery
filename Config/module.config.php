@@ -4,37 +4,36 @@
  * Module configuration container
  */
 
-return array(
+return [
     'name' => 'Photogallery',
     'description' => 'Photogallery module allows you to easily manage photo-galleries on your site',
-    // Bookmarks of this module
-    'bookmarks' => array(
-        array(
+    'bookmarks' => [
+        [
             'name' => 'Add a photo',
             'controller' => 'Photogallery:Admin:Photo@addAction',
             'icon' => 'fas fa-camera'
-        )
-    ),
-    'menu' => array(
+        ]
+    ],
+    'menu' => [
         'name' => 'Photogallery',
         'icon' => 'fas fa-camera',
-        'items' => array(
-            array(
+        'items' => [
+            [
                 'route' => 'Photogallery:Admin:Browser@indexAction',
                 'name' => 'View all photos'
-            ),
-            array(
+            ],
+            [
                 'route' => 'Photogallery:Admin:Photo@addAction',
                 'name' => 'Add a photo'
-            ),
-            array(
+            ],
+            [
                 'route' => 'Photogallery:Admin:Album@addAction',
                 'name' => 'Add album'
-            ),
-            array(
+            ],
+            [
                 'route' => 'Photogallery:Admin:Config@indexAction',
                 'name' => 'Configuration'
-            )
-        )
-    )
-);
+            ]
+        ]
+    ]
+];

@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -43,7 +41,7 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
     private function getSharedColumns($all)
     {
         // Basic columns to be selected
-        $columns = array(
+        $columns = [
             self::column('id'),
             self::column('parent_id'),
             AlbumTranslationMapper::column('web_page_id'),
@@ -55,15 +53,15 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
             WebPageMapper::column('slug'),
             WebPageMapper::column('changefreq'),
             WebPageMapper::column('priority')
-        );
+        ];
 
         if ($all) {
-            $columns = array_merge($columns, array(
+            $columns = array_merge($columns, [
                 AlbumTranslationMapper::column('title'),
                 AlbumTranslationMapper::column('description'),
                 AlbumTranslationMapper::column('keywords'),
                 AlbumTranslationMapper::column('meta_description'),
-            ));
+            ]);
         }
 
         return $columns;
@@ -79,14 +77,14 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
         return $this->db->select($this->getSharedColumns(false))
                         ->from(self::getTableName())
                         // Translation relation
-                        ->innerJoin(self::getTranslationTable(), array(
+                        ->innerJoin(self::getTranslationTable(), [
                             AlbumTranslationMapper::column('id') => self::getRawColumn('id')
-                        ))
+                        ])
                         // Web page relation
-                        ->innerJoin(WebPageMapper::getTableName(), array(
+                        ->innerJoin(WebPageMapper::getTableName(), [
                             WebPageMapper::column('id') => AlbumTranslationMapper::getRawColumn('web_page_id'),
                             WebPageMapper::column('lang_id') => AlbumTranslationMapper::getRawColumn('lang_id')
-                        ))
+                        ])
                         // Filtering condition
                         ->whereEquals(AlbumTranslationMapper::column('lang_id'), $this->getLangId())
                         ->queryAll();
@@ -146,19 +144,19 @@ final class AlbumMapper extends AbstractMapper implements AlbumMapperInterface
                         ->count(PhotoMapper::column('id'), 'photos_count')
                         ->from(self::getTableName())
                         // Album relation
-                        ->leftJoin(PhotoMapper::getTableName(), array(
+                        ->leftJoin(PhotoMapper::getTableName(), [
                             self::column('id') => PhotoMapper::getRawColumn('album_id')
-                        ))
+                        ])
                         // Translation relation
-                        ->innerJoin(self::getTranslationTable(), array(
+                        ->innerJoin(self::getTranslationTable(), [
                             AlbumTranslationMapper::column('id') => self::getRawColumn('id'),
                             AlbumTranslationMapper::column('lang_id') => $this->getLangId(),
-                        ))
+                        ])
                         // Web page relation
-                        ->innerJoin(WebPageMapper::getTableName(), array(
+                        ->innerJoin(WebPageMapper::getTableName(), [
                             WebPageMapper::column('id') => AlbumTranslationMapper::getRawColumn('web_page_id'),
                             WebPageMapper::column('lang_id') => AlbumTranslationMapper::getRawColumn('lang_id')
-                        ));
+                        ]);
 
         if ($countOnlyPublished == true) {
             $db->whereEquals(PhotoMapper::column('published'), '1');

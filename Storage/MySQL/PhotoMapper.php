@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -40,7 +38,7 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      */
     private function getSharedColumns()
     {
-        return array(
+        return [
             PhotoTranslationMapper::column('lang_id'),
             PhotoTranslationMapper::column('name'),
             PhotoTranslationMapper::column('description'),
@@ -50,7 +48,7 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
             self::column('photo'),
             self::column('album_id'),
             self::column('id')
-        );
+        ];
     }
 
     /**
@@ -66,24 +64,24 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
         // Columns to be selected
         $columns = array_merge(
             $this->getSharedColumns(), 
-            array(AlbumTranslationMapper::column('name') => 'album')
+            [AlbumTranslationMapper::column('name') => 'album']
         );
 
         $db = $this->db->select($columns)
                        ->from(self::getTableName())
                        // Translation relation
-                       ->innerJoin(self::getTranslationTable(), array(
+                       ->innerJoin(self::getTranslationTable(), [
                             PhotoTranslationMapper::column('id') => self::getRawColumn('id')
-                       ))
+                       ])
                         // Category translation
-                        ->innerJoin(AlbumMapper::getTranslationTable(), array(
+                        ->innerJoin(AlbumMapper::getTranslationTable(), [
                             self::column('album_id') => AlbumTranslationMapper::getRawColumn('id'),
                             AlbumTranslationMapper::column('lang_id') => PhotoTranslationMapper::getRawColumn('lang_id')
-                        ))
+                        ])
                         // Category relation
-                        ->innerJoin(AlbumMapper::getTableName(), array(
+                        ->innerJoin(AlbumMapper::getTableName(), [
                             AlbumMapper::column('id') => AlbumTranslationMapper::getRawColumn('id')
-                        ))
+                        ])
                         // Filtering condition
                         ->whereEquals(
                             PhotoTranslationMapper::column('lang_id'), 
@@ -160,7 +158,7 @@ final class PhotoMapper extends AbstractMapper implements PhotoMapperInterface
      */
     public function updateSettings(array $settings)
     {
-        return $this->updateColumns($settings, array('order', 'published'));
+        return $this->updateColumns($settings, ['order', 'published']);
     }
 
     /**

@@ -3,8 +3,6 @@
 /**
  * This file is part of the Bono CMS
  * 
- * Copyright (c) No Global State Lab
- * 
  * For the full copyright and license information, please view
  * the license file that was distributed with this source code.
  */
@@ -165,24 +163,24 @@ final class PhotoManager extends AbstractManager
 
         foreach ($files as $file) {
             // Photo entity data
-            $data = array(
+            $data = [
                 'album_id' => $data['album_id'],
                 'date' => time(),
                 'order' => 0,
                 'published' => 1,
                 'photo' => $file->getUniqueName()
-            );
+            ];
 
             // Now prepare translations
-            $translations = array();
+            $translations = [];
 
             // Prepare each one
             foreach ($activeLanguageIds as $activeLanguageId) {
-                $translations[] = array(
+                $translations[] = [
                     'lang_id' => $activeLanguageId,
                     'name' => pathinfo($file->getName(), \PATHINFO_FILENAME),
                     'description' => ''
-                );
+                ];
             }
 
             // Save entity
