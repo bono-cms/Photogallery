@@ -9,23 +9,40 @@
 
 namespace Photogallery\Controller\Admin;
 
+use Krystal\Validation\Validator;
 use Cms\Controller\Admin\AbstractConfigController;
-use Krystal\Validate\Pattern;
 
 final class Config extends AbstractConfigController
 {
     /**
      * {@inheritDoc}
      */
-    protected function getValidationRules()
+    protected function configureValidator(Validator $validator)
     {
-        return [
-            'max_img_height' => new Pattern\ImageHeight(),
-            'max_img_width' => new Pattern\ImageWidth(),
-            'photos_per_page' => new Pattern\PerPageCount(),
-            'quality' => new Pattern\ImageQuality(),
-            'thumb_height' => new Pattern\ThumbHeight(),
-            'thumb_width' => new Pattern\ThumbWidth()
-        ];
+        $validator->field('config.max_img_height', 'Max image height')
+                  ->required()
+                  ->addRule('numeric');
+
+        $validator->field('config.max_img_width', 'Max image width')
+                  ->required()
+                  ->addRule('numeric');
+
+        $validator->field('config.photos_per_page', 'Photos per page')
+                  ->required()
+                  ->addRule('numeric')
+                  ->addRule('greaterthan', null, ['min' => 0]);
+
+        $validator->field('config.quality', 'Quality')
+                  ->required()
+                  ->addRule('numeric')
+                  ->addRule('between', null, ['min' => 1, 'max' => 100]);
+
+        $validator->field('config.thumb_height', 'Thumb height')
+                  ->required()
+                  ->addRule('numeric');
+
+        $validator->field('config.thumb_width', 'Thumb width')
+                  ->required()
+                  ->addRule('numeric');
     }
 }
