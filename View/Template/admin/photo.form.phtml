@@ -2,25 +2,24 @@
 
 use Krystal\Form\Element;
 use Cms\Service\LanguageManager;
-defined('KRYSTAL') or die;
 
 ?>
 
 <?php if (count($albums) != 0): ?>
 
-<form class="card" data-group="photo" autocomplete="off">
+<form class="card" autocomplete="off">
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="nav-item active"><a class="nav-link" href="#options" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-th-list"></i> <?php $this->show('Options'); ?></a></li>
-        <li role="presentation" class="nav-item"><a class="nav-link" href="#image" role="tab" data-toggle="tab"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Image'); ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link active" href="#options" role="tab" data-bs-toggle="tab"><i class="bi bi-list-ul"></i> <?= $this->translate('Options'); ?></a></li>
+        <li role="presentation" class="nav-item"><a class="nav-link" href="#image" role="tab" data-bs-toggle="tab"><i class="bi bi-image"></i> <?= $this->translate('Image'); ?></a></li>
     </ul>
 
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active" id="options" role="tabpanel">
+    <div class="tab-content pt-3">
+        <div role="tabpanel" class="tab-pane fade show active" id="options">
             <?php $this->loadPartial('language-tabs'); ?>
 
             <div class="tab-content">
                 <?php foreach ($languages as $index => $language): ?>
-                <div class="tab-pane fade in <?= $index == 0 ? 'active show' : null; ?>" id="<?php printf('language-%s', $language->getId()); ?>" role="tabpanel">
+                <div class="tab-pane fade <?= $index == 0 ? 'show active' : null; ?>" id="<?= sprintf('language-%s', $language->getId()); ?>" role="tabpanel">
                     <?php $entity = LanguageManager::findByLangId($language->getId(), $photo); ?>
 
                     <?= Element::hidden(sprintf('translation[%s][id]', $language->getId()), $entity->getId()); ?>
@@ -28,22 +27,22 @@ defined('KRYSTAL') or die;
 
                     <?php $this->loadPartial('language-name', ['language' => $language]); ?>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"><?php $this->show('Name'); ?></label>
+                    <div class="row mb-3">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Name'); ?></label>
                         <div class="col-lg-10">
                             <div class="input-group">
                                 <?= Element::text(sprintf('translation[%s][name]', $language->getId()), $entity->getName(), ['class' => 'form-control', 'placeholder' => $this->translate('Name of the photo to be added')]); ?>
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                <span class="input-group-text"><i class="bi bi-pencil"></i></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-lg-2 control-label"><?php $this->show('Description'); ?></label>
+                    <div class="row mb-3">
+                        <label class="col-lg-2 col-form-label"><?= $this->translate('Description'); ?></label>
                         <div class="col-lg-10">
                             <div class="input-group">
                                 <?= Element::textarea(sprintf('translation[%s][description]', $language->getId()), $entity->getDescription(), ['class' => 'form-control', 'placeholder' => $this->translate('Description. Can be used as a hint when mouse overs')]); ?>
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                                <span class="input-group-text"><i class="bi bi-pencil"></i></span>
                             </div>
                         </div>
                     </div>
@@ -52,50 +51,52 @@ defined('KRYSTAL') or die;
             </div>
 		</div>
 
-		<div role="tabpanel" class="tab-pane fade" id="image" role="tabpanel">
+		<div role="tabpanel" class="tab-pane fade" id="image">
             <?= Element::hidden('photo[id]', $entity->getId()); ?>
             <?= Element::hidden('photo[photo]', $entity->getPhoto()); ?>
 
-            <div class="form-group">
-                <label class="col-lg-12 control-label"><?php $this->show('Album'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Album'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::select('photo[album_id]', $albums, $entity->getAlbumId(), ['class' => 'form-control']); ?>
+                    <?= Element::select('photo[album_id]', $albums, $entity->getAlbumId(), ['class' => 'form-select']); ?>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12 control-label"><?php $this->show('Order'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Order'); ?></label>
                 <div class="col-lg-10">
                     <div class="input-group">
                         <?= Element::number('photo[order]', $entity->getOrder(), ['class' => 'form-control', 'placeholder' => $this->translate('Order of this photo in selected album')]); ?>
-                        <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+                        <span class="input-group-text"><i class="bi bi-pencil"></i></span>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-lg-12 control-label"><?php $this->show('Published'); ?></label>
+            <div class="row mb-3">
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Published'); ?></label>
                 <div class="col-lg-10">
-                    <?= Element::checkbox('photo[published]', $entity->getPublished(), ['class' => 'form-control']); ?>
+                    <div class="form-check">
+                        <?= Element::checkbox('photo[published]', $entity->getPublished(), ['class' => 'form-check-input']); ?>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="row mb-3">
                 
                 <br />
                 
-                <label class="col-lg-12 control-label"><?php $this->show('Photo file'); ?></label>
+                <label class="col-lg-12 col-form-label"><?= $this->translate('Photo file'); ?></label>
                 <div class="col-lg-10">
                     
                     <?php if (!$entity->getPhoto()): ?>
                     <p><img data-image="preview" /></p>
                     
                     <?php else: ?>
-                    <p><img class="img-responsive" src="<?= $entity->getImageBag()->getUrl('400x200'); ?>" data-zoom-image="<?= $entity->getImageBag()->getUrl('original'); ?>" /></p>
+                    <p><img class="img-fluid" src="<?= $entity->getImageBag()->getUrl('400x200'); ?>" data-zoom-image="<?= $entity->getImageBag()->getUrl('original'); ?>" /></p>
                     <?php endif; ?>
                     
-                    <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="glyphicon glyphicon-picture"></i> <?php $this->show('Upload a file'); ?></a>
-                    <?= Element::file('file', 'image/x-png, image/gif, image/jpeg', ['class' => 'hidden', 'data-plugin' => 'preview']); ?>
+                    <a class="btn btn-primary" data-button="upload" data-target="[name='file']" href="#"><i class="bi bi-image"></i> <?= $this->translate('Upload a file'); ?></a>
+                    <?= Element::file('file', 'image/x-png, image/gif, image/jpeg', ['class' => 'd-none', 'data-plugin' => 'preview']); ?>
                 </div>
                 
                 <br />
@@ -116,8 +117,8 @@ defined('KRYSTAL') or die;
 <?php else: ?>
 
 <blockquote>
-    <p class="text-muted"><?php $this->show('You can not upload photos before you create a photo album!'); ?></p>
-    <small><a href="<?= $this->url('Photogallery:Admin:Album:Add@indexAction'); ?>"><?php $this->show('Click here to create a new one'); ?></a></small>
+    <p class="text-muted"><?= $this->translate('You can not upload photos before you create a photo album!'); ?></p>
+    <small><a href="<?= $this->url('Photogallery:Admin:Album:Add@indexAction'); ?>"><?= $this->translate('Click here to create a new one'); ?></a></small>
 </blockquote>
 
 <?php endif; ?>
